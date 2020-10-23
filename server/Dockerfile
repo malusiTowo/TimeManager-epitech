@@ -17,4 +17,9 @@ COPY . .
 
 # CMD mix phx.server
 
-CMD mix deps.get && cd assets && npm install && cd .. && mix ecto.create && mix ecto.migrate && mix phx.server
+RUN mix local.hex --force && mix local.rebar --force && mix do deps.get, compile
+
+
+# CMD mix deps.get && cd assets && npm install && cd .. && mix ecto.create && mix ecto.migrate && mix phx.server
+
+CMD mix ecto.create && mix ecto.migrate && mix phx.server
