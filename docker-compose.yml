@@ -32,6 +32,8 @@ services:
       build:
         context: ./client
         dockerfile: Dockerfile
+      environment:
+        ENV: PROD
       depends_on:
         - server
         - db
