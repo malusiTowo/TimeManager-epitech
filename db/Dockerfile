@@ -13,7 +13,13 @@ USER postgres
 #     psql --command "CREATE USER postgresondocker WITH SUPERUSER PASSWORD 'postgresondocker';" &&\
 #     createdb -O postgresondocker postgresondocker
  
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
+# RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
+
+RUN mkdir -p /var/run/postgresql/9.3-main.pg_stat_tmp
+
+RUN chown postgres.postgres /var/run/postgresql/9.3-main.pg_stat_tmp -R
+
+RUN echo "host all all all trust" >> /etc/postgresql/9.3/main/pg_hba.conf
  
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
  
