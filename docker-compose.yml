@@ -1,0 +1,38 @@
+version: '3.6'
+services:
+  db:
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    image: 'postgres:11-alpine'
+    restart: always
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      MIX_ENV: dev
+    env_file:
+      - .env
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./server:/server/app
+  client:
+      restart: always
+      build:
+        context: ./client
+        dockerfile: Dockerfile
+      depends_on:
+        - server
+        - db
+      ports:
+        - "80:8080"
+volumes:
+  pgdata:
