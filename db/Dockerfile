@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -y python-software-properties software-pro
  
 USER postgres
  
-RUN /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER postgresondocker WITH SUPERUSER PASSWORD 'postgresondocker';" &&\
-    createdb -O postgresondocker postgresondocker
+# RUN /etc/init.d/postgresql start &&\
+#     psql --command "CREATE USER postgresondocker WITH SUPERUSER PASSWORD 'postgresondocker';" &&\
+#     createdb -O postgresondocker postgresondocker
  
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
  
