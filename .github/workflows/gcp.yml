@@ -1,0 +1,21 @@
+name: 'GCP-deployment'
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy t GCP
+        uses: wshihadeh/docker-deployment-action@v1
+        with:
+          remote_docker_host: malusitowo@35.197.244.189
+          ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+          deployment_mode: docker-swarm
+          copy_stack_file: true
+          stack_file_name: docker-compose.yml
+          args: up --build
+          docker_prune: 'true'
+          pull_images_first: 'true'

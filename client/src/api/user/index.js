@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { userIdIdentifier } from '../../routes/router';
 
-const host = process.env.ENV === 'PROD' ? 'server' : 'localhost:4000';
-const baseUrl = `http://${host}/api/users`
+const baseUrl = 'http://server:4000/api/users';
 const headers = {
   'Content-Type': 'application/json'
 }
