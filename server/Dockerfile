@@ -22,5 +22,5 @@ RUN mix local.hex --force && mix local.rebar --force && mix deps.clean --all && 
 
 # CMD mix deps.get && cd assets && npm install && cd .. && mix ecto.create && mix ecto.migrate && mix phx.server
 
-# CMD mix ecto.create && mix ecto.migrate && mix phx.server
-CMD  mix ecto.migrate && mix phx.server
+CMD mix ecto.create && mix ecto.migrate && mix phx.server
+# CMD  mix ecto.migrate && mix phx.server
