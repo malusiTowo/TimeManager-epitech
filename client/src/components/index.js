@@ -11,6 +11,7 @@ import BaseTable from './BaseTable.vue';
 
 import Card from './Cards/Card.vue';
 import StatsCard from './Cards/StatsCard.vue';
+import ClockCard from './Cards/ClockCard.vue';
 import BaseNav from './Navbar/BaseNav';
 import NavbarToggleButton from './Navbar/NavbarToggleButton';
 
@@ -26,6 +27,12 @@ import BasePagination from './BasePagination.vue';
 
 import SidebarPlugin from './SidebarPlugin';
 
+import WorkingTimeCreate from './WorkingTime/WorkingTimeCreate';
+import WorkingTimeUpdate from './WorkingTime/WorkingTimeUpdate';
+import WorkingTimeDelete from './WorkingTime/WorkingTimeDelete';
+
+//import WorkingTimeCreate from './WorkingTime/WorkingTimeDelete';
+
 export {
   BaseCheckbox,
   Badge,
@@ -36,6 +43,7 @@ export {
   BaseInput,
   Card,
   StatsCard,
+  ClockCard,
   BaseTable,
   BaseDropdown,
   SidebarPlugin,
@@ -48,5 +56,8 @@ export {
   BaseButton,
   Collapse,
   CollapseItem,
-  LoadingPanel
+  LoadingPanel,
+  WorkingTimeCreate,
+  WorkingTimeUpdate,
+  WorkingTimeDelete
 };

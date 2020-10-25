@@ -1,13 +1,12 @@
 import axios from 'axios'
 import { userIdIdentifier } from '../../routes/router';
 
-console.log("env", process.env);
-
-const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com/' : 'http://localhost:4000';
+const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
 const baseUrl = `${host}/api/users`;
 const headers = {
   'Content-Type': 'application/json'
 }
+
 
 export const removeUserFromLocalStorage = () => {
   localStorage.removeItem(userIdIdentifier)
@@ -32,6 +31,18 @@ export const getUserFromLocalStorage = () => {
     user,
     userLoggedIn: user !== null
   }
+}
+
+
+export const getUsers = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}`);
+    const users = response.data.data;
+    return users;
+  } catch (err) {
+    console.log("err", err);
+  }
+  return [];
 }
 
 export const getUserByUserNameAndEmail = async (userName, email) => {

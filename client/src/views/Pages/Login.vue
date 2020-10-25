@@ -122,7 +122,7 @@ export default {
           if (this.$route.params.nextUrl != null) {
             this.$router.push(this.$route.params.nextUrl);
           } else {
-            this.$router.push("dashboard");
+            this.$router.push("workingtime");
           }
         } else {
           alert("Invalid credentialas");

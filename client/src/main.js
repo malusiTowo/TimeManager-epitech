@@ -22,11 +22,15 @@ $.extend(true, $.fn.datetimepicker.defaults, {
 import Vue from 'vue';
 import DashboardPlugin from './plugins/dashboard-plugin';
 import App from './App.vue';
+import axios from 'axios';
+
 import './plugins/date-timepicker'
 // router setup
 import router from './routes/router';
 // plugin setup
 Vue.use(DashboardPlugin);
+
+Vue.prototype.$http = axios;
 
 /* eslint-disable no-new */
 new Vue({

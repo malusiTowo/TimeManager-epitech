@@ -2,6 +2,7 @@ import DashboardLayout from '@/views/Layout/DashboardLayout.vue';
 import AuthLayout from '@/views/Pages/AuthLayout.vue';
 
 import NotFound from '@/views/NotFoundPage.vue';
+import { getUserFromLocalStorage } from '../api/user';
 
 const routes = [
   {
@@ -37,6 +38,21 @@ const routes = [
         path: '/chartManager/:userId',
         name: 'chartMangager',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/ChartManager.vue'),
+      },
+      {
+        path: '/clock/:username',
+        name: 'clock',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Clock/Clock.vue'),
+        props: true,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/workingtime',
+        name: 'workingtime',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/WorkingTime.vue'),
+        props: true,
         meta: {
           requiresAuth: true
         }

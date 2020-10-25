@@ -3,14 +3,14 @@
     <notifications></notifications>
     <side-bar>
       <template slot="links">
-        <sidebar-item
+        <!-- <sidebar-item
           :link="{
             name: 'Dashboard',
             path: '/dashboard',
             icon: 'ni ni-tv-2 text-primary',
           }"
         >
-        </sidebar-item>
+        </sidebar-item> -->
 
         <sidebar-item
           :link="{
@@ -26,6 +26,22 @@
             name: 'Profile',
             path: '/profile',
             icon: 'ni ni-single-02 text-yellow',
+          }"
+        >
+        </sidebar-item>
+        <sidebar-item
+          :link="{
+            name: 'Working Time',
+            path: '/workingtime',
+            icon: 'ni ni-calendar-grid-58 text-black',
+          }"
+        >
+        </sidebar-item>
+        <sidebar-item
+          :link="{
+            name: 'Clock',
+            path: '/clock/:username',
+            icon: 'ni ni-single-02 text-blue',
           }"
         >
         </sidebar-item>

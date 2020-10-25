@@ -1,10 +1,8 @@
 import axios from 'axios'
 import moment from 'moment';
 
-const baseUrl = 'http://localhost:4000/api/workingtimes'
-const headers = {
-  'Content-Type': 'application/json'
-}
+const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
+const baseUrl = `${host}/api/workingtimes`;
 
 export const formatDate = (date) => {
   if (date) {
@@ -39,4 +37,45 @@ export const getWorkingTimesBetweenDates = async (userId, start, end) => {
     console.log("err", err);
   }
   return [];
+}
+
+
+export const deleteWorkingTime = async (workingId) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/${workingId}`);
+    return response;
+  } catch (err) {
+    console.log("err", err);
+  }
+  return true;
+}
+
+export const updateWorkingTime = async (workingId, start, end) => {
+  try {
+    const response = await axios.put(`${baseUrl}/${workingId}`, {
+      workingtimes: {
+        start,
+        end
+      }
+    });
+    return response;
+  } catch (err) {
+    console.log("err", err);
+  }
+  return {};
+}
+
+export const createWorkingTimeForUser = async (userId, start, end) => {
+  try {
+    const response = await axios.post(`${baseUrl}/${userId}`, {
+      workingtime: {
+        start,
+        end
+      }
+    });
+    return response;
+  } catch (err) {
+    console.log("err", err);
+  }
+  return {};
 }

@@ -1,5 +1,8 @@
 name: 'heroku-deployment'
-on: push
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -17,4 +20,4 @@ jobs:
           heroku_apps: '[
             {"imagename":"timemanager-epitech_db","appname":"timemanager-postgres","apptype":"web"},{"imagename":"timemanager-epitech_client","appname":"timemanager-client","apptype":"web"},
             {"imagename":"timemanager-epitech_server","appname":"timemanager-server","apptype":"web"}
-            ]' # List of Docker Image name, Heroku app and Heroku app typeg
+            ]'

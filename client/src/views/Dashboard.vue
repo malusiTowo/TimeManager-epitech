@@ -144,7 +144,8 @@
   // Components
   import BaseProgress from '@/components/BaseProgress';
   import StatsCard from '@/components/Cards/StatsCard';
-
+  import ClockCard from '@/components/Cards/ClockCard';
+  
   // Tables
   import SocialTrafficTable from './Dashboard/SocialTrafficTable';
   import PageVisitsTable from './Dashboard/PageVisitsTable';
@@ -154,7 +155,7 @@
       LineChart,
       BarChart,
       BaseProgress,
-      StatsCard,
+      ClockCard,
       PageVisitsTable,
       SocialTrafficTable
     },
