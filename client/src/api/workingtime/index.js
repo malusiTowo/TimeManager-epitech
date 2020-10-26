@@ -51,6 +51,8 @@ export const deleteWorkingTime = async (workingId) => {
 }
 
 export const updateWorkingTime = async (workingId, start, end) => {
+  start = moment(start).format("YYYY-MM-DD HH:MM:ss");
+  end = moment(end).format("YYYY-MM-DD HH:MM:ss");
   try {
     const response = await axios.put(`${baseUrl}/${workingId}`, {
       workingtimes: {
@@ -66,6 +68,8 @@ export const updateWorkingTime = async (workingId, start, end) => {
 }
 
 export const createWorkingTimeForUser = async (userId, start, end) => {
+  start = moment(start).format("YYYY-MM-DD HH:MM:ss");
+  end = moment(end).format("YYYY-MM-DD HH:MM:ss");
   try {
     const response = await axios.post(`${baseUrl}/${userId}`, {
       workingtime: {
@@ -78,4 +82,50 @@ export const createWorkingTimeForUser = async (userId, start, end) => {
     console.log("err", err);
   }
   return {};
+}
+
+
+export const getTimesAndClocksForGraph = (clocks = [], times = []) => {
+  const months = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december"
+  ];
+
+  const base = {};
+
+  months.map((m) => (base[m] = { month: m, clocks: [], times: [] }));
+
+  const seperateClocksAndTimes = (identifier, item) => {
+    let a = identifier === 'clocks' ? item.time : item.start;
+    a = moment(a).month();
+    let key = months[a];
+    base[key][identifier].push(item);
+  }
+
+  clocks.map((c) => seperateClocksAndTimes('clocks', c));
+
+  times.map((t) => seperateClocksAndTimes('times', t));
+
+  Object.keys(base).map((val) => {
+    const t = base[val]
+    if (t.clocks.length === 0 && t.times.length === 0) delete base[val]
+  })
+
+  Object.keys(base).map((val) => {
+    const t = base[val]
+    const timesHour = t.times.reduce((acc, { start, end }) => acc + getDiffHours(start, end), 0)
+    t.timesHour = timesHour;
+  })
+
+  return Object.values(base);
 }

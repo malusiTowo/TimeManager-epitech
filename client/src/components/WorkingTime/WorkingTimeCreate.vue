@@ -82,7 +82,9 @@
 
 <script>
 import axios from "axios";
-import { getUsers } from "../../api/user";
+import moment from "moment";
+
+import { getUsers } from "@/api/user";
 import { createWorkingTimeForUser } from "../../api/workingtime";
 
 export default {
@@ -104,9 +106,6 @@ export default {
   },
   async mounted() {
     this.users = await getUsers();
-    // axios
-    //   .get("http://localhost:4000/api/users")
-    //   .then((response) => (this.users = response.data.data));
   },
   methods: {
     submitForm(evt) {
@@ -114,54 +113,42 @@ export default {
       document.getElementById("CreateWorkingTime").submit();
     },
     checkForm() {
-      if (this.form.start && this.form.end) {
-        return true;
-      }
-
+      let checker = true;
       this.errors = [];
 
       if (!this.form.start) {
         this.errors.push("Start date required.");
+        cherker = false;
       }
       if (!this.form.end) {
         this.errors.push("End date required.");
+        checker = false;
       }
-      return false;
+
+      if (checker && moment(this.form.end).isBefore(this.form.start)) {
+        this.errors.push("End date cannot be before Start date.");
+        checker = false;
+      }
+
+      return checker;
     },
-    createWorkingTime() {
+    async createWorkingTime() {
       if (!this.checkForm()) {
         return false;
       }
-
-      let dateFormat = require("dateformat");
-      let start = new Date(this.form.start);
-      let end = new Date(this.form.end);
-
-      start = dateFormat(start, "yyyy-mm-dd'T'HH:MM:ss");
-      end = dateFormat(end, "yyyy-mm-dd'T'HH:MM:ss");
-
-      //   axios
-      //     .post("http://localhost:4000/api/workingtimes/" + this.selectedUser, {
-      //       workingtime: {
-      //         start: start,
-      //         end: end,
-      //       },
-      //     })
-      createWorkingTimeForUser(this.selectedUser, start, end)
-        .then((res) => {
-          //Perform Success Action
-          //console.log("ok");
-
-          this.modals.create = false;
-        })
-        .catch((error) => {
-          // error.response.status Check status code
-          console.log(error);
-          this.errors.push("Working time creation faild.");
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      try {
+        await createWorkingTimeForUser(
+          this.selectedUser,
+          this.form.start,
+          this.form.end
+        );
+        this.$emit("event_child");
+        this.modals.create = false;
+        this.form.start = null;
+        this.form.end = null;
+      } catch (err) {
+        this.errors.push("Working time create failed.");
+      }
     },
   },
 };

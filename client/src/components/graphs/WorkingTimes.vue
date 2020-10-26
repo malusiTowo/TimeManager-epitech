@@ -30,13 +30,24 @@
             resize="true"
             grid-text-weight="bold"
           ></bar-chart>
+          <hr />
+          <div class="mt-7"></div>
+          <line-chart
+            v-if="data_.length > 0"
+            id="area"
+            :data="data_"
+            xkey="month"
+            ykeys='["timesHour","clocksHour"]'
+            labels='[ "timesHour", "clocksHour" ]'
+            line-colors='[ "#36A2EB","#FF6384"]'
+          ></line-chart>
         </b-card-body>
       </b-card>
     </b-col>
   </b-row>
 </template>
 <script>
-import { BarChart } from "vue-morris";
+import { BarChart, LineChart } from "vue-morris";
 import datePicker from "vue-bootstrap-datetimepicker";
 import moment from "moment";
 // Import date picker css
@@ -45,6 +56,7 @@ import {
   getWorkingTimesBetweenDates,
   getDiffHours,
   formatDate,
+  getTimesAndClocksForGraph,
 } from "../../api/workingtime";
 import { getUserFromLocalStorage } from "../../api/user";
 
@@ -68,6 +80,7 @@ export default {
         sideBySide: true,
       },
       data: [],
+      data_: [],
     };
   },
   methods: {
@@ -92,6 +105,9 @@ export default {
 
         const { userId } = getUserFromLocalStorage();
         const times = await getWorkingTimesBetweenDates(userId, start, end);
+        const data = getTimesAndClocksForGraph([], times);
+        this.data_ = data;
+        console.log("data", this.data_);
         this.data = this.formatDates(times);
       } catch (err) {
         console.log("err", err);
@@ -101,6 +117,7 @@ export default {
   components: {
     datePicker,
     BarChart,
+    LineChart,
   },
 };
 </script>

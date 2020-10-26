@@ -7,8 +7,17 @@
       
     <b-card no-body>
         <b-row class="mt-3 mr-3 mb-3 ml-3 float-right" > 
-          <working-time-create  />
+          <working-time-create v-on:event_child="workingTimeCallback" />
         </b-row>
+        
+        <b-row class="mt-3 mr-3 mb-3 ml-3 float-right" > 
+          <select class="form-control" v-model="selectedUser">
+              <option v-for="user in users" v-bind:key = user.id v-bind:value ="user.id">
+                  {{ user.username }}
+              </option>
+          </select>
+        </b-row>
+
         <b-row class="mt-3 mr-3 mb-3 ml-3">
           <b-col> 
               
@@ -28,10 +37,10 @@
                     <td>{{formatDate(item.start)}}</td>
                     <td>{{formatDate(item.end)}}</td>
                     <td>
-                      <working-time-update  :idUser="1" :wtId ="item.id" />
+                      <working-time-update  :idUser="selectedUser" :wtId ="item.id" v-on:event_child="workingTimeCallback" />
                     </td>
                     <td>
-                      <working-time-delete :wtId ="item.id" />
+                      <working-time-delete :wtId ="item.id" v-on:event_child="workingTimeCallback" />
                     </td>
                   </tr>
                 </tbody>
@@ -46,8 +55,7 @@
 
 <script>
   import { Dropdown, DropdownItem, DropdownMenu, Table, TableColumn } from 'element-ui';
-  import projects from './Tables/projects';
-  import users from './Tables/users';
+
   import moment from 'moment';
   //import LightTable from "./Tables/RegularTables/LightTable";
   //import DarkTable from "./Tables/RegularTables/DarkTable";
@@ -55,6 +63,9 @@
 
   import { WorkingTimeCreate, WorkingTimeUpdate, WorkingTimeDelete } from '@/components';
   import axios from 'axios';
+
+  import {getWorkingTimesBetweenDates} from '@/api/workingtime';
+  import {getUsers} from '@/api/user';
 
   export default {
     components: {
@@ -71,26 +82,33 @@
     },
     data() {
       return {
-        items: []
+        items: [],
+        users: [],
+        selectedUser: '1'
       };
-    },
-    mounted() {
-        axios
-            .get(
-                'http://localhost:4000/api/workingtimes/1?start=2019-10-19 23:58:52&end=2050-10-19 23:00:00'
-            )
-            .then(
-                response => this.items = response.data.data
-            )
-            .catch(
-                error => console.error("Something is going wrong ! " + error)
-            );
     },
     methods: {
       formatDate: function(date) {
             return moment(date).format('YYYY MM DD, h:mm:ss a');
-        }
-    }
+        },
+
+      refreshWorkingTimes: async function() {
+          this.items = await getWorkingTimesBetweenDates(this.selectedUser, "2019-10-19T23:58:52", "2050-10-19T23:00:00");
+      },
+      
+      workingTimeCallback: function() {
+        this.refreshWorkingTimes();
+		  }
+    },
+    watch : {
+      selectedUser: async function(val) {
+        await this.refreshWorkingTimes();
+      }
+    },
+    async mounted() {
+      await this.refreshWorkingTimes();
+      this.users = await getUsers();
+    },
   };
 </script>
 <style>

@@ -67,16 +67,15 @@
 
 <script>
 import axios from "axios";
-import {
-  getWorkingTimesForUserIdAndWorkingId,
-  updateWorkingTime,
-} from "../../api/workingtime";
+import moment from "moment";
+import { getWorkingTimesForUserIdAndWorkingId } from "@/api/workingtime";
+import { updateWorkingTime } from "../../api/workingtime";
 
 export default {
   name: "working-time-update",
   props: {
-    idUser: Number,
-    wtId: Number,
+    idUser: [Number, String],
+    wtId: [Number, String],
   },
   data() {
     return {
@@ -90,68 +89,45 @@ export default {
       },
     };
   },
-  mounted() {
-    // axios
-    //   .get(
-    //     "http://localhost:4000/api/workingtimes/" +
-    //       this.idUser +
-    //       "/" +
-    //       this.wtId
-    //   )
-    getWorkingTimesForUserIdAndWorkingId(this.idUser, this.wtId).then(
-      (response) => (this.form = response)
+  async mounted() {
+    this.form = await getWorkingTimesForUserIdAndWorkingId(
+      this.idUser,
+      this.wtId
     );
   },
   methods: {
     checkForm() {
-      if (this.form.start && this.form.end) {
-        return true;
-      }
-
+      let checker = true;
       this.errors = [];
 
       if (!this.form.start) {
         this.errors.push("Start date required.");
+        cherker = false;
       }
       if (!this.form.end) {
         this.errors.push("End date required.");
+        checker = false;
       }
 
-      return false;
-    },
-    UpdateWorkingTime() {
-      // this.form.start.format('YYYY-MM-DD hh:mm:ss');
-      // this.form.end =  this.form.end.format('YYYY-MM-DD hh:mm:ss');
+      if (checker && moment(this.form.end).isBefore(this.form.start)) {
+        this.errors.push("End date cannot be superior to Start date.");
+        checker = false;
+      }
 
+      return checker;
+    },
+    async UpdateWorkingTime() {
       if (!this.checkForm()) {
         return false;
       }
 
-      let dateFormat = require("dateformat");
-      let start = new Date(this.form.start);
-      let end = new Date(this.form.end);
-
-      start = dateFormat(start, "yyyy-mm-dd'T'HH:MM:ss");
-      end = dateFormat(end, "yyyy-mm-dd'T'HH:MM:ss");
-
-      // axios.put('http://localhost:4000/api/workingtimes/'+this.wtId, {
-      //             "workingtimes" : {
-      //                 "start": start,
-      //                 "end": end
-      //             }
-      //         })
-      updateWorkingTime(this.wtId, start, end)
-        .then((res) => {
-          this.modals.update = false;
-        })
-        .catch((error) => {
-          // error.response.status Check status code
-          this.errors.push("Working time update faild.");
-          console.log(error);
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+      try {
+        await updateWorkingTime(this.wtId, this.form.start, this.form.end);
+        this.$emit("event_child");
+        this.modals.update = false;
+      } catch (err) {
+        this.errors.push("Working time update faild.");
+      }
     },
   },
 };

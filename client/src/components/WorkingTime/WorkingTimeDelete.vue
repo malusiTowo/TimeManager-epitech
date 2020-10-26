@@ -48,7 +48,7 @@ import { deleteWorkingTime } from "../../api/workingtime";
 export default {
   name: "working-time-delete",
   props: {
-    wtId: Number,
+    wtId: [Number, String],
   },
   data() {
     return {
@@ -59,24 +59,15 @@ export default {
     };
   },
   methods: {
-    DeleteWorkingTime() {
+    async DeleteWorkingTime() {
       this.errors = [];
-      // axios.delete('http://localhost:4000/api/workingtimes/'+this.wtId)
-      deleteWorkingTime(this.wtId)
-        .then((res) => {
-          //Perform Success Action
-          //location.reload();
-          //Vue.forceUpdate();
-          this.modals.delete = false;
-        })
-        .catch((error) => {
-          // error.response.status Check status code
-          console.log(error);
-          this.errors.push("Working time not found.");
-        })
-        .finally(() => {
-          //Perform action in always
-        });
+
+      if (await deleteWorkingTime(this.wtId)) {
+        this.$emit("event_child");
+        this.modals.delete = false;
+      } else {
+        this.errors.push("Working time not found.");
+      }
     },
   },
 };
