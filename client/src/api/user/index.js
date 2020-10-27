@@ -2,6 +2,7 @@ import axios from 'axios'
 import { userIdIdentifier } from '../../routes/router';
 
 const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
+
 const baseUrl = `${host}/api/users`;
 const headers = {
   'Content-Type': 'application/json'
