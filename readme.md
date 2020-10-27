@@ -1,4 +1,4 @@
-# Web Client Time Management
+# Time Management
 
 ## CI statuses
 
@@ -11,51 +11,35 @@ This project is the web client of the time management epitech project. This proj
 
 ## Scripts
 
-## Install
+## Run
 
-Run the following command to install all the dependencies of the project. All dependencies can be found in the **package.json** file.
-
-```
-$ npm install
-```
-
-## Tests
-
-Run the following commands to run the test of the project. All the of the tests can be found in the **__tests\_\_** folder.
+Run the following command to run the entire project in development environment.
 
 ```
-$ npm run test
+$ docker-compose -f docker-compose.dev.yml up --build
 ```
 
-## Development
-
-Run the following command to run the development server.
+Run the following command to run the entire project in production environment.
 
 ```
-$ npm run serve
+$ docker-compose up --build
 ```
+
+## Backend
+
+Check out the backend [Readme](server/readme.md)
+
+## Web Client
+
+Check out the backend [Readme](client/readme.md)
+
 
 ## Deployment
 
 This project uses [docker](https://docs.docker.com/) to package the application. The docker configuration in the **Dockerfile** file at the root of the folder.
 The project is hosted on [Heroku](https://www.heroku.com)
 
-## Environment variables
 
-```
-BACKEND_URL=""
-```
-
-
-## Authentication & Authorization
-
-This project uses JWT mechanism to authenticate users and to validate incoming requests. Each user is assigned a role (admin, manager, employee), depending on the role, the user is authorized to perform certain actions
-
-Each request to the server should have the following header
-
-```
-Authorization: Bearer {JWT token}
-```
 
 ## Release History
 
