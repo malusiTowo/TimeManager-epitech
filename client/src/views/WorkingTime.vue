@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <base-header class="pb-6 pb-8 pt-5 pt-md-8 bg-gradient-success">
-    </base-header>
-
-    <b-container fluid class="mt--7">
-      
     <b-card no-body>
-        <b-row class="mt-3 mr-3 mb-3 ml-3 float-right" > 
+        <b-row class="mt-3 mr-3 mb-3 ml-3 float-right" v-if="edit"> 
           <working-time-create v-on:event_child="workingTimeCallback" />
         </b-row>
         
@@ -27,8 +21,8 @@
                     <th>id</th>
                     <th>start time</th>
                     <th>end time</th>
-                    <th></th>
-                    <th></th>
+                    <th v-if="edit"></th>
+                    <th v-if="edit"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -36,10 +30,10 @@
                     <td>{{item.id}}</td>
                     <td>{{formatDate(item.start)}}</td>
                     <td>{{formatDate(item.end)}}</td>
-                    <td>
+                    <td v-if="edit">
                       <working-time-update  :idUser="selectedUser" :wtId ="item.id" v-on:event_child="workingTimeCallback" />
                     </td>
-                    <td>
+                    <td v-if="edit">
                       <working-time-delete :wtId ="item.id" v-on:event_child="workingTimeCallback" />
                     </td>
                   </tr>
@@ -48,9 +42,6 @@
           </b-col>
         </b-row>
       </b-card>
-    </b-container>
-
-  </div>
 </template>
 
 <script>
@@ -80,6 +71,12 @@
       WorkingTimeUpdate,
       WorkingTimeDelete
     },
+    props: {
+      edit: {
+        type: Boolean,
+        default: false
+      }
+    },
     data() {
       return {
         items: [],
@@ -89,7 +86,7 @@
     },
     methods: {
       formatDate: function(date) {
-            return moment(date).format('YYYY MM DD, h:mm:ss a');
+            return moment(date).format('YYYY MM DD, hh:mm:ss a');
         },
 
       refreshWorkingTimes: async function() {

@@ -51,8 +51,8 @@ export const deleteWorkingTime = async (workingId) => {
 }
 
 export const updateWorkingTime = async (workingId, start, end) => {
-  start = moment(start).format("YYYY-MM-DD HH:MM:ss");
-  end = moment(end).format("YYYY-MM-DD HH:MM:ss");
+  start = moment(start).format("YYYY-MM-DD hh:mm:ss");
+  end = moment(end).format("YYYY-MM-DD hh:mm:ss");
   try {
     const response = await axios.put(`${baseUrl}/${workingId}`, {
       workingtimes: {
@@ -66,10 +66,11 @@ export const updateWorkingTime = async (workingId, start, end) => {
   }
   return {};
 }
-
+  
 export const createWorkingTimeForUser = async (userId, start, end) => {
-  start = moment(start).format("YYYY-MM-DD HH:MM:ss");
-  end = moment(end).format("YYYY-MM-DD HH:MM:ss");
+  start = moment(start).format("YYYY-MM-DD hh:mm:ss");
+  end = moment(end).format("YYYY-MM-DD hh:mm:ss");
+
   try {
     const response = await axios.post(`${baseUrl}/${userId}`, {
       workingtime: {
