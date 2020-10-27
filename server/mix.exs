@@ -20,7 +20,8 @@ defmodule Api.MixProject do
   def application do
     [
       mod: {Api.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :comeonin],
+      # applications: [:comeonin]
     ]
   end
 
@@ -43,7 +44,9 @@ defmodule Api.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:cors_plug, "~> 1.5"}
+      {:cors_plug, "~> 1.5"},
+      {:guardian, "~> 0.14"},
+      {:comeonin, "~> 3.0"}
     ]
   end
 

@@ -117,4 +117,19 @@ defmodule Api.Users do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def find_and_confirm_password(email, password) do
+    case Repo.get_by(User, email: email) do
+      nil ->
+        {:error, :not_found}
+      user ->
+        if Comeonin.Bcrypt.checkpw(password, user.password_hash) do
+          {:ok, user}
+        else
+          {:error, :unauthorized}
+        end
+    end
+  end
+
+
 end

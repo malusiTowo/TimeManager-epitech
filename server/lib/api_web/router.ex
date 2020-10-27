@@ -2,22 +2,27 @@ defmodule ApiWeb.Router do
   use ApiWeb, :router
 
   pipeline :api do
+    plug :accepts, ["json"]
     plug CORSPlug, origin: "*"
     plug CORSPlug, send_preflight_response?: false
-    plug :accepts, ["json"]
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :authenticated do
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   scope "/api", ApiWeb do
     pipe_through :api
 
+    post "/sign_up", RegistrationController, :sign_up
+    post "/sign_in", SessionController, :sign_in
+
+    pipe_through :authenticated # restrict unauthenticated access for routes below
+
     resources "/users", UserController, except: [:new, :edit]
-    # resources "/workingtimes", WorkingtimesController, except: [:new, :edit]
-    # resources "/clocks", ClockController, except: [:new, :edit]
 
-
-
-    # post "/workingtimes/:userId", WorkingtimesController, :createWorkingTimeForUser
-    # get "/workingtimes/:userId/:workingId", WorkingtimesController, :getWorkingTimesByUserIdAndWorkingId
     put "/workingtimes/:id", WorkingtimesController, :update
     delete "/workingtimes/:id", WorkingtimesController, :delete
 
