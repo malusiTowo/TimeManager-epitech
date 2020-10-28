@@ -45,6 +45,14 @@
           }"
         >
         </sidebar-item>
+        <sidebar-item
+          :link="{
+            name: 'Admin Users',
+            path: '/adminUsers',
+            icon: 'ni ni-collection',
+          }"
+        >
+        </sidebar-item>
       </template>
     </side-bar>
     <div class="main-content">
