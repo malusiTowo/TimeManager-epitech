@@ -31,7 +31,8 @@ import WorkingTimeCreate from './WorkingTime/WorkingTimeCreate';
 import WorkingTimeUpdate from './WorkingTime/WorkingTimeUpdate';
 import WorkingTimeDelete from './WorkingTime/WorkingTimeDelete';
 
-//import WorkingTimeCreate from './WorkingTime/WorkingTimeDelete';
+import ClockCreate from './ClockHistory/ClockCreate';
+import ClockDelete from './ClockHistory/ClockDelete';
 
 export {
   BaseCheckbox,
@@ -59,5 +60,7 @@ export {
   LoadingPanel,
   WorkingTimeCreate,
   WorkingTimeUpdate,
-  WorkingTimeDelete
+  WorkingTimeDelete,
+  ClockCreate,
+  ClockDelete
 };

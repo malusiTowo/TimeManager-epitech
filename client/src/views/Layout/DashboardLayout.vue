@@ -41,7 +41,7 @@
           :link="{
             name: 'Clock',
             path: '/clock/:username',
-            icon: 'ni ni-single-02 text-blue',
+            icon: 'ni ni-watch-time text-yellow',
           }"
         >
         </sidebar-item>

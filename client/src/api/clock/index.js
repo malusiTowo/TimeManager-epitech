@@ -27,4 +27,28 @@ export const clock = async (userId) => {
 
 }
 
+export const clockForUser = async (userId, time, status) => {
+  try {
+    const response = await axios.post(`${baseUrl}/${userId}`, {
+      time: time,
+      status: status
+    })
+    return response.data.data;
+  } catch (err) {
+    console.log("err", err);
+  }
+
+}
+
+export const deleteClockForUser = async (clockId) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/${clockId}`, {
+    })
+    return response.data.data;
+  } catch (err) {
+    console.log("err", err);
+  }
+
+}
+
 
