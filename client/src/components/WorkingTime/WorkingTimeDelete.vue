@@ -19,8 +19,7 @@
         <b-col xl="12" md="12">
           <h3>Are you sure do you want to delete this working time?</h3>
         </b-col>
-      </b-container>
-      {{ wtId }}
+      </b-container>  
       <template #modal-footer>
         <b-button
           variant="primary"

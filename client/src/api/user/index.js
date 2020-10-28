@@ -57,6 +57,24 @@ export const getUserByUserNameAndEmail = async (userName, email) => {
   }
 };
 
+export const getUserById = async (userId) => {
+
+  let localUser = getUserFromLocalStorage()['user'];
+
+  if (localUser['id'] == userId) {
+    return localUser;
+  }
+
+  try {
+    const response = await axios.get(`${baseUrl}/${userId}`, { headers });
+    const user = response.data.data;
+    return user;
+  } catch (err) {
+    console.log("err", err);
+    return false;
+  }
+};
+
 
 export const createUser = async (userName, email) => {
   try {
@@ -77,6 +95,9 @@ export const createUser = async (userName, email) => {
 }
 
 export const updateUser = async (userId, userName, email) => {
+  console.log(userId);  
+  console.log(userName);  
+  console.log(email);  
   try {
     const response = await axios.put(`${baseUrl}/${userId}`, {
       user: {
@@ -85,9 +106,13 @@ export const updateUser = async (userId, userName, email) => {
       }
     })
 
-    const updatedUser = response.data.data;
-    setUserToLocalStorage(updatedUser, updatedUser.id)
+    if (getUserFromLocalStorage()['user']['id'] == userId){
+      const updatedUser = response.data.data;
+      setUserToLocalStorage(updatedUser, updatedUser.id)
+    }
+
     return true;
+
   } catch (err) {
     console.log("err", err);
     return false;
