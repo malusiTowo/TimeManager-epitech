@@ -124,9 +124,6 @@
     },
     data() {
       return {
-        filterStart: moment(moment().format('YYYY-MM-DD')).format('YYYY-MM-DDTHH:mm:ss'),  
-        filterEnd:moment(moment().add(15, 'days').format('YYYY-MM-DD')).format('YYYY-MM-DDTHH:mm:ss'),
-
         filters: {
           date: { 
             value: { 
@@ -146,10 +143,10 @@
     
       formatDate: function(date) {
             return moment(date).format('YYYY MM DD, hh:mm:ss a'); 
-        },
+      },
 
       refreshWorkingTimes: async function() {
-          this.items = await getWorkingTimesBetweenDates(this.userId, this.filterStart, this.filterEnd);
+          this.items = await getWorkingTimesBetweenDates(this.userId, this.filters.date.value.start, this.filters.date.value.end);
       },
       
       workingTimeCallback: function() {
@@ -168,16 +165,14 @@
 
     watch:{
 
-      filterStart: async function () {
-        this.refreshWorkingTimes();
+      'filters.date.value.start': async function (newVal, oldVal) {
+        if(newVal != oldVal) this.refreshWorkingTimes();
       },
-      filterEnd: async function () {
-        this.refreshWorkingTimes();
+
+      'filters.date.value.end': async function (newVal, oldVal) {
+        if(newVal != oldVal) this.refreshWorkingTimes();
       },
-      userId: async function () {
-        this.refreshWorkingTimes();
-      }
-      
+
     }
 
   };
