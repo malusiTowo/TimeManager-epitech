@@ -22,19 +22,9 @@
     <b-container fluid class="mt--9">
       <b-row class="">
         <b-col lg="4" md="6">
-          <clock/>
+          <Clock/>
         </b-col>
       </b-row>
-    </b-container>
-
-    <!--Working Time-->
-    <b-container fluid class="">
-      <b-row>
-        <b-col xl="12" md="12">
-          <working-time edit />
-        </b-col>
-      </b-row>
-
     </b-container>
 
   </div>
@@ -42,12 +32,10 @@
 <script>
 
   import Clock from './Clock/Clock';
-  import WorkingTime from './WorkingTime'
 
   export default {
     components: {
-      Clock,
-      WorkingTime
+      Clock
     },
     data() {
       return {

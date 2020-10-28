@@ -38,7 +38,8 @@
     "vue-flatpickr-component": "^8.1.2",
     "vue-morris": "^1.1.0",
     "vue-router": "^3.0.6",
-    "vue2-transitions": "^0.2.3"
+    "vue2-transitions": "^0.2.3",
+    "vuejs-smart-table": "0.0.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",

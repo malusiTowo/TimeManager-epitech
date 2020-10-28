@@ -27,11 +27,7 @@ import BasePagination from './BasePagination.vue';
 
 import SidebarPlugin from './SidebarPlugin';
 
-import WorkingTimeCreate from './WorkingTime/WorkingTimeCreate';
-import WorkingTimeUpdate from './WorkingTime/WorkingTimeUpdate';
-import WorkingTimeDelete from './WorkingTime/WorkingTimeDelete';
-
-//import WorkingTimeCreate from './WorkingTime/WorkingTimeDelete';
+import {WorkingTimeList} from './WorkingTime';
 
 export {
   BaseCheckbox,
@@ -57,7 +53,5 @@ export {
   Collapse,
   CollapseItem,
   LoadingPanel,
-  WorkingTimeCreate,
-  WorkingTimeUpdate,
-  WorkingTimeDelete
+  WorkingTimeList
 };

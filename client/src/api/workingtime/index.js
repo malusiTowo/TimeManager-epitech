@@ -10,6 +10,12 @@ export const formatDate = (date) => {
   }
 }
 
+export const formatDateForApi = (date) => {
+  if (date) {
+    return moment(date).format('YYYY-MM-DD HH:mm:ss');
+  }
+}
+
 export const getDiffHours = (start, end) => {
   const duration = moment.duration(moment(end).diff(moment(start)));
   return duration.asHours();
@@ -29,13 +35,30 @@ export const getWorkingTimesForUserIdAndWorkingId = async (userId, workingId) =>
 
 
 export const getWorkingTimesBetweenDates = async (userId, start, end) => {
+
+
+  start = formatDateForApi(start);
+  end = formatDateForApi(end);
+  console.log(start);
+  console.log(end);
+
+  let workingTimes = null;
   try {
     const response = await axios.get(`${baseUrl}/${userId}?start=${start}&end=${end}`);
-    const workingTimes = response.data.data;
-    return workingTimes;
+    workingTimes = response.data.data;
   } catch (err) {
     console.log("err", err);
   }
+
+  if(workingTimes){
+    
+    workingTimes.sort(function (a, b) {
+      return (a.start > b.start) ? 1 : -1;
+    });
+
+    return workingTimes;
+  }
+
   return [];
 }
 
@@ -51,8 +74,8 @@ export const deleteWorkingTime = async (workingId) => {
 }
 
 export const updateWorkingTime = async (workingId, start, end) => {
-  start = moment(start).format("YYYY-MM-DD hh:mm:ss");
-  end = moment(end).format("YYYY-MM-DD hh:mm:ss");
+  start = formatDateForApi(start);
+  end = formatDateForApi(end);
   try {
     const response = await axios.put(`${baseUrl}/${workingId}`, {
       workingtimes: {
@@ -68,8 +91,8 @@ export const updateWorkingTime = async (workingId, start, end) => {
 }
   
 export const createWorkingTimeForUser = async (userId, start, end) => {
-  start = moment(start).format("YYYY-MM-DD hh:mm:ss");
-  end = moment(end).format("YYYY-MM-DD hh:mm:ss");
+  start = formatDateForApi(start);
+  end = formatDateForApi(end);
 
   try {
     const response = await axios.post(`${baseUrl}/${userId}`, {
@@ -129,4 +152,31 @@ export const getTimesAndClocksForGraph = (clocks = [], times = []) => {
   })
 
   return Object.values(base);
+}
+
+export const checkValidDate = async (newDate) => {
+  
+  let dates = await getWorkingTimesBetweenDates(newDate.idUser, "2000-10-19T23:58:52", "3000-10-19T23:00:00");
+
+  const newStart = formatDateForApi(newDate.start);
+  const newEnd = formatDateForApi(newDate.end);
+
+  for(const date of dates)  
+  {
+    const start = formatDateForApi(date.start);
+    const end = formatDateForApi(date.end);
+
+    //check start date
+    if (moment(newStart).isAfter(start) && moment(newStart).isBefore(end)){
+      return false;
+    }
+
+    //check end date
+    if (moment(newEnd).isAfter(start) && moment(newEnd).isBefore(end)) {
+      return false;
+    }
+
+  }
+  return true;
+  
 }
