@@ -48,17 +48,6 @@
                   <base-input
                     alternative
                     class="mb-3"
-                    name="Name"
-                    :rules="{ required: true, min: 1 }"
-                    prepend-icon="ni ni-hat-3"
-                    placeholder="Name"
-                    v-model="model.name"
-                  >
-                  </base-input>
-
-                  <base-input
-                    alternative
-                    class="mb-3"
                     prepend-icon="ni ni-email-83"
                     placeholder="Email"
                     name="Email"
@@ -67,9 +56,18 @@
                   >
                   </base-input>
 
-                  <b-form-checkbox v-model="model.rememberMe"
-                    >Remember me</b-form-checkbox
+                  <base-input
+                    alternative
+                    class="mb-3"
+                    name="Password"
+                    :rules="{ required: true }"
+                    prepend-icon="ni ni-key-25"
+                    placeholder="Password"
+                    type="password"
+                    v-model="model.password"
                   >
+                  </base-input>
+
                   <div class="text-center">
                     <base-button
                       type="primary"
@@ -95,10 +93,7 @@
   </div>
 </template>
 <script>
-import {
-  getUserByUserNameAndEmail,
-  getUserFromLocalStorage,
-} from "../../api/user";
+import { login, getUserFromLocalStorage } from "../../api/user";
 
 export default {
   data() {
@@ -114,8 +109,8 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const { name, email } = this.model;
-        const isLoggedIn = await getUserByUserNameAndEmail(name, email);
+        const { password, email } = this.model;
+        const isLoggedIn = await login(email, password);
         const { userId } = getUserFromLocalStorage();
         if (isLoggedIn && userId) {
           this.$emit("loggedIn");

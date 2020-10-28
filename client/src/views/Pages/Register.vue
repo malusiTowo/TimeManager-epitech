@@ -49,14 +49,13 @@
                   <base-input
                     alternative
                     class="mb-3"
-                    prepend-icon="ni ni-hat-3"
-                    placeholder="Name"
-                    name="Name"
+                    prepend-icon="ni ni-single-02"
+                    placeholder="Username"
+                    name="Username"
                     :rules="{ required: true }"
-                    v-model="model.name"
+                    v-model="model.username"
                   >
                   </base-input>
-
                   <base-input
                     alternative
                     class="mb-3"
@@ -65,6 +64,18 @@
                     name="Email"
                     :rules="{ required: true, email: true }"
                     v-model="model.email"
+                  >
+                  </base-input>
+
+                  <base-input
+                    alternative
+                    class="mb-3"
+                    prepend-icon="ni ni-key-25"
+                    placeholder="Password"
+                    name="Password"
+                    type="password"
+                    :rules="{ required: true }"
+                    v-model="model.password"
                   >
                   </base-input>
 
@@ -83,13 +94,13 @@
   </div>
 </template>
 <script>
-import { createUser, getUserFromLocalStorage } from "../../api/user";
+import { signup } from "../../api/user";
 export default {
   name: "register",
   data() {
     return {
       model: {
-        name: "",
+        username: "",
         email: "",
         password: "",
         agree: false,
@@ -99,16 +110,14 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const { name, email } = this.model;
-        const isLoggedIn = await createUser(name, email);
-        const { userId } = getUserFromLocalStorage();
-        if (isLoggedIn && userId) {
+        const { username, email, password } = this.model;
+        const isLoggedIn = await signup(username, email, password);
+        if (isLoggedIn) {
           this.$emit("loggedIn");
-          if (this.$route.params.nextUrl != null) {
-            this.$router.push(this.$route.params.nextUrl);
-          } else {
-            this.$router.push("workingtime");
-          }
+          this.$router.push("login");
+          alert(
+            "Account created successfully. Please login with your credentials"
+          );
         } else {
           alert("Invalid credentialas");
         }

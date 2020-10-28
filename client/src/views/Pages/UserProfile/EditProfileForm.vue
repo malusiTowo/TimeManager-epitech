@@ -61,6 +61,7 @@ export default {
         const { userId } = getUserFromLocalStorage();
         const isUserUpdated = await updateUser(userId, username, email);
         if (!isUserUpdated) alert("Unable to update account");
+        else alert("Profile updated succesfully");
       } catch (err) {
         console.log("err", err);
         alert("An error occured. try again later.");

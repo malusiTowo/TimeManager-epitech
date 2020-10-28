@@ -1,15 +1,18 @@
 import axios from 'axios'
+import moment from 'moment';
 
-const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
+import { buildHeaders } from '../user';
+
+const host = process.env.VUE_APP_BACKEND_URL;
 const baseUrl = `${host}/api/clocks`;
 
-const headers = {
-  'Content-Type': 'application/json'
-}
+
 
 export const getClockUser = async (userId) => {
   try {
-    const response = await axios.get(`${baseUrl}/${userId}`, { headers });
+    const response = await axios.get(`${baseUrl}/${userId}`, {
+      headers: buildHeaders()
+    });
     return response.data.data;
   } catch (err) {
     console.log("err", err);
@@ -19,7 +22,9 @@ export const getClockUser = async (userId) => {
 
 export const clock = async (userId) => {
   try {
-    const response = await axios.post(`${baseUrl}/${userId}`, {})
+    const response = await axios.post(`${baseUrl}/${userId}`, null, {
+      headers: buildHeaders()
+    })
     return response.data.data;
   } catch (err) {
     console.log("err", err);
@@ -27,4 +32,21 @@ export const clock = async (userId) => {
 
 }
 
+
+export const adminClockUserIn = async (userId, status, time) => {
+  try {
+    time = moment(time).format("YYYY-MM-DD HH:MM:ss");
+    const response = await axios.post(`${baseUrl}/admin/${userId}`, {
+      clock: {
+        status,
+        time
+      }
+    }, {
+      headers: buildHeaders()
+    })
+    return response.data.data;
+  } catch (err) {
+    console.log("err", err);
+  }
+}
 

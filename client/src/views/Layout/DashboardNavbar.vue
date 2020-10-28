@@ -119,7 +119,7 @@ export default {
       deleteUser(userId);
       const { userId: userDeleted } = getUserFromLocalStorage();
       if (!userDeleted) {
-        this.$router.push("register");
+        this.$router.replace("register");
       } else {
         alert("Unable to delete account");
       }
@@ -128,7 +128,7 @@ export default {
       removeUserFromLocalStorage();
       const { userId } = getUserFromLocalStorage();
       if (!userId) {
-        this.$router.push("login");
+        this.$router.replace("login");
       } else {
         alert("Unable to log out");
       }

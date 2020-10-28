@@ -38,6 +38,9 @@ const routes = [
         path: '/chartManager/:userId',
         name: 'chartMangager',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/ChartManager.vue'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: '/clock/:username',

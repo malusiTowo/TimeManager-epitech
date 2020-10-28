@@ -1,7 +1,8 @@
 import axios from 'axios'
 import moment from 'moment';
+import { buildHeaders } from '../user';
 
-const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
+const host = process.env.VUE_APP_BACKEND_URL;
 const baseUrl = `${host}/api/workingtimes`;
 
 export const formatDate = (date) => {
@@ -18,7 +19,7 @@ export const getDiffHours = (start, end) => {
 
 export const getWorkingTimesForUserIdAndWorkingId = async (userId, workingId) => {
   try {
-    const response = await axios.get(`${baseUrl}/${userId}/${workingId}`);
+    const response = await axios.get(`${baseUrl}/${userId}/${workingId}`, { headers: buildHeaders() });
     const workingTime = response.data.data;
     return workingTime;
   } catch (err) {
@@ -30,7 +31,7 @@ export const getWorkingTimesForUserIdAndWorkingId = async (userId, workingId) =>
 
 export const getWorkingTimesBetweenDates = async (userId, start, end) => {
   try {
-    const response = await axios.get(`${baseUrl}/${userId}?start=${start}&end=${end}`);
+    const response = await axios.get(`${baseUrl}/${userId}?start=${start}&end=${end}`, { headers: buildHeaders() });
     const workingTimes = response.data.data;
     return workingTimes;
   } catch (err) {
@@ -42,7 +43,7 @@ export const getWorkingTimesBetweenDates = async (userId, start, end) => {
 
 export const deleteWorkingTime = async (workingId) => {
   try {
-    const response = await axios.delete(`${baseUrl}/${workingId}`);
+    const response = await axios.delete(`${baseUrl}/${workingId}`, { headers: buildHeaders() });
     return response;
   } catch (err) {
     console.log("err", err);
@@ -59,7 +60,11 @@ export const updateWorkingTime = async (workingId, start, end) => {
         start,
         end
       }
-    });
+    },
+      {
+        headers: buildHeaders()
+      }
+    );
     return response;
   } catch (err) {
     console.log("err", err);
@@ -76,7 +81,11 @@ export const createWorkingTimeForUser = async (userId, start, end) => {
         start,
         end
       }
-    });
+    },
+      {
+        headers: buildHeaders()
+      }
+    );
     return response;
   } catch (err) {
     console.log("err", err);

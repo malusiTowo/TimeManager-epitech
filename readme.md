@@ -4,9 +4,6 @@
 
 [![Heroku Deployment](https://github.com/malusiTowo/TimeManager-epitech/workflows/heroku-deployment/badge.svg)](https://github.com/malusiTowo/TimeManager-epitech/actions)
 
-## Description
-
-This project is the web client of the time management epitech project. This project is built with [Vue](https://vuejs.org/). This project is a time management system for employees, managers and adminstrators. You can enter working times for employees and they can clock-in and clock-out of work. All the data is then collected and presented in data graphs.
 
 
 ## Scripts
@@ -31,12 +28,12 @@ Check out the backend [Readme](server/readme.md)
 
 ## Web Client
 
-Check out the backend [Readme](client/readme.md)
+Check out the web client [Readme](client/readme.md)
 
 
 ## Deployment
 
-This project uses [docker](https://docs.docker.com/) to package the application. The docker configuration in the **Dockerfile** file at the root of the folder.
+This project uses [docker](https://docs.docker.com/) to package the application. The docker configuration in the **docker-compose.yml** file at the root of the folder.
 The project is hosted on [Heroku](https://www.heroku.com)
 
 
