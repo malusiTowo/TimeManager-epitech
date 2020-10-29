@@ -3,24 +3,55 @@ name: CI
 on: push
 
 jobs:
-  tests:
+    run-tests:
     runs-on: ubuntu-latest
-    name: Run tests on server project OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    strategy:
-      matrix:
-        otp: ['20.3', '21.3', '22.2']
-        elixir: ['1.8.2', '1.9.4']
+    container: node:10.18-jessie
+    services:
+      postgres:
+        image: postgres:12
+        ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: "Checkout Code"
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1
-        name: "Setup Elixir environment"
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - name: "Install dependencies"
-        run: mix deps.get
-        working-directory: ./server
-      - name: "Run test suite"
-        run: mix test /test/api
-        working-directory: ./server
+          elixir-version: '1.10.3'
+          otp-version: '22.3'
+      - run: mix deps.get
+          working-directory: ./server
+      - run: mix deps.compile
+          working-directory: ./server
+      - run: cd assets && yarn install --frozen-lockfile
+      - run: mix test
+          working-directory: ./server
+        env:
+          DB_PASSWORD: postgres
+          DB_HOST: postgres
+
+  # tests:
+  #   runs-on: ubuntu-latest
+  #   name: Run tests on server project OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+  #   strategy:
+  #     matrix:
+  #       otp: ['20.3', '21.3', '22.2']
+  #       elixir: ['1.8.2', '1.9.4']
+  #   steps:
+  #     - name: "Checkout Code"
+  #       uses: actions/checkout@v2
+  #     - uses: actions/setup-elixir@v1
+  #       name: "Setup Elixir environment"
+  #       with:
+  #         otp-version: ${{matrix.otp}}
+  #         elixir-version: ${{matrix.elixir}}
+  #     - name: "Install dependencies"
+  #       run: mix deps.get
+  #       working-directory: ./server
+  #     - name: "Run test suite"
+  #       run: mix test /test/api
+  #       working-directory: ./server
