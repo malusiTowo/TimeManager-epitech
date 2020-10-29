@@ -28,7 +28,7 @@ jobs:
       - run: mix deps.compile
         working-directory: ./server
       # - run: cd assets && yarn install --frozen-lockfile
-      - run: mix test
+      - run: mix test /test/api
         working-directory: ./server
         env:
           DB_PASSWORD: postgres
