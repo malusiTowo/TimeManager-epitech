@@ -31,32 +31,6 @@
         </b-row>
 
         <!-- table -->
-        <!-- <b-row class="mt-3 mr-3 mb-3 ml-3">
-          <b-col>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>start time</th>
-                    <th>end time</th>
-                    <th v-if="edit"></th>
-                    <th v-if="edit"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in items" v-bind:key = item.id>
-                    <td>{{formatDate(item.start)}}</td>
-                    <td>{{formatDate(item.end)}}</td>
-                    <td v-if="edit">
-                      <working-time-update  :idUser="userId" :wtId ="item.id" v-on:event_child="workingTimeCallback" />
-                    </td>
-                    <td v-if="edit">
-                      <working-time-delete :wtId ="item.id" v-on:event_child="workingTimeCallback" />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-          </b-col>
-        </b-row> -->
         <v-table :data="items" 
         :currentPage.sync="currentPage"
         :pageSize="7"
@@ -67,8 +41,8 @@
             <tr>
               <v-th sortKey="start" defaultSort="desc">Start Time</v-th>
               <th>End Time</th>
-              <th>Actions</th>
-              <th></th>
+              <th v-if="edit">Actions</th>
+              <th v-if="edit"></th>
             </tr>
           </thead>
           <tbody slot="body" slot-scope="{displayData}">
@@ -99,7 +73,7 @@
   import { WorkingTimeCreate, WorkingTimeUpdate, WorkingTimeDelete } from './';
   import axios from 'axios';
 
-  import {getWorkingTimesBetweenDates, formatDateForApi} from '@/api/workingtime';
+  import {getWorkingTimesBetweenDates, formatDateForApi,formatDateFromApi} from '@/api/workingtime';
   import {getUserFromLocalStorage} from '@/api/user';
 
   import SmartTable from 'vuejs-smart-table';
@@ -142,7 +116,7 @@
     methods: {
     
       formatDate: function(date) {
-            return moment(date).format('YYYY MM DD, hh:mm:ss a'); 
+          return formatDateFromApi(date, 'YYYY-MM-DD HH:mm:ss');
       },
 
       refreshWorkingTimes: async function() {

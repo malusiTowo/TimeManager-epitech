@@ -68,7 +68,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
-import { getWorkingTimesForUserIdAndWorkingId, updateWorkingTime, checkValidDate } from "@/api/workingtime";
+import { getWorkingTimesForUserIdAndWorkingId, updateWorkingTime, checkValidDate, formatDateFromApi } from "@/api/workingtime";
 
 export default {
   name: "working-time-update",
@@ -91,10 +91,15 @@ export default {
     };
   },
   async mounted() {
-    this.form = await getWorkingTimesForUserIdAndWorkingId(
+    let response = await getWorkingTimesForUserIdAndWorkingId(
       this.idUser,
       this.wtId
     );
+
+    response.end = formatDateFromApi(response.end, 'YYYY-MM-DDTHH:mm:ss');
+    response.start = formatDateFromApi(response.start, 'YYYY-MM-DDTHH:mm:ss');
+
+    this.form = response;
   },
   methods: {
     async checkForm() {

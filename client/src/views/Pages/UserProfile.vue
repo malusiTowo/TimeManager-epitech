@@ -33,17 +33,22 @@
         </b-col>
       </b-row>
 
-      <b-row class ="mt-4">
+      <b-row class ="mt-4" v-if="role">
         <b-col xl="12" md="12">
           <h1> Working Times </h1>
         </b-col>
-      </b-row>
 
-      <b-row>
         <b-col xl="12" md="12">
           <WorkingTimeList edit :userId="userId" />
         </b-col>
+      </b-row> 
+
+      <b-row class ="mt-4" >
+        <b-col xl="12" md="12" v-if="role">
+          <h1> Comming soon... { clock Times } </h1>
+        </b-col>
       </b-row>  
+
     </b-container>
 
   </div>
@@ -67,6 +72,7 @@
     },
     data() {
       return {
+        role : true,
         user: {
           username: null,
           id: null,
