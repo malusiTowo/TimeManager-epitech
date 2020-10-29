@@ -4,9 +4,8 @@ on: push
 
 jobs:
   tests:
-    name: "Run tests on server project"
     runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Run tests on server project OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
         otp: ['20.3', '21.3', '22.2']
