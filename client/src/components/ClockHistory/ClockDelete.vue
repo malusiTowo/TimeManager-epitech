@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div style="text-align: center;">
     <b-button
       @click="
         modals.delete = true;
         errors = [];
       "
       variant="danger"
-      >Delete</b-button
+      >
+      <i class="fas fa-trash-alt" style="font-size: x-small;"></i>
+      </b-button
     >
 
     <b-modal v-model="modals.delete" title="Delete clock">

@@ -17,7 +17,6 @@
                :class="[`bg-${typeOff}`, iconClasses]">
             <i :class="icon"></i>
           </div>
-
         </b-button>
         </slot>
       </b-col>

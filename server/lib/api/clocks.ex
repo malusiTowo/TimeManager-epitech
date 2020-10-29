@@ -209,7 +209,6 @@ defmodule Api.Clocks do
     else
       result = base |> merge(%{status: true })
 
-
       createClockForUser(userId, %{status: true, time: DateTime.utc_now})
       # %Clock{}
       # |> Ecto.Changeset.cast(result, [:time])

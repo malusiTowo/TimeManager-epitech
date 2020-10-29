@@ -33,6 +33,7 @@ defmodule ApiWeb.Router do
     scope "/clocks" do
       get "/:userId", ClockController, :getClocksForUser
       post "/:userId", ClockController, :clockUserIn
+      post "/", ClockController, :createClockForUser
     end
 
   end

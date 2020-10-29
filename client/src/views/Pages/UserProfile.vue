@@ -44,6 +44,18 @@
           <WorkingTimeList edit :userId="userId" />
         </b-col>
       </b-row>  
+
+      <b-row class ="mt-4">
+        <b-col xl="12" md="12">
+          <h1> Clocks History </h1>
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col xl="12" md="12">
+          <ClockHistory edit :userId="userId" />
+        </b-col>
+      </b-row>  
     </b-container>
 
   </div>
@@ -51,7 +63,7 @@
 <script>
 
   import EditProfileForm from "./UserProfile/EditProfileForm.vue";
-  import {WorkingTimeList} from '@/components';
+  import {WorkingTimeList, ClockHistory} from '@/components';
   import {getUsers, getUserFromLocalStorage, getUserById} from '@/api/user';
 
   export default {
@@ -63,7 +75,8 @@
     },
     components: { 
       EditProfileForm,
-      WorkingTimeList
+      WorkingTimeList,
+      ClockHistory
     },
     data() {
       return {

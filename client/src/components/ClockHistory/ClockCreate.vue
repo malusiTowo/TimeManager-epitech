@@ -1,12 +1,17 @@
 <template>
   <div>
-    <b-button
+     <b-button
       @click="
         modals.create = true;
-        errors = [];
-      "
+        errors = [];"
       variant="success"
-      >Create</b-button
+      style=" border-radius: 30%;
+              width: 5em;
+              height: 5em;">
+        <i class="fas fa-plus-circle" 
+          style="font-size: x-large;">
+        </i>
+      </b-button
     >
 
     <b-modal v-model="modals.create" title="Create clock">
@@ -74,8 +79,8 @@
 import axios from "axios";
 import moment from "moment";
 
-import { getUsers } from "@/api/user";
-import { createClock } from "../../api/clock";
+import { getUsers, getUserFromLocalStorage } from "@/api/user";
+import { clockForUser } from "../../api/clock";
 
 export default {
   name: "clock-create",
@@ -113,12 +118,12 @@ export default {
 
       if (!this.form.time) {
         this.errors.push("Time required.");
-        cherker = false;
+        checker = false;
       }
 
-      if (!this.form.status) {
+      if (!this.form.status && this.form.status == null) {
         this.errors.push("Status required.");
-        cherker = false;
+        checker = false;
       }
 
       return checker;
@@ -128,8 +133,8 @@ export default {
         return false;
       }
       try {
-        await createClock(
-          this.selectedUser,
+        await clockForUser(
+          getUserFromLocalStorage().userId,
           this.form.time,
           this.form.status
         );
@@ -138,6 +143,7 @@ export default {
         this.form.time = null;
         this.form.status = null;
       } catch (err) {
+        console.log(err)
         this.errors.push("Clock create failed.");
       }
     },
