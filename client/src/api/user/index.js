@@ -75,7 +75,6 @@ export const getUserById = async (userId) => {
   }
 };
 
-
 export const createUser = async (userName, email) => {
   try {
     const response = await axios.post(`${baseUrl}`, {

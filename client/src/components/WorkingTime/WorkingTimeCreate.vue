@@ -23,18 +23,6 @@
             v-on:submit.prevent="createWorkingTime"
           >
             <div class="form-group">
-              <label for="name">Select user</label>
-              <select class="form-control" v-model="selectedUser">
-                <option
-                  v-for="user in users"
-                  v-bind:key="user.id"
-                  v-bind:value="user.id"
-                >
-                  {{ user.username }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
               <label for="name">Start Date</label>
               <input
                 type="datetime-local"
@@ -57,7 +45,7 @@
           </form>
         </b-col>
       </b-container>
-
+      
       <template #modal-footer>
         <b-button
           variant="primary"
@@ -88,13 +76,18 @@ import { createWorkingTimeForUser, checkValidDate } from "@/api/workingtime";
 
 export default {
   name: "working-time-create",
+  props: {  
+    userId: {
+      type: [String, Number]
+    }
+  }, 
+
   data() {
     return {
       modals: {
         create: false,
       },
       errors: [],
-      selectedUser: "1",
       form: {
         idUser: "",
         start: null,
@@ -138,7 +131,7 @@ export default {
     },
     async createWorkingTime() {
 
-      this.form.idUser = this.selectedUser;
+      this.form.idUser = this.userId;
 
       if (!await this.checkForm()) {
         return false;
@@ -146,7 +139,7 @@ export default {
 
       try {
         await createWorkingTimeForUser(
-          this.selectedUser,
+          this.form.idUser,
           this.form.start,
           this.form.end
         );

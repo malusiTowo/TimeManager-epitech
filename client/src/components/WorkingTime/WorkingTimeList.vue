@@ -3,7 +3,7 @@
 
         <!-- create wt -->
         <b-row class="mt-3 mr-3 mb-3 ml-3" v-if="edit"> 
-          <working-time-create v-on:event_child="workingTimeCallback" />
+          <working-time-create v-on:event_child="workingTimeCallback" :userId="userId" />
         </b-row>
 
         <!-- filters -->
