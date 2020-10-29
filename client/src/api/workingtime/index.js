@@ -39,8 +39,8 @@ export const getWorkingTimesBetweenDates = async (userId, start, end) => {
 
   start = formatDateForApi(start);
   end = formatDateForApi(end);
-  console.log(start);
-  console.log(end);
+  //console.log(start);
+  //console.log(end);
 
   let workingTimes = null;
   try {

@@ -22,7 +22,7 @@
     <b-container fluid class="mt--9">
       <b-row class="">
         <b-col lg="4" md="6">
-          <Clock/>
+          <Clock />
         </b-col>
       </b-row>
     </b-container>

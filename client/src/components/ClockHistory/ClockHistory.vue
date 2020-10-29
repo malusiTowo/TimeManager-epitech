@@ -49,7 +49,7 @@
                     <td v-if="item.status == true">Clock-In</td>
                     <td v-else>Clock-Out</td>
                     <td>
-                      <clock-delete v-if="edit" :clockId ="item.id" v-on:event_child="ClockCallback" />
+                      <clock-delete v-if="!edit" :clockId ="item.id" v-on:event_child="ClockCallback" />
                     </td>
                   </tr>
                 </tbody>

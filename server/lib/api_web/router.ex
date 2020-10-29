@@ -34,6 +34,7 @@ defmodule ApiWeb.Router do
       get "/:userId", ClockController, :getClocksForUser
       post "/:userId", ClockController, :clockUserIn
       post "/", ClockController, :createClockForUser
+      delete "/:id", ClockController, :delete
     end
 
   end
