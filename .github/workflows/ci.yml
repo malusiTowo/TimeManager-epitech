@@ -3,7 +3,7 @@ name: CI
 on: push
 
 jobs:
-    run-tests:
+    name: Run tests on server project
     runs-on: ubuntu-latest
     container: node:10.18-jessie
     services:
