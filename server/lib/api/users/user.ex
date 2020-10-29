@@ -2,6 +2,8 @@ defmodule Api.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  # alias Comeonin.Bcrypt
+
   schema "users" do
     field :email, :string
     field :username, :string
@@ -41,7 +43,7 @@ defmodule Api.Users.User do
   defp generate_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
-        put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(password))
+        put_change(changeset, :password_hash,  Bcrypt.hash_pwd_salt(password))
       _ ->
         changeset
     end

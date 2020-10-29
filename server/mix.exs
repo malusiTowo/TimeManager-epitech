@@ -21,6 +21,7 @@ defmodule Api.MixProject do
     [
       mod: {Api.Application, []},
       extra_applications: [:logger, :runtime_tools, :comeonin],
+      # extra_applications: [:logger, :runtime_tools],
       # applications: [:comeonin]
     ]
   end
@@ -46,7 +47,8 @@ defmodule Api.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:cors_plug, "~> 1.5"},
       {:guardian, "~> 0.14"},
-      {:comeonin, "~> 3.0"}
+      {:comeonin, "~> 5.0"},
+      {:bcrypt_elixir, "~> 2.0"}
     ]
   end
 

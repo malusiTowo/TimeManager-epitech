@@ -6,9 +6,12 @@ RUN mkdir assets
 
 COPY . .
 
-RUN mix local.hex --force && mix local.rebar --force && mix deps.clean --all && mix do deps.get, compile
+RUN mix local.hex --force && mix local.rebar --force && mix deps.clean --all && mix deps.update --all && mix deps.get
 
+RUN apk add --no-cache make gcc libc-dev
 
+RUN cd deps/bcrypt_elixir && make clean && make
 
+RUN mix deps.compile
 
-CMD  mix ecto.migrate && mix phx.server
+CMD  mix ecto.migrate &&  mix phx.server

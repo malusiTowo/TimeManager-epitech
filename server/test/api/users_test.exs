@@ -6,8 +6,9 @@ defmodule Api.UsersTest do
   describe "users" do
     alias Api.Users.User
 
-    @valid_attrs %{email: "some email", username: "some username"}
-    @update_attrs %{email: "some updated email", username: "some updated username"}
+    @valid_attrs %{email: "some@email.com", username: "some username", password: "Password1", role: "employee"}
+    @update_attrs %{email: "someupdated@email.com", username: "some updated username", role: "admin"}
+    @invalid_attrs_second %{email: "some email", username: "username", password: "pass"}
     @invalid_attrs %{email: nil, username: nil}
 
     def user_fixture(attrs \\ %{}) do
@@ -16,7 +17,7 @@ defmodule Api.UsersTest do
         |> Enum.into(@valid_attrs)
         |> Users.create_user()
 
-      user
+      user = Map.put(user, :password, nil)
     end
 
     test "list_users/0 returns all users" do
@@ -31,8 +32,8 @@ defmodule Api.UsersTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
-      assert user.email == "some email"
-      assert user.username == "some username"
+      assert user.email == @valid_attrs[:email]
+      assert user.username == @valid_attrs[:username]
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -42,8 +43,8 @@ defmodule Api.UsersTest do
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
       assert {:ok, %User{} = user} = Users.update_user(user, @update_attrs)
-      assert user.email == "some updated email"
-      assert user.username == "some updated username"
+      assert user.email == @update_attrs[:email]
+      assert user.username == @update_attrs[:username]
     end
 
     test "update_user/2 with invalid data returns error changeset" do
