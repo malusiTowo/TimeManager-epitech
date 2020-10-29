@@ -2,8 +2,13 @@
   <div>
     
     <b-card no-body>
-        <b-row class="mt-3 mr-3 mb-3 ml-3 float-right" > 
+        <b-row class="mt-3 mr-3 mb-3 ml-3" > 
+          <b-col> 
           <clock-create v-if="edit" v-on:event_child="ClockCallback" />
+          </b-col>
+          <b-col>
+          <clock-delete-all v-if="edit" v-on:event_child="ClockCallback" :selectedRows="this.selectedRows"/>
+          </b-col>
         </b-row>
         <!-- filters -->
         <b-row class="mt-3 mr-3 mb-3 ml-3">
@@ -34,7 +39,10 @@
                         :pageSize="10"
                         @totalPagesChanged="totalPages = $event" 
                         :filters="filters"
-                        class="table">
+                        class="table"
+                        selectionMode="multiple"
+                        selectedClass="table-info"
+                        @selectionChanged="selectedRows = $event">
                 <thead slot="head">
                   <tr>
                     <v-th sortKey="time" defaultSort="desc">time</v-th>
@@ -43,14 +51,14 @@
                   </tr>
                 </thead>
                 <tbody slot="body" slot-scope="{displayData}">
-                  <tr v-for="item in displayData" v-bind:key = item.id> 
+                  <v-tr v-for="item in displayData" v-bind:key = item.id :row="item.id"> 
                     <td>{{formatDate(item.time)}}</td>
                     <td v-if="item.status == true">Clock-In</td>
                     <td v-else>Clock-Out</td>
                     <td>
                       <clock-delete v-if="edit" :clockId ="item.id" v-on:event_child="ClockCallback" />
                     </td>
-                  </tr>
+                  </v-tr>
                 </tbody>
               </v-table>
             <smart-pagination
@@ -65,7 +73,7 @@
 <script>
 import { getUserFromLocalStorage } from "../../api/user";
 import { clock, getClockUser } from "../../api/clock";
-import { ClockCreate, ClockDelete } from '@/components';
+import { ClockCreate, ClockDelete, ClockDeleteAll } from '@/components';
 import { Dropdown, DropdownItem, DropdownMenu, Table, TableColumn } from 'element-ui';
 import SmartTable from 'vuejs-smart-table';
 import axios from 'axios';
@@ -85,7 +93,8 @@ export default {
       [TableColumn.name]: TableColumn,
       SmartTable,
       ClockCreate,
-      ClockDelete
+      ClockDelete,
+      ClockDeleteAll
     },
   props: {
       edit: {
@@ -110,7 +119,8 @@ export default {
       totalPages: 0,
       filters: {
         time: { value: { min: moment().subtract(7, 'days').set({hour:0,minute:0,second:0,millisecond:0}).format("YYYY-MM-DDTHH:mm:ss"), max: moment().add(1, 'days').set({hour:0,minute:0,second:0,millisecond:0}).format("YYYY-MM-DDTHH:mm:ss")}, custom: this.timeFilter }
-      }
+      },
+      selectedRows: []
     };
   },
   methods: {
@@ -179,6 +189,7 @@ export default {
       ClockCallback: function() {
         this.updateClockUser();
         this.refreshClock();
+        this.selectedRows = [];
 		  }
     },
     watch : {

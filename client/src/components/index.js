@@ -33,6 +33,7 @@ import WorkingTimeDelete from './WorkingTime/WorkingTimeDelete';
 
 import ClockCreate from './ClockHistory/ClockCreate';
 import ClockDelete from './ClockHistory/ClockDelete';
+import ClockDeleteAll from './ClockHistory/ClockDeleteAll';
 import ClockHistory from './ClockHistory/ClockHistory';
 import Clock from './ClockHistory/Clock';
 import {WorkingTimeList} from './WorkingTime';
@@ -66,6 +67,7 @@ export {
   WorkingTimeDelete,
   ClockCreate,
   ClockDelete,
+  ClockDeleteAll,
   ClockHistory,
   Clock,
   WorkingTimeList
