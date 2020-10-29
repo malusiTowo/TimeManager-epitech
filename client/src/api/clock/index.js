@@ -1,5 +1,5 @@
 import axios from 'axios'
-import moment from "moment";
+import moment from "moment-timezone";
 
 const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
 const baseUrl = `${host}/api/clocks`;
@@ -31,12 +31,12 @@ export const clock = async (userId) => {
 
 export const formatDateForApi = (date) => {
   if (date) {
-    return moment(date).format('YYYY-MM-DD HH:mm:ss');
+    return moment.tz(date, "Europe/Paris");
   }
 }
 
 export const clockForUser = async (userId, time, status) => {
-  time = formatDateForApi(time);
+  time = formatDateForApi(time).utc().format();
   try {
     const response = await axios.post(`${baseUrl}/`, { "userId" : userId,
       "clock" :{

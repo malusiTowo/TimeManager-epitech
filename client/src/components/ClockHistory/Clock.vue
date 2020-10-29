@@ -32,6 +32,9 @@ export default {
     };
   },
   methods: {
+    formatDate: function(date) {
+            return moment.tz(date, "Europe/Paris").format('YYYY MM DD, h:mm:ss a');
+        },
     async onClick(){
       try {
         this.userId = getUserFromLocalStorage().userId;
@@ -46,8 +49,8 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myFormatDate = new Date(this.myClock.time);
-        this.myDate = moment(myFormatDate).format('MM-DD-YYYY HH:mm:ss');
+        const myUTCdate = moment.utc(this.myClock.time);
+        this.myDate = myUTCdate.local().format('YYYY MM DD, h:mm:ss a');
       } catch (error) {
         console.log("error", error);
       }
@@ -55,7 +58,15 @@ export default {
     async updateClockUser(){
       try {
         const response = await getClockUser(this.userId);
-        this.myLastClock = response[(response.length -1)];
+        if(response){
+        
+          response.sort(function (a, b) {
+            return (a.time > b.time) ? 1 : -1;
+          });
+      
+          this.myLastClock = response.pop();
+        }
+        //this.myLastClock = response[(response.length -1)];
         if(this.myLastClock.status == true)
         {
           this.subTitle = "Clock-In";
@@ -65,8 +76,8 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myFormatDate = new Date(this.myLastClock.time);
-        this.myDate = moment(myFormatDate).format('MM-DD-YYYY HH:mm:ss');
+        const myUTCdate = moment.utc(this.myLastClock.time);
+        this.myDate = myUTCdate.local().format('YYYY MM DD, h:mm:ss a');
         
       } catch (error) {
         console.log("error", error);

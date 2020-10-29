@@ -35,8 +35,6 @@
           </clock-card>
         </b-col>
       </b-row>
-    </b-container>
-      
     <b-card no-body>
         <b-row class="mt-3 mr-3 mb-3 ml-3 float-right" > 
           <clock-create v-if="edit" v-on:event_child="ClockCallback" />
@@ -44,28 +42,27 @@
         
         <b-row class="mt-3 mr-3 mb-3 ml-3">
           <b-col> 
-            <div>
-              <td>
-              <label>Enter your filter</label></td>
-            <label>Min Date:</label>
+              <label for="name">Start Date</label>
               <input
-              type="datetime-local"
-              class="form-control"
-              id="dateStart"
-              placeholder="Date Start"
-              v-model="filters.time.value.min"
+                type="datetime-local"
+                class="form-control"
+                id="dateStart"
+                placeholder="Date Start"
+                v-model="filters.time.value.min"
               />
-            
-              <label>Max Date:</label>
+          </b-col>
+          <b-col>
+              <label for="name">End Date</label>
               <input
-              type="datetime-local"
-              class="form-control"
-              id="dateEnd"
-              placeholder="Date End"
-              v-model="filters.time.value.max"
-              width="auto"
+                  type="datetime-local"
+                  class="form-control"
+                  id="dateEnd"
+                  placeholder="Date End"
+                  v-model="filters.time.value.max"
+                  width="auto"
               />
-            </div>
+          </b-col>
+        </b-row>
               <v-table  :data="items" 
                         :currentPage.sync="currentPage"
                         :pageSize="10"
@@ -85,7 +82,7 @@
                     <td v-if="item.status == true">Clock-In</td>
                     <td v-else>Clock-Out</td>
                     <td>
-                      <clock-delete v-if="!edit" :clockId ="item.id" v-on:event_child="ClockCallback" />
+                      <clock-delete v-if="edit" :clockId ="item.id" v-on:event_child="ClockCallback" />
                     </td>
                   </tr>
                 </tbody>
@@ -99,7 +96,6 @@
       </b-card>
     </b-container>
 
-  </div>
   </div>
   
 </template>
@@ -149,7 +145,7 @@ export default {
       currentPage:1,
       totalPages: 0,
       filters: {
-        time: { value: { min: moment().subtract(7, 'days').set('hours', 7).set('minutes', 0).format("YYYY-MM-DDTHH:mm:ss"), max: moment().format("YYYY-MM-DDTHH:mm:ss")}, custom: this.timeFilter }
+        time: { value: { min: moment().subtract(7, 'days').set({hour:0,minute:0,second:0,millisecond:0}).format("YYYY-MM-DDTHH:mm:ss"), max: moment().add(1, 'days').set({hour:0,minute:0,second:0,millisecond:0}).format("YYYY-MM-DDTHH:mm:ss")}, custom: this.timeFilter }
       }
     };
   },
@@ -171,8 +167,8 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myFormatDate = new Date(this.myClock.time);
-        this.myDate = moment(myFormatDate).format('MM-DD-YYYY HH:mm:ss');
+        const myUTCdate = moment.utc(this.myClock.time);
+        this.myDate = myUTCdate.local().format('YYYY MM DD, h:mm:ss a');
       } catch (error) {
         console.log("error", error);
       }
@@ -180,7 +176,15 @@ export default {
     async updateClockUser(){
       try {
         const response = await getClockUser(this.userId);
-        this.myLastClock = response[(response.length -1)];
+        if(response){
+        
+          response.sort(function (a, b) {
+            return (a.time > b.time) ? 1 : -1;
+          });
+      
+          this.myLastClock = response.pop();
+        }
+        //this.myLastClock = response[(response.length -1)];
         if(this.myLastClock.status == true)
         {
           this.subTitle = "Clock-In";
@@ -190,15 +194,17 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myFormatDate = new Date(this.myLastClock.time);
-        this.myDate = moment(myFormatDate).format('MM-DD-YYYY HH:mm:ss');
+        const myUTCdate = moment.utc(this.myLastClock.time);
+        this.myDate = myUTCdate.local().format('YYYY MM DD, h:mm:ss a');
         this.refreshClock();
       } catch (error) {
         console.log("error", error);
       }
     },
     formatDate: function(date) {
-            return moment(date).format('YYYY MM DD, h:mm:ss a');
+            const myUTCdate = moment.utc(date);
+            const myLocaldate = myUTCdate.local().format('YYYY MM DD, h:mm:ss a');
+             return myLocaldate;
         },
 
       refreshClock: async function() {
