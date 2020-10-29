@@ -95,9 +95,7 @@ export const createUser = async (userName, email) => {
 }
 
 export const updateUser = async (userId, userName, email) => {
-  console.log(userId);  
-  console.log(userName);  
-  console.log(email);  
+
   try {
     const response = await axios.put(`${baseUrl}/${userId}`, {
       user: {

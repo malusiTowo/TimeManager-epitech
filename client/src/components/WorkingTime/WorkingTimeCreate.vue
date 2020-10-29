@@ -128,9 +128,9 @@ export default {
         this.errors.push("End date cannot be before Start date.");
         checker = false;
       }
-
-      if (!await checkValidDate(this.form)) {
-        this.errors.push("Error, date as been already taken.");
+       
+      if (checker && !await checkValidDate(this.form)) {
+        this.errors.push("Error, date as already been taken.");
         checker = false;
       }
 

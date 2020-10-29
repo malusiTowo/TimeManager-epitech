@@ -39,9 +39,6 @@ export const getWorkingTimesBetweenDates = async (userId, start, end) => {
 
   start = formatDateForApi(start);
   end = formatDateForApi(end);
-  console.log(start);
-  console.log(end);
-
   let workingTimes = null;
   try {
     const response = await axios.get(`${baseUrl}/${userId}?start=${start}&end=${end}`);
@@ -156,10 +153,29 @@ export const getTimesAndClocksForGraph = (clocks = [], times = []) => {
 
 export const checkValidDate = async (newDate) => {
   
-  let dates = await getWorkingTimesBetweenDates(newDate.idUser, "2000-10-19T23:58:52", "3000-10-19T23:00:00");
 
   const newStart = formatDateForApi(newDate.start);
   const newEnd = formatDateForApi(newDate.end);
+
+  const dateApiEnd = formatDateForApi(moment(newEnd).add(2, 'days'));
+  const dateApiStart = formatDateForApi(moment(newStart).subtract(2, 'days'));
+
+  let dates = await getWorkingTimesBetweenDates(newDate.idUser, dateApiStart, dateApiEnd);
+
+  //si c'est un update l'id est présent
+  if ('id' in newDate)
+  {
+    const oldWorkingTime = dates.find(x => x.id == newDate.id);
+
+    if(oldWorkingTime)
+    {
+      const index = dates.map(y => {
+        return y.Id;
+      }).indexOf(oldWorkingTime.id);
+
+      dates.splice(index, 1);
+    }
+  }
 
   for(const date of dates)  
   {

@@ -59,7 +59,7 @@
         </b-row> -->
         <v-table :data="items" 
         :currentPage.sync="currentPage"
-        :pageSize="5"
+        :pageSize="7"
         @totalPagesChanged="totalPages = $event"
         :filters="filters"
         class="table">
