@@ -54,6 +54,7 @@ This project uses JWT mechanism to authenticate users and to validate incoming r
 
 ## API
 
+All of the routes available can be found at this [link](https://documenter.getpostman.com/view/5244668/TVYKaGBh).
 
 ## Release History
 

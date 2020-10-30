@@ -1,4 +1,4 @@
-version: '3.6'
+version: "3.6"
 services:
   db:
     build:
@@ -11,7 +11,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     restart: always
     volumes:
-      - 'pgdata:/var/lib/postgresql/data'
+      - "pgdata:/var/lib/postgresql/data"
     networks:
       - time-manager
   server:
@@ -27,25 +27,25 @@ services:
     env_file:
       - .env
     ports:
-      - '4000:4000'
-    volumes:
-      - ./server:/server/app
+      - "4000:4000"
+    # volumes:
+    #   - ./server:/server/app
     networks:
       - time-manager
   client:
-      restart: always
-      build:
-        context: ./client
-        dockerfile: Dockerfile
-      networks:
-        - time-manager
-      environment:
-        ENV: PROD
-      depends_on:
-        - server
-        - db
-      ports:
-        - "80:8080"
+    restart: always
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    networks:
+      - time-manager
+    environment:
+      ENV: PROD
+    depends_on:
+      - server
+      - db
+    ports:
+      - "80:8080"
 volumes:
   pgdata:
 networks:

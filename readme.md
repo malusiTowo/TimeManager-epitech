@@ -4,6 +4,8 @@
 
 [![Heroku Deployment](https://github.com/malusiTowo/TimeManager-epitech/workflows/heroku-deployment/badge.svg)](https://github.com/malusiTowo/TimeManager-epitech/actions)
 
+[![Tests](https://github.com/malusiTowo/TimeManager-epitech/workflows/CI/badge.svg)](https://github.com/malusiTowo/TimeManager-epitech/actions)
+
 
 
 ## Scripts

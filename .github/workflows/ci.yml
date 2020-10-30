@@ -27,31 +27,9 @@ jobs:
         working-directory: ./server
       - run: mix deps.compile
         working-directory: ./server
-      # - run: cd assets && yarn install --frozen-lockfile
       - name: Run tests
         run: mix test ./test/api
         working-directory: ./server
         env:
           DB_PASSWORD: postgres
           DB_HOST: postgres
-  # tests:
-  #   runs-on: ubuntu-latest
-  #   name: Run tests on server project OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-  #   strategy:
-  #     matrix:
-  #       otp: ['20.3', '21.3', '22.2']
-  #       elixir: ['1.8.2', '1.9.4']
-  #   steps:
-  #     - name: "Checkout Code"
-  #       uses: actions/checkout@v2
-  #     - uses: actions/setup-elixir@v1
-  #       name: "Setup Elixir environment"
-  #       with:
-  #         otp-version: ${{matrix.otp}}
-  #         elixir-version: ${{matrix.elixir}}
-  #     - name: "Install dependencies"
-  #       run: mix deps.get
-  #       working-directory: ./server
-  #     - name: "Run test suite"
-  #       run: mix test /test/api
-  #       working-directory: ./server
