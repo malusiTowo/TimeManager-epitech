@@ -33,6 +33,17 @@ export const getUserFromLocalStorage = () => {
   }
 }
 
+export const getUserId = () => {
+  
+  let id = null;
+
+  if (id = getUserFromLocalStorage()['user']['id'])
+    return id;
+  else
+    return "";
+
+}
+
 
 export const getUsers = async () => {
   try {

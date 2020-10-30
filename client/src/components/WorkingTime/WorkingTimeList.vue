@@ -74,7 +74,7 @@
   import axios from 'axios';
 
   import {getWorkingTimesBetweenDates, formatDateForApi,formatDateFromApi} from '@/api/workingtime';
-  import {getUserFromLocalStorage} from '@/api/user';
+  import {getUserFromLocalStorage, getUserId} from '@/api/user';
 
   import SmartTable from 'vuejs-smart-table';
 
@@ -86,6 +86,7 @@
       WorkingTimeUpdate,
       WorkingTimeDelete
     },
+
     props: {
       edit: {
         type: Boolean,
@@ -93,16 +94,17 @@
       },
       userId: {
         type: [String, Number],
-        default: getUserFromLocalStorage()['user']['id']
+        default: getUserId()
       }
     },
+
     data() {
       return {
         filters: {
           date: { 
             value: { 
-              end: moment().add('days', 7).format('YYYY-MM-DDTHH:mm:ss'), 
-              start: moment().format('YYYY-MM-DDTHH:mm:ss')
+              end: moment(moment().add('days', 7).format('YYYY-MM-DD')).format('YYYY-MM-DDTHH:mm:ss'), 
+              start: moment(moment().format('YYYY-MM-DD')).format('YYYY-MM-DDTHH:mm:ss')
             }, 
             custom: this.dateFilter }
         },
