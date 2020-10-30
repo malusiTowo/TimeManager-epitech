@@ -71,8 +71,6 @@ defmodule Api.Clocks do
   def getClocksForUser(userId) do
     query = from(w in Clock, where: w.user == ^userId)
     query |> last(:time) |> Repo.one
-    #query |> order_by(desc: :time)|> Repo.one
-    #limit: 1
     # Repo.get_by(Clock, user: userId)
   end
 
