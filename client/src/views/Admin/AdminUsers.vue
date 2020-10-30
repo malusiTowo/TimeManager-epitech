@@ -1,71 +1,103 @@
 <template>
-	<div>
-	<base-header class="pb-6 pb-8 pt-5 pt-md-8 bg-gradient-success">
-	</base-header>
+  <div>
+    <base-header class="pb-6 pb-8 pt-5 pt-md-8 bg-gradient-success">
+    </base-header>
 
-	<b-container fluid class="mt--7">
+    <b-container fluid class="mt--7">
+      <b-card>
+        <b-card-body class="px-lg-5 py-lg-5">
+          <div class="text-center mb-2">
+            <h1>Admin Users</h1>
+          </div>
+        </b-card-body>
 
-	<b-card>
-		<b-card-body class="px-lg-5 py-lg-5">
-			<div class="text-center mb-2">
-				<h1>Admin Users</h1>
-			</div>
-		</b-card-body>
-
-		<b-row class="mt-3 mr-3 ml-3 mb-4" >
-			<b-col>
-				<create-employee />
-			</b-col>
-			<b-col>
-				<!-- Search bar  -->
-				Search bar
-			</b-col>
-		</b-row>
-
-		<b-row class="mt-3 mr-3 mb-3 ml-3">
-		  <b-col>  
-			  <table class="table">
-				<thead>
-				  <tr>
-					<th>Firstname</th>
-					<th>Lastname</th>
-					<th>Mail</th>
-					<th>Role</th>
-					<th></th>
-					<th></th>
-				  </tr>
-				</thead>
-				<tbody>
-				  <tr>
-					  <!-- <tr v-for="item in items" v-bind:key = item.id> -->
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<!-- Add buttons -->
-					<td>See infos</td>
-					<td>See graphs</td>
-				  </tr>
-				</tbody>
-			  </table>
-		  </b-col>
-		</b-row>
-	  </b-card>
-
-	</b-container>
-	</div>
+        <b-row class="mt-3 mr-3 ml-3 mb-4">
+          <b-col>
+            <create-employee />
+          </b-col>
+          <b-col>
+            <!-- <label>Search...</label> -->
+            <input
+              class="form-control"
+              v-model="filters.name.value"
+              placeholder="Search employee"
+              aria-label="Search"
+            />
+            <!-- <i class="fas fa-search"></i> -->
+          </b-col>
+        </b-row>
+        <b-row class="mt-3 mr-3 mb-3 ml-3">
+          <b-col>
+            <v-table class="table" :data="users" :filters="filters">
+              <thead slot="head">
+                <!-- <tr> -->
+                <v-th sortKey="username" defaultSort="asc">Username</v-th>
+                <!-- <v-th sortKey="firstname">Firstname</v-th>
+                <v-th sortKey="lastname">Lastname</v-th> -->
+                <v-th sortKey="email">Email</v-th>
+                <v-th sortKey="role">Role</v-th>
+                <th></th>
+                <th></th>
+                <!-- </tr> -->
+              </thead>
+              <!-- displayData is a copy of the users array pass in v-table :data -->
+              <tbody slot="body" slot-scope="{ displayData }">
+                <tr v-for="user in displayData" v-bind:key="user.id">
+                  <td>{{ user.username }}</td>
+                  <!-- <td>{{ user.firstname }}</td>
+									<td>{{ user.lastname }}</td> -->
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.role }}</td>
+                  <!-- Add buttons -->
+                  <!-- Passer l'id du user pour les boutons -->
+                  <td>See infos</td>
+                  <td>See graphs</td>
+                </tr>
+              </tbody>
+            </v-table>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-container>
+  </div>
 </template>
 
 <script>
-	import CreateEmployee from '../../components/Admin/CreateEmployee';
+import CreateEmployee from "../../components/Admin/CreateEmployee";
 
-	export default {
-		components: {
-			CreateEmployee
-		}
-	}
+import getUsers from "@/api/user";
+
+export default {
+  data() {
+    return {
+      // Fake infos to test replace by users: [],
+      users: [
+        {
+          username: "Test",
+          email: "test@test.fr",
+          role: "Employee",
+        },
+        {
+          username: "Toto",
+          email: "toto@toto.fr",
+          role: "Manager",
+        },
+        {
+          username: "Tati",
+          email: "tati@tati.fr",
+          role: "Employee",
+        },
+      ],
+      filters: {
+        name: { value: "", keys: ["username", "email", "role"] },
+      },
+    };
+  },
+  components: {
+    CreateEmployee,
+  },
+};
 </script>
 
 <style>
-
 </style>

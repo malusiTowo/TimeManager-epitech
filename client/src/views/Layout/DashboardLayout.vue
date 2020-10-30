@@ -49,7 +49,7 @@
           :link="{
             name: 'Admin Users',
             path: '/adminUsers',
-            icon: 'ni ni-collection',
+            icon: 'ni ni-settings',
           }"
         >
         </sidebar-item>

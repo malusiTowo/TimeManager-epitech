@@ -64,8 +64,8 @@
   import { WorkingTimeCreate, WorkingTimeUpdate, WorkingTimeDelete } from '@/components';
   import axios from 'axios';
 
-  import {getWorkingTimesBetweenDates} from '@/api/workingtime';
-  import {getUsers} from '@/api/user';
+  import { getWorkingTimesBetweenDates } from '@/api/workingtime';
+  import { getUsers } from '@/api/user';
 
   export default {
     components: {

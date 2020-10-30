@@ -12,6 +12,13 @@
           <base-input
             alternative
             type="text"
+            placeholder="Username"
+            prepend-icon="ni ni-single-02"
+          >
+          </base-input>
+          <base-input
+            alternative
+            type="text"
             placeholder="Firstname"
             prepend-icon="ni ni-badge"
           >
@@ -30,6 +37,13 @@
             prepend-icon="ni ni-email-83"
           >
           </base-input>
+          <base-input
+            alternative
+            class="mb-3"
+            placeholder="Role"
+            prepend-icon="ni ni-key-25"
+          >
+          </base-input>
           <!-- <base-input alternative
                                     
                                     type="password"
@@ -38,6 +52,11 @@
                         </base-input> -->
         </b-form>
       </template>
+			<!-- Modify the footer -->
+      <!-- <template slot="footer">
+        <b-button slot="modal-ok" type="primary">Create</b-button>
+        <b-button type="modal-cancel">Close</b-button>
+      </template> -->
     </b-modal>
   </div>
 </template>
