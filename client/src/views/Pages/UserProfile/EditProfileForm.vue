@@ -40,13 +40,13 @@
 </template>
 <script>
 
-import {getUserFromLocalStorage, updateUser, getUserById} from "@/api/user";
+import {getUserFromLocalStorage, updateUser, getUserById, getUserId} from "@/api/user";
 
 export default {
   props: {
     userId: {
       type: [String, Number],
-      default: getUserFromLocalStorage()['user']['id']
+      //default: getUserId()
     }
   },
   data() {

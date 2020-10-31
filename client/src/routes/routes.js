@@ -27,7 +27,7 @@ const routes = [
       //   component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
       // },
       {
-        path: '/profile',
+        path: '/profile/:userId',
         name: 'profile',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/UserProfile.vue'),
         meta: {
@@ -49,7 +49,7 @@ const routes = [
         }
       },
       {
-        path: '/workingtime',
+        path: '/workingtime/:userId',
         name: 'workingtime',
         component: () => import(/* webpackChunkName: "demo" */ '../views/WorkingTime.vue'),
         props: true,

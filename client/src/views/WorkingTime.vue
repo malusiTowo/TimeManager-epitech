@@ -29,7 +29,7 @@
 
       <b-row>
         <b-col xl="12" md="12">
-          <WorkingTimeList />
+          <WorkingTimeList v-bind:userId="userId" />
         </b-col>
       </b-row>
     </b-container>
@@ -39,19 +39,23 @@
 <script>
 
   import {WorkingTimeList} from '@/components'
-
+  import {getUserId} from '@/api/user';
+  
   export default {
     components: {
       WorkingTimeList
     },
     data() {
       return {
+        userId: this.$route.params.userId
       };
     },
     methods: {
     },
     mounted() {
-    }
+
+    },
+
   };
 </script>
 <style>

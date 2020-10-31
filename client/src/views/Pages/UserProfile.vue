@@ -29,7 +29,7 @@
 
       <b-row>
         <b-col xl="12" md="12">
-          <EditProfileForm @user_emit="updateUser" />
+          <EditProfileForm v-bind:userId="userId" @user_emit="updateUser" />
         </b-col>
       </b-row>
 
@@ -39,7 +39,7 @@
         </b-col>
 
         <b-col xl="12" md="12">
-          <WorkingTimeList edit :userId="userId" />
+          <WorkingTimeList edit v-bind:userId="userId" />
         </b-col>
       </b-row> 
 
@@ -57,21 +57,16 @@
 
   import EditProfileForm from "./UserProfile/EditProfileForm.vue";
   import {WorkingTimeList} from '@/components';
-  import {getUsers, getUserFromLocalStorage, getUserById} from '@/api/user';
+  import {getUsers, getUserFromLocalStorage, getUserById, getUserId} from '@/api/user';
 
   export default {
-    props: {
-      userId: { 
-        type: [String, Number],
-        default: getUserFromLocalStorage()['user']['id']
-      }
-    },
     components: { 
       EditProfileForm,
       WorkingTimeList
     },
     data() {
       return {
+        userId : this.$route.params.userId,
         role : true,
         user: {
           username: null,

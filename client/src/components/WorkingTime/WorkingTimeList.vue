@@ -94,7 +94,7 @@
       },
       userId: {
         type: [String, Number],
-        default: getUserId()
+        //default: getUserId()
       }
     },
 
