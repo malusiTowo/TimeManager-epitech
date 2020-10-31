@@ -140,7 +140,8 @@ export default {
         await createWorkingTimeForUser(
           this.selectedUser,
           this.form.start,
-          this.form.end
+          this.form.end,
+          console.log(this.selectedUser + " " + this.form.start + " "+ this.form.end)
         );
         this.$emit("event_child");
         this.modals.create = false;

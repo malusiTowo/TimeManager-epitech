@@ -63,39 +63,26 @@
 </template>
 
 <script>
-import CreateEmployee from "../../components/Admin/CreateEmployee";
-
-import getUsers from "@/api/user";
+import CreateEmployee from "@/components/Admin/CreateEmployee";
+import { getUsers } from "@/api/user";
 
 export default {
   data() {
     return {
-      // Fake infos to test replace by users: [],
-      users: [
-        {
-          username: "Test",
-          email: "test@test.fr",
-          role: "Employee",
-        },
-        {
-          username: "Toto",
-          email: "toto@toto.fr",
-          role: "Manager",
-        },
-        {
-          username: "Tati",
-          email: "tati@tati.fr",
-          role: "Employee",
-        },
-      ],
+      users: [],
       filters: {
         name: { value: "", keys: ["username", "email", "role"] },
       },
     };
   },
-  components: {
-    CreateEmployee,
+  methods: {
+    getUsersList() {
+      this.users = getUsers();
+    }
   },
+  components: {
+    CreateEmployee
+  }
 };
 </script>
 
