@@ -33,7 +33,7 @@
         <sidebar-item
           :link="{
             name: 'Profile',
-            path: '/profile',
+            path: `/profile/${this.userId}`,
             icon: 'ni ni-single-02 text-yellow',
           }"
         >
@@ -41,7 +41,7 @@
         <sidebar-item
           :link="{
             name: 'Working Time',
-            path: '/workingtime',
+            path: `/workingtime/${this.userId}`,
             icon: 'ni ni-calendar-grid-58 text-yellow',
           }"
         >
