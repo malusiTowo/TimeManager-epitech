@@ -50,3 +50,7 @@ export const adminClockUserIn = async (userId, status, time) => {
   }
 }
 
+export const deleteClockForUser = (id) => { }
+
+
+export const clockForUser = () => { }

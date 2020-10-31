@@ -23,7 +23,7 @@
     <b-container fluid class="mt--9">
       <b-row>
         <b-col xl="12" md="12">
-          <h1> Working Times </h1>
+          <h1>Working Times</h1>
         </b-col>
       </b-row>
 
@@ -33,26 +33,21 @@
         </b-col>
       </b-row>
     </b-container>
-
   </div>
 </template>
 <script>
+import { WorkingTimeList } from "@/components";
 
-  import {WorkingTimeList} from '@/components'
-
-  export default {
-    components: {
-      WorkingTimeList
-    },
-    data() {
-      return {
-      };
-    },
-    methods: {
-    },
-    mounted() {
-    }
-  };
+export default {
+  components: {
+    WorkingTimeList,
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+  mounted() {},
+};
 </script>
 <style>
 </style>

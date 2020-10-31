@@ -23,7 +23,7 @@
     <b-container fluid class="mt--9">
       <b-row>
         <b-col xl="12" md="12">
-          <h1> {{user.username}} </h1>
+          <h1>{{ user.username }}</h1>
         </b-col>
       </b-row>
 
@@ -33,9 +33,9 @@
         </b-col>
       </b-row>
 
-      <b-row class ="mt-4">
+      <b-row class="mt-4">
         <b-col xl="12" md="12">
-          <h1> Working Times </h1>
+          <h1>Working Times</h1>
         </b-col>
       </b-row>
 
@@ -43,11 +43,11 @@
         <b-col xl="12" md="12">
           <WorkingTimeList edit :userId="userId" />
         </b-col>
-      </b-row>  
+      </b-row>
 
-      <b-row class ="mt-4">
+      <b-row class="mt-4">
         <b-col xl="12" md="12">
-          <h1> Clocks History </h1>
+          <h1>Clocks History</h1>
         </b-col>
       </b-row>
 
@@ -55,47 +55,47 @@
         <b-col xl="12" md="12">
           <ClockHistory edit :userId="userId" />
         </b-col>
-      </b-row>  
+      </b-row>
     </b-container>
-
   </div>
 </template>
 <script>
+import EditProfileForm from "./UserProfile/EditProfileForm.vue";
+import { WorkingTimeList, ClockHistory } from "@/components";
+import { getUsers, getUserFromLocalStorage, getUserById } from "@/api/user";
 
-  import EditProfileForm from "./UserProfile/EditProfileForm.vue";
-  import {WorkingTimeList, ClockHistory} from '@/components';
-  import {getUsers, getUserFromLocalStorage, getUserById} from '@/api/user';
-
-  export default {
-    props: {
-      userId: { 
-        type: [String, Number],
-        default: getUserFromLocalStorage()['user']['id']
-      }
+export default {
+  props: {
+    userId: {
+      type: [String, Number],
+      default: getUserFromLocalStorage().userId
+        ? getUserFromLocalStorage().userId
+        : "",
     },
-    components: { 
-      EditProfileForm,
-      WorkingTimeList,
-      ClockHistory
+  },
+  components: {
+    EditProfileForm,
+    WorkingTimeList,
+    ClockHistory,
+  },
+  data() {
+    return {
+      user: {
+        username: null,
+        id: null,
+        email: null,
+      },
+    };
+  },
+  methods: {
+    updateUser(user) {
+      this.user = user;
     },
-    data() {
-      return {
-        user: {
-          username: null,
-          id: null,
-          email: null
-        }
-      };
-    },
-    methods: {
-      updateUser(user) {
-        this.user = user;
-      }
-    },
-    async mounted() {
-      this.user = await getUserById(this.userId);
-    }
-  };
+  },
+  async mounted() {
+    this.user = await getUserById(this.userId);
+  },
+};
 </script>
 <style>
 </style>

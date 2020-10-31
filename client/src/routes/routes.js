@@ -60,6 +60,15 @@ const routes = [
           requiresAuth: true
         }
       },
+      {
+        path: '/adminUsers',
+        name: 'adminUsers',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Admin/AdminUsers.vue'),
+        props: true,
+        meta: {
+          requiresAuth: true
+        }
+      }
       // {
       //   path: '/maps',
       //   name: 'maps',

@@ -120,3 +120,5 @@ export const deleteUser = userId => {
   axios.delete(`${baseUrl}/${userId}`, { headers: buildHeaders() });
   removeUserFromLocalStorage();
 };
+
+export const getUserById = id => { }
