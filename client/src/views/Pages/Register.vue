@@ -78,6 +78,11 @@
                     v-model="model.password"
                   >
                   </base-input>
+                  <b-form-text id="password-help-block">
+                    The password must be at least 8 characters long, contain
+                    letters and numbers, and must not contain spaces, special
+                    characters, or emoji.
+                  </b-form-text>
 
                   <div class="text-center">
                     <b-button type="submit" variant="primary" class="mt-4"

@@ -2,17 +2,17 @@
   <div>
     <b-button @click="modalShow = true">Create Employee</b-button>
 
-    <b-modal v-model="modalShow" title="Create Employee">
+    <b-modal size="lg" v-model="modalShow" title="Create Employee">
       <div class="text-center mb-4">
         <p>Please fill all the information below to create a new employee</p>
       </div>
-
-      <b-alert v-if="errors.length" show variant="warning">
+<!-- A retravailler -->
+      <!-- <b-alert v-if="errors.length" show variant="warning">
         <b>Please correct the following error(s):</b>
         <ul>
           <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
         </ul>
-      </b-alert>
+      </b-alert> -->
 
       <b-form
         id="createEmployee"
@@ -72,6 +72,25 @@
           >
           </base-input>
         </b-form-group>
+
+        <b-form-group label="Password">
+          <base-input
+            alternative
+            id="password"
+            name="password"
+            type="password"
+            v-model="form.password"
+            :rules="{ required: true }"
+            placeholder="Password"
+            prepend-icon="ni ni-lock-circle-open"
+          >
+          </base-input>
+          <b-form-text id="password-help-block">
+            The password must be at least 8 characters long, contain letters and
+            numbers, and must not contain spaces, special characters, or emoji.
+          </b-form-text>
+        </b-form-group>
+
         <b-form-group label="Role">
           <base-input>
             <b-form-select
@@ -83,26 +102,15 @@
             </b-form-select>
           </base-input>
         </b-form-group>
-
-        <!-- <b-form-group label="Password">
-            <base-input
-              alternative
-              id="password"
-              name="password"
-              type="password"
-              v-model="form.password"
-              :rules="{ required: true }"
-              placeholder="Password"
-              prepend-icon="ni ni-lock-circle-open"
-            >
-            </base-input>
-          </b-form-group> -->
       </b-form>
       <template #modal-footer>
         <b-button variant="danger" v-on:click="onCancel" type="reset">
           Cancel
         </b-button>
-        <b-button v-on:click="onSubmit" :disabled="disabledCreate"> Create </b-button>
+        <b-button v-on:click="onSubmit" >
+          <!-- <b-button v-on:click="onSubmit" :disabled="disabledCreate"> -->
+          Create
+        </b-button>
       </template>
     </b-modal>
   </div>
@@ -123,6 +131,7 @@ export default {
       form: {
         username: "",
         email: "",
+        password: ""
       },
       // data for the select
       selected: null,
@@ -137,7 +146,7 @@ export default {
   methods: {
     checkForm() {
       this.errors = [];
-      if (this.form.username && this.form.email) {
+      if (this.form.username && this.form.email && this.form.password) {
         this.disabledCreate = false;
         return true;
       }
@@ -151,6 +160,11 @@ export default {
         this.disabledCreate = true;
         return false;
       }
+      if (!this.form.password) {
+        this.errors.push("Password is required.");
+        this.disabledCreate = true;
+        return false;
+      }
     },
     async onSubmit() {
       if (!this.checkForm()) {
@@ -159,9 +173,8 @@ export default {
       }
       try {
         // add an user creation confirmation
-        await signup(this.form.username, this.form.email, "password");
-        console.log(this.form.username + " " + this.form.email);
-        // this.$emit("event_child");
+        await signup(this.form.username, this.form.email, this.form.password);
+        //this.$emit("event_child");
         this.modalShow = false;
         this.form.username = "";
         this.form.email = "";
