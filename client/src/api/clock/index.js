@@ -50,7 +50,36 @@ export const adminClockUserIn = async (userId, status, time) => {
   }
 }
 
-export const deleteClockForUser = (id) => { }
+export const deleteClockForUser = async (clockId) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/${clockId}`, {
+      headers: buildHeaders()
+    })
+    return response.data.data;
+  } catch (err) {
+    console.log("err", err);
+  }
+
+}
 
 
-export const clockForUser = () => { }
+export const clockForUser = async (userId, time, status) => {
+  time = formatDateForApi(time).utc().format();
+  try {
+    const response = await axios.post(`${baseUrl}/`, {
+      "userId": userId,
+      "clock": {
+        "time": time,
+        "status": status
+      }
+    },
+      {
+        headers: buildHeaders()
+      }
+    );
+    return response;
+  } catch (err) {
+    console.log("err", err);
+  }
+  return {};
+}
