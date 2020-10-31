@@ -36,7 +36,7 @@ import ClockDelete from './ClockHistory/ClockDelete';
 import ClockDeleteAll from './ClockHistory/ClockDeleteAll';
 import ClockHistory from './ClockHistory/ClockHistory';
 import Clock from './ClockHistory/Clock';
-import {WorkingTimeList} from './WorkingTime';
+import { WorkingTimeList } from './WorkingTime';
 
 export {
   BaseCheckbox,

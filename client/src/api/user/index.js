@@ -44,6 +44,18 @@ export const getUserFromLocalStorage = () => {
   }
 }
 
+export const getUserId = () => {
+
+  let id = null;
+
+
+  if (id = getUserFromLocalStorage()['user']['id'])
+    return id;
+  else
+    return "";
+
+}
+
 
 export const getUsers = async () => {
   try {
@@ -121,4 +133,9 @@ export const deleteUser = userId => {
   removeUserFromLocalStorage();
 };
 
-export const getUserById = id => { }
+export const getUserById = async userId => {
+  const response = await axios.get(`${baseUrl}/${userId}`, { headers: buildHeaders() });
+  return response.data.data
+};
+
+

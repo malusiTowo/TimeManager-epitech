@@ -17,6 +17,34 @@ export const formatDateForApi = (date) => {
   }
 }
 
+export const utcFormatDateForApi = (date) => {
+  if (date) {
+    return date.utc().format('YYYY-MM-DD HH:mm:ss');
+  }
+}
+
+export const localFormatDateForApi = (date, formatDate) => {
+  if (date) {
+    return date.local().format(formatDate);
+  }
+}
+
+export const momentLocal = (date) => {
+  if (date) {
+    return moment(date);
+  }
+}
+
+export const momentUtc = (date) => {
+  if (date) {
+    return moment.utc(date);
+  }
+}
+
+export const formatDateFromApi = (date, formatDate) => {
+  return localFormatDateForApi(momentUtc(date), formatDate);
+}
+
 export const getDiffHours = (start, end) => {
   const duration = moment.duration(moment(end).diff(moment(start)));
   return duration.asHours();
@@ -38,16 +66,14 @@ export const getWorkingTimesForUserIdAndWorkingId = async (userId, workingId) =>
 export const getWorkingTimesBetweenDates = async (userId, start, end) => {
 
 
-  start = formatDateForApi(start);
-  end = formatDateForApi(end);
-  //console.log(start);
-  //console.log(end);
+  start = utcFormatDateForApi(momentLocal(start));
+  end = utcFormatDateForApi(momentLocal(end));
+
 
   let workingTimes = null;
   try {
     const response = await axios.get(`${baseUrl}/${userId}?start=${start}&end=${end}`, { headers: buildHeaders() });
-    const workingTimes = response.data.data;
-    return workingTimes;
+    workingTimes = response.data.data;
   } catch (err) {
     console.log("err", err);
   }
@@ -76,8 +102,10 @@ export const deleteWorkingTime = async (workingId) => {
 }
 
 export const updateWorkingTime = async (workingId, start, end) => {
-  start = formatDateForApi(start);
-  end = formatDateForApi(end);
+
+  start = utcFormatDateForApi(momentLocal(start));
+  end = utcFormatDateForApi(momentLocal(end));
+
   try {
     const response = await axios.put(`${baseUrl}/${workingId}`, {
       workingtimes: {
@@ -97,8 +125,9 @@ export const updateWorkingTime = async (workingId, start, end) => {
 }
 
 export const createWorkingTimeForUser = async (userId, start, end) => {
-  start = formatDateForApi(start);
-  end = formatDateForApi(end);
+
+  start = utcFormatDateForApi(momentLocal(start));
+  end = utcFormatDateForApi(momentLocal(end));
 
   try {
     const response = await axios.post(`${baseUrl}/${userId}`, {
@@ -166,14 +195,31 @@ export const getTimesAndClocksForGraph = (clocks = [], times = []) => {
 
 export const checkValidDate = async (newDate) => {
 
-  let dates = await getWorkingTimesBetweenDates(newDate.idUser, "2000-10-19T23:58:52", "3000-10-19T23:00:00");
+  const newStart = utcFormatDateForApi(momentLocal(newDate.start));
+  const newEnd = utcFormatDateForApi(momentLocal(newDate.end));
 
-  const newStart = formatDateForApi(newDate.start);
-  const newEnd = formatDateForApi(newDate.end);
+  const dateApiEnd = utcFormatDateForApi(momentUtc(newEnd).add(2, 'days'));
+  const dateApiStart = utcFormatDateForApi(momentUtc(newStart).subtract(2, 'days'));
+
+
+  let dates = await getWorkingTimesBetweenDates(newDate.idUser, dateApiStart, dateApiEnd);
+
+  //si c'est un update l'id est présent
+  if ('id' in newDate) {
+    const oldWorkingTime = dates.find(x => x.id == newDate.id);
+
+    if (oldWorkingTime) {
+      const index = dates.map(y => {
+        return y.Id;
+      }).indexOf(oldWorkingTime.id);
+
+      dates.splice(index, 1);
+    }
+  }
 
   for (const date of dates) {
-    const start = formatDateForApi(date.start);
-    const end = formatDateForApi(date.end);
+    const start = utcFormatDateForApi(momentUtc(date.start));
+    const end = utcFormatDateForApi(momentUtc(date.end));
 
     //check start date
     if (moment(newStart).isAfter(start) && moment(newStart).isBefore(end)) {
@@ -187,5 +233,4 @@ export const checkValidDate = async (newDate) => {
 
   }
   return true;
-
 }

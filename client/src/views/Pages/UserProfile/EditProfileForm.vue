@@ -45,7 +45,9 @@ export default {
   props: {
     userId: {
       type: [String, Number],
-      default: getUserFromLocalStorage()["user"]["id"],
+      default: getUserFromLocalStorage().userId
+        ? getUserFromLocalStorage().userId
+        : "",
     },
   },
   data() {

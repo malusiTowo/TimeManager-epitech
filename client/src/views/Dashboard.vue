@@ -26,26 +26,21 @@
         </b-col>
       </b-row>
     </b-container>
-
   </div>
 </template>
 <script>
+import Clock from "./Clock/Clock";
 
-  import Clock from './Clock/Clock';
-
-  export default {
-    components: {
-      Clock
-    },
-    data() {
-      return {
-      };
-    },
-    methods: {
-    },
-    mounted() {
-    }
-  };
+export default {
+  components: {
+    Clock,
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+  mounted() {},
+};
 </script>
 <style>
 </style>
