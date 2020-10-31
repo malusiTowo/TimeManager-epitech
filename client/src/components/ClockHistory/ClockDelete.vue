@@ -1,15 +1,17 @@
 <template>
-  <div>
+  <div style="text-align: center;">
     <b-button
       @click="
         modals.delete = true;
         errors = [];
       "
       variant="danger"
-      >Delete</b-button
+      >
+      <i class="fas fa-trash-alt" style="font-size: x-small;"></i>
+      </b-button
     >
 
-    <b-modal v-model="modals.delete" title="Delete working time">
+    <b-modal v-model="modals.delete" title="Delete clock">
       <b-alert show variant="danger" v-if="errors.length">
         <p v-for="error in errors" v-bind:key="error">
           <strong>{{ error }}</strong>
@@ -17,9 +19,9 @@
       </b-alert>
       <b-container fluid>
         <b-col xl="12" md="12">
-          <h3>Are you sure do you want to delete this working time?</h3>
+          <h3>Are you sure do you want to delete this clock?</h3>
         </b-col>
-      </b-container>  
+      </b-container>
       <template #modal-footer>
         <b-button
           variant="primary"
@@ -31,7 +33,7 @@
         <b-button
           variant="danger"
           class="float-right"
-          @click="DeleteWorkingTime"
+          @click="DeleteClock"
         >
           Delete
         </b-button>
@@ -42,12 +44,12 @@
 <script>
 import axios from "axios";
 import Vue from "vue";
-import { deleteWorkingTime } from "../../api/workingtime";
+import { deleteClockForUser } from "../../api/clock";
 
 export default {
-  name: "working-time-delete",
+  name: "clock-delete",
   props: {
-    wtId: [Number, String],
+    clockId: [Number, String],
   },
   data() {
     return {
@@ -58,14 +60,14 @@ export default {
     };
   },
   methods: {
-    async DeleteWorkingTime() {
+    async DeleteClock() {
       this.errors = [];
-
-      if (await deleteWorkingTime(this.wtId)) {
+      try {
+        await deleteClockForUser(this.clockId);
         this.$emit("event_child");
         this.modals.delete = false;
-      } else {
-        this.errors.push("Working time not found.");
+      } catch (err) {
+        this.errors.push("Clock not found.");
       }
     },
   },

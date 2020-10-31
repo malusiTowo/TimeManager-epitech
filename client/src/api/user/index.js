@@ -102,9 +102,13 @@ export const updateUser = async (userId, username, email) => {
       }
     )
 
-    const updatedUser = response.data.data;
-    setUserToLocalStorage(updatedUser, updatedUser.id)
+    if (getUserFromLocalStorage()['user']['id'] == userId) {
+      const updatedUser = response.data.data;
+      setUserToLocalStorage(updatedUser, updatedUser.id)
+    }
+
     return true;
+
   } catch (err) {
     console.log("err", err);
     return false;

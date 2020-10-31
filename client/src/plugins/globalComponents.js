@@ -15,6 +15,7 @@ import BaseNav from "@/components/Navbar/BaseNav";
 import BaseHeader from '@/components/BaseHeader';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { Input, Tooltip, Popover } from 'element-ui';
+import SmartTable from 'vuejs-smart-table'
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
  */
@@ -41,6 +42,7 @@ const GlobalComponents = {
     Vue.component('validation-observer', ValidationObserver)
     Vue.use(Tooltip);
     Vue.use(Popover);
+    Vue.use(SmartTable);
   }
 };
 

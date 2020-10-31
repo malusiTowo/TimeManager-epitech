@@ -45,7 +45,7 @@ const routes = [
       {
         path: '/clock/:username',
         name: 'clock',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Clock/Clock.vue'),
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Clock/ClockHistory.vue'),
         props: true,
         meta: {
           requiresAuth: true

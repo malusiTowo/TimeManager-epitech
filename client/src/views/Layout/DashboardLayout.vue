@@ -14,9 +14,18 @@
 
         <sidebar-item
           :link="{
+            name: 'Dashboard',
+            path: '/dashboard',
+            icon: 'ni ni-tv-2 text-yellow',
+          }"
+        >
+        </sidebar-item>
+
+        <sidebar-item
+          :link="{
             name: 'Chart Manager',
             path: `/chartManager/${this.userId}`,
-            icon: 'ni ni-planet text-blue',
+            icon: 'ni ni-planet text-yellow',
           }"
         >
         </sidebar-item>
@@ -33,7 +42,7 @@
           :link="{
             name: 'Working Time',
             path: '/workingtime',
-            icon: 'ni ni-calendar-grid-58 text-black',
+            icon: 'ni ni-calendar-grid-58 text-yellow',
           }"
         >
         </sidebar-item>
@@ -41,7 +50,7 @@
           :link="{
             name: 'Clock',
             path: '/clock/:username',
-            icon: 'ni ni-single-02 text-blue',
+            icon: 'ni ni-watch-time text-yellow',
           }"
         >
         </sidebar-item>

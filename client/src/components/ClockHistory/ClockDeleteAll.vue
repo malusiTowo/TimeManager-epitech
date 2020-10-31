@@ -1,15 +1,19 @@
 <template>
-  <div>
+  <div style="text-align: right;">
     <b-button
       @click="
         modals.delete = true;
         errors = [];
       "
       variant="danger"
-      >Delete</b-button
+      style=" border-radius: 30%;
+              width: 5em;
+              height: 5em;">
+      <i class="fas fa-trash-alt" style="font-size: x-large;"></i>
+      </b-button
     >
 
-    <b-modal v-model="modals.delete" title="Delete working time">
+    <b-modal v-model="modals.delete" title="Delete all clock">
       <b-alert show variant="danger" v-if="errors.length">
         <p v-for="error in errors" v-bind:key="error">
           <strong>{{ error }}</strong>
@@ -17,9 +21,9 @@
       </b-alert>
       <b-container fluid>
         <b-col xl="12" md="12">
-          <h3>Are you sure do you want to delete this working time?</h3>
+          <h3>Are you sure do you want to delete those clocks?</h3>
         </b-col>
-      </b-container>  
+      </b-container>
       <template #modal-footer>
         <b-button
           variant="primary"
@@ -31,7 +35,7 @@
         <b-button
           variant="danger"
           class="float-right"
-          @click="DeleteWorkingTime"
+          @click="DeleteClock"
         >
           Delete
         </b-button>
@@ -42,12 +46,12 @@
 <script>
 import axios from "axios";
 import Vue from "vue";
-import { deleteWorkingTime } from "../../api/workingtime";
+import { deleteClockForUser } from "../../api/clock";
 
 export default {
-  name: "working-time-delete",
+  name: "clock-delete-all",
   props: {
-    wtId: [Number, String],
+    selectedRows: Array
   },
   data() {
     return {
@@ -58,14 +62,18 @@ export default {
     };
   },
   methods: {
-    async DeleteWorkingTime() {
+    async DeleteClock() {
       this.errors = [];
+      try {
+        this.selectedRows.forEach(async (value) => {
+          await deleteClockForUser(value);
+        });
+        //await deleteClockForUser(this.clockId);
 
-      if (await deleteWorkingTime(this.wtId)) {
         this.$emit("event_child");
         this.modals.delete = false;
-      } else {
-        this.errors.push("Working time not found.");
+      } catch (err) {
+        this.errors.push("Clock not found.");
       }
     },
   },

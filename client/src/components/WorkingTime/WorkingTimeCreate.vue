@@ -5,9 +5,7 @@
         modals.create = true;
         errors = [];
       "
-      variant="success"
-      >Create</b-button
-    >
+      variant="success">Create</b-button>
 
     <b-modal v-model="modals.create" title="Create working time">
       <b-container fluid>
@@ -85,7 +83,8 @@ import axios from "axios";
 import moment from "moment";
 
 import { getUsers } from "@/api/user";
-import { createWorkingTimeForUser } from "../../api/workingtime";
+import { createWorkingTimeForUser, checkValidDate } from "@/api/workingtime";
+
 
 export default {
   name: "working-time-create",
@@ -112,13 +111,13 @@ export default {
       evt.preventDefault();
       document.getElementById("CreateWorkingTime").submit();
     },
-    checkForm() {
+    async checkForm() {
       let checker = true;
       this.errors = [];
 
       if (!this.form.start) {
         this.errors.push("Start date required.");
-        cherker = false;
+        checker = false;
       }
       if (!this.form.end) {
         this.errors.push("End date required.");
@@ -130,12 +129,21 @@ export default {
         checker = false;
       }
 
+      if (!await checkValidDate(this.form)) {
+        this.errors.push("Error, date as been already taken.");
+        checker = false;
+      }
+
       return checker;
     },
     async createWorkingTime() {
-      if (!this.checkForm()) {
+
+      this.form.idUser = this.selectedUser;
+
+      if (!await this.checkForm()) {
         return false;
       }
+
       try {
         await createWorkingTimeForUser(
           this.selectedUser,

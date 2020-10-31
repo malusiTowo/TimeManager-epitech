@@ -5,7 +5,6 @@
         <h3 class="mb-0">Edit profile</h3>
       </b-col>
     </b-row>
-
     <b-form @submit.prevent="updateProfile">
       <h6 class="heading-small text-muted mb-4">User information</h6>
 
@@ -40,33 +39,48 @@
   </card>
 </template>
 <script>
-import {
-  getUserFromLocalStorage,
-  updateUser,
-  setUserToLocalStorage,
-} from "../../../api/user";
+import { getUserFromLocalStorage, updateUser, getUserById } from "@/api/user";
+
 export default {
+  props: {
+    userId: {
+      type: [String, Number],
+      default: getUserFromLocalStorage()["user"]["id"],
+    },
+  },
   data() {
     return {
       user: {
-        username: "michael23",
-        email: "johndoe@email.com",
+        username: null,
+        email: null,
       },
     };
   },
   methods: {
     async updateProfile() {
       try {
-        const { username, email } = this.user;
-        const { userId } = getUserFromLocalStorage();
-        const isUserUpdated = await updateUser(userId, username, email);
+        const isUserUpdated = await updateUser(
+          this.userId,
+          this.user.username,
+          this.user.email
+        );
+
         if (!isUserUpdated) alert("Unable to update account");
-        else alert("Profile updated succesfully");
+        else alert(`${this.user.username} Updated`);
+
+        this.$emit("user_emit", {
+          username: this.user.username,
+          id: this.userId,
+          email: this.user.email,
+        });
       } catch (err) {
         console.log("err", err);
         alert("An error occured. try again later.");
       }
     },
+  },
+  async mounted() {
+    this.user = await getUserById(this.userId);
   },
 };
 </script>
