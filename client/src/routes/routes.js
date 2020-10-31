@@ -21,11 +21,6 @@ const routes = [
           requiresAuth: true
         }
       },
-      // {
-      //   path: '/icons',
-      //   name: 'icons',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
-      // },
       {
         path: '/profile/:userId',
         name: 'profile',
@@ -69,6 +64,11 @@ const routes = [
           requiresAuth: true
         }
       }
+      // {
+      //   path: '/icons',
+      //   name: 'icons',
+      //   component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
+      // },
       // {
       //   path: '/maps',
       //   name: 'maps',

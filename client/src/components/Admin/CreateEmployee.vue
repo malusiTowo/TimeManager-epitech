@@ -102,7 +102,7 @@
         <b-button variant="danger" v-on:click="onCancel" type="reset">
           Cancel
         </b-button>
-        <b-button v-on:click="onSubmit"> Create </b-button>
+        <b-button v-on:click="onSubmit" :disabled="disabledCreate"> Create </b-button>
       </template>
     </b-modal>
   </div>
@@ -116,6 +116,7 @@ export default {
   data() {
     return {
       modalShow: false,
+      disabledCreate: false,
       errors: [],
       users: [],
       // data for the form
@@ -137,19 +138,23 @@ export default {
     checkForm() {
       this.errors = [];
       if (this.form.username && this.form.email) {
+        this.disabledCreate = false;
         return true;
       }
       if (!this.form.username) {
         this.errors.push("Username is required.");
+        this.disabledCreate = true;
         return false;
       }
       if (!this.form.email) {
         this.errors.push("Email is required.");
+        this.disabledCreate = true;
         return false;
       }
     },
     async onSubmit() {
       if (!this.checkForm()) {
+        this.disabledCreate = true;
         return false;
       }
       try {

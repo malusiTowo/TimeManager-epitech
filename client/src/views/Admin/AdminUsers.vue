@@ -66,6 +66,7 @@
 <script>
 import CreateEmployee from "@/components/Admin/CreateEmployee";
 import { getUsers } from "@/api/user";
+import axios from "axios";
 
 export default {
   data() {
@@ -76,10 +77,8 @@ export default {
       },
     };
   },
-  methods: {
-    getUsersList() {
-      this.users = getUsers();
-    },
+  async mounted() {
+    this.users = await getUsers();
   },
   components: {
     CreateEmployee,
