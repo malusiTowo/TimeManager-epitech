@@ -27,7 +27,7 @@
           </b-col>
         </b-row>
         <b-row>
-        <!-- <b-row class="mt-3 mr-3 mb-3 ml-3"> -->
+          <!-- <b-row class="mt-3 mr-3 mb-3 ml-3"> -->
           <b-col>
             <v-table class="table" :data="users" :filters="filters">
               <thead slot="head">
@@ -49,10 +49,32 @@
 									<td>{{ user.lastname }}</td> -->
                   <td>{{ user.email }}</td>
                   <td>{{ user.role }}</td>
-                  <!-- Add buttons -->
-                  <!-- Passer l'id du user pour les boutons -->
-                  <td>See infos</td>
-                  <td>See graphs</td>
+                  <td>
+                    <b-button
+                     :to="{ name: 'profile', params: { userId: user.id } }"
+                     size="sm"
+                     variant="outline-warning"
+                     icon
+                    >
+                      <span class="btn-inner--icon"
+                        ><i class="ni ni-single-02"></i
+                      ></span>
+                      <span class="btn-inner--text">See infos</span>
+                    </b-button>
+                  </td>
+                  <td>
+                    <b-button
+                     :to="{ name: 'dashboard', params: { userId: user.id } }"
+                     size="sm"
+                     variant="outline-dark"
+                     icon
+                    >
+                      <span class="btn-inner--icon"
+                        ><i class="ni ni-chart-bar-32"></i
+                      ></span>
+                      <span class="btn-inner--text">See graphs</span>
+                    </b-button>
+                  </td>
                 </tr>
               </tbody>
             </v-table>
@@ -66,7 +88,6 @@
 <script>
 import CreateEmployee from "@/components/Admin/CreateEmployee";
 import { getUsers } from "@/api/user";
-import axios from "axios";
 
 export default {
   data() {
