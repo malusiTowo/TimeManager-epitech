@@ -34,8 +34,8 @@
       <b-row class="justify-content-center">
         <b-col lg="12" md="7">
           <b-card no-body class="border-0 mb-0">
-            <!-- <b-card-body class="px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
+            <b-card-body class="px-lg-5 py-lg-5">
+              <!-- <div class="text-center text-muted mb-4">
                 <small>{{ menuLabel }}</small>
               </div> -->
               <div v-if="isWorkingTimesSelected">

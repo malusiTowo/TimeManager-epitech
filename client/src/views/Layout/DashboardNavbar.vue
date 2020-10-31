@@ -46,7 +46,7 @@
 
         <template>
           <b-dropdown-header class="noti-title">
-            <h6 class="text-overflow m-0">Welcome!</h6>
+            <h6 class="text-overflow m-0">Welcome {{ name }}</h6>
           </b-dropdown-header>
           <div class="dropdown-divider"></div>
           <b-dropdown-item @click="logOut">
