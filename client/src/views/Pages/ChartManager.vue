@@ -3,7 +3,8 @@
     <!-- Header -->
     <base-header></base-header>
     <!-- Page content -->
-    <b-container class="mt--8 pb-5">
+    <!-- Select graph to show -->
+    <b-container fluid class="mt--7">
       <b-row class="justify-content-center">
         <b-col lg="12" md="7">
           <div>
@@ -20,14 +21,23 @@
           </div>
         </b-col>
       </b-row>
+      <b-card no-body>
+
+      <b-row align-v="center" slot="header">
+          <b-col cols="8" xl="12" md="12">
+            <h1 class="mb-0">Chart Manager</h1>
+          </b-col>
+          <b-col cols="8" xl="12" md="12">
+            <h2 class="mb-0">{{ menuLabel }}</h2>
+          </b-col>
+        </b-row>
       <b-row class="justify-content-center">
         <b-col lg="12" md="7">
           <b-card no-body class="border-0 mb-0">
-            <b-card-body class="px-lg-5 py-lg-5">
+            <!-- <b-card-body class="px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
                 <small>{{ menuLabel }}</small>
-              </div>
-
+              </div> -->
               <div v-if="isWorkingTimesSelected">
                 <working-times :menuLabel="menuLabel"></working-times>
               </div>
@@ -35,6 +45,7 @@
           </b-card>
         </b-col>
       </b-row>
+      </b-card>
     </b-container>
   </div>
 </template>
@@ -62,7 +73,6 @@ export default {
 
   components: {
     DonutChart,
-
     workingTimes,
   },
 };

@@ -2,7 +2,7 @@
   <card>
     <b-row align-v="center" slot="header">
       <b-col cols="8">
-        <h3 class="mb-0">Edit profile</h3>
+        <h1 class="mb-0">Edit profile</h1>
       </b-col>
     </b-row>
     <b-form @submit.prevent="updateProfile">

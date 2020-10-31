@@ -4,12 +4,12 @@
     <base-header></base-header>
 
     <b-container fluid class="mt--7">
-      <b-card>
-        <b-card-body class="px-lg-5 py-lg-5">
-          <div class="text-center mb-2">
-            <h1>Admin Users</h1>
-          </div>
-        </b-card-body>
+      <b-card no-body>
+        <b-row align-v="center" slot="header">
+          <b-col cols="8" xl="12" md="12">
+            <h1 class="mb-0">Admin Users</h1>
+          </b-col>
+        </b-row>
 
         <b-row class="mt-3 mr-3 ml-3 mb-4">
           <b-col>
@@ -26,7 +26,8 @@
             <!-- <i class="fas fa-search"></i> -->
           </b-col>
         </b-row>
-        <b-row class="mt-3 mr-3 mb-3 ml-3">
+        <b-row>
+        <!-- <b-row class="mt-3 mr-3 mb-3 ml-3"> -->
           <b-col>
             <v-table class="table" :data="users" :filters="filters">
               <thead slot="head">
@@ -78,11 +79,11 @@ export default {
   methods: {
     getUsersList() {
       this.users = getUsers();
-    }
+    },
   },
   components: {
-    CreateEmployee
-  }
+    CreateEmployee,
+  },
 };
 </script>
 

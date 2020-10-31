@@ -2,7 +2,7 @@
   <div>
     <!-- Header -->
     <base-header></base-header>
-    
+
     <!-- Card clock -->
     <b-container fluid class="mt--9">
       <b-row class="">
@@ -22,6 +22,12 @@
         </b-col>
       </b-row>
       <b-card no-body>
+        <b-row align-v="center" slot="header">
+          <b-col cols="8" xl="12" md="12">
+            <h1 class="mb-0">Clock History</h1>
+          </b-col>
+        </b-row>
+
         <b-row class="mt-3 mr-3 mb-3 ml-3 float-right">
           <clock-create v-if="edit" v-on:event_child="ClockCallback" />
         </b-row>
