@@ -36,7 +36,7 @@ const routes = [
       },
       {
         path: '/chartManager/:userId',
-        name: 'chartMangager',
+        name: 'chart Manager',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/ChartManager.vue'),
         meta: {
           requiresAuth: true
@@ -53,7 +53,7 @@ const routes = [
       },
       {
         path: '/workingtime/:userId',
-        name: 'workingtime',
+        name: 'working times',
         component: () => import(/* webpackChunkName: "demo" */ '../views/WorkingTime.vue'),
         props: true,
         meta: {
@@ -62,7 +62,7 @@ const routes = [
       },
       {
         path: '/adminUsers',
-        name: 'adminUsers',
+        name: 'admin Users',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Admin/AdminUsers.vue'),
         props: true,
         meta: {
