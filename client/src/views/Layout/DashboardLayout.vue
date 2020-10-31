@@ -3,15 +3,6 @@
     <notifications></notifications>
     <side-bar>
       <template slot="links">
-        <!-- <sidebar-item
-          :link="{
-            name: 'Dashboard',
-            path: '/dashboard',
-            icon: 'ni ni-tv-2 text-primary',
-          }"
-        >
-        </sidebar-item> -->
-
         <sidebar-item
           :link="{
             name: 'Dashboard',
@@ -58,7 +49,7 @@
           :link="{
             name: 'Admin Users',
             path: '/adminUsers',
-            icon: 'ni ni-settings',
+            icon: 'ni ni-settings text-yellow',
           }"
         >
         </sidebar-item>
