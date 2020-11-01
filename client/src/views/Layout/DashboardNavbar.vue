@@ -9,7 +9,7 @@
       aria-current="page"
       class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block active router-link-active"
     >
-      {{ $route.name }}
+      <!-- {{ $route.name }} -->
     </a>
     <!-- Navbar links -->
     <b-navbar-nav class="align-items-center ml-md-auto">
@@ -49,6 +49,10 @@
             <h6 class="text-overflow m-0">Welcome {{ name }}</h6>
           </b-dropdown-header>
           <div class="dropdown-divider"></div>
+          <b-dropdown-item :to="{ name: 'profile', params: { userId: id } }">
+            <i class="ni ni-single-02"></i>
+            <span>Profile</span>
+          </b-dropdown-item>
           <b-dropdown-item @click="logOut">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
@@ -98,6 +102,7 @@ export default {
       searchModalVisible: false,
       searchQuery: "",
       name: "",
+      id: null
     };
   },
   methods: {
@@ -113,6 +118,7 @@ export default {
     async getUser() {
       const { user } = getUserFromLocalStorage();
       this.name = user.username;
+      this.id = user.id;
     },
     removeAccount() {
       const { userId } = getUserFromLocalStorage();

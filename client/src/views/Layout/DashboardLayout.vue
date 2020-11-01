@@ -45,14 +45,17 @@
           }"
         >
         </sidebar-item>
-        <sidebar-item
+        <!-- Admin users sidebar item to render only for Admin and Manager -->
+        <template v-if="isAdmin || isManager">
+          <sidebar-item
           :link="{
             name: 'Admin Users',
             path: '/adminUsers',
             icon: 'ni ni-settings text-yellow',
           }"
-        >
-        </sidebar-item>
+          >
+          </sidebar-item>
+        </template>
       </template>
     </side-bar>
     <div class="main-content">
@@ -91,11 +94,14 @@ import DashboardNavbar from "./DashboardNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import { FadeTransition } from "vue2-transitions";
+import users from '../Tables/users';
 
 export default {
   data() {
     return {
       userId: null,
+      isAdmin: false,
+      isManager: false
     };
   },
   components: {
@@ -115,6 +121,14 @@ export default {
   mounted() {
     const { userId } = getUserFromLocalStorage();
     this.userId = userId;
+    // Check of the role
+    const role = getUserFromLocalStorage().user.role;
+    if(role === "admin") {
+      this.isAdmin = true;
+    }
+    if(role === "manager") {
+      this.isManager = true;
+    }
     this.initScrollbar();
   },
 };
