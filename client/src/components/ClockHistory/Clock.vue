@@ -71,6 +71,8 @@ export default {
 
           this.myLastClock = response.pop();
         }
+
+        if(this.myLastClock != null){
         if(this.myLastClock.status == true)
         {
           this.subTitle = "Clock-In";
@@ -81,7 +83,7 @@ export default {
           this.type = "gradient-red";
         }
         this.myDate  = this.formatDate(this.myLastClock.time);
-        
+        }
       } catch (error) {
         console.log("error", error);
       }
