@@ -188,13 +188,11 @@ export default {
       try {
         const response = await getClockUser(this.userId);
         if (response) {
-          console.log("je suis la");
           response.sort(function (a, b) {
             return a.time > b.time ? 1 : -1;
           });
 
           this.myLastClock = response.pop();
-          console.log(this.myLastClock);
         }
         //this.myLastClock = response[(response.length -1)];
         if (this.myLastClock.status == true) {

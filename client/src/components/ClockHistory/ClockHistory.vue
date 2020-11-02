@@ -8,7 +8,7 @@
       </b-row>
       <b-row class="mt-3 mr-3 mb-3 ml-3">
         <b-col>
-          <clock-create v-if="edit" v-on:event_child="ClockCallback" />
+          <clock-create v-if="edit" :userId="userId" v-on:event_child="ClockCallback" />
         </b-col>
         <b-col>
           <clock-delete-all
@@ -118,6 +118,9 @@ export default {
       type: Boolean,
       default: false,
     },
+    userId: {
+      type: [String, Number],
+    }
   },
   data() {
     return {
@@ -125,7 +128,7 @@ export default {
       myLastClock: {},
       userFound: null,
       myDate: null,
-      userId: null,
+      //userId: null,
       subTitle: null,
       type: null,
       username: null,
@@ -158,7 +161,7 @@ export default {
     },
     async onClick() {
       try {
-        this.userId = getUserFromLocalStorage().userId;
+        //this.userId = getUserFromLocalStorage().userId;
         const response = await clock(this.userId);
         this.myClock = response;
         if (this.myClock.status == true) {
@@ -222,7 +225,7 @@ export default {
     },
   },
   mounted() {
-    this.userId = getUserFromLocalStorage().userId;
+    //this.userId = getUserFromLocalStorage().userId;
     this.username = getUserFromLocalStorage().username;
     this.updateClockUser();
   },

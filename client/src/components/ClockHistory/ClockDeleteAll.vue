@@ -5,11 +5,7 @@
         modals.delete = true;
         errors = [];
       "
-      variant="danger"
-      style=" border-radius: 30%;
-              width: 5em;
-              height: 5em;">
-      <i class="fas fa-trash-alt" style="font-size: x-large;"></i>
+      variant="danger">Delete selected clocks
       </b-button
     >
 

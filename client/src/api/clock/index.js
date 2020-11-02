@@ -1,8 +1,8 @@
 import axios from 'axios'
-import moment from "moment-timezone";
+import moment from "moment";
 
 import { buildHeaders } from '../user';
-import { formatDateForApi } from '../workingtime'
+import { formatDateForApi,utcFormatDateForApi } from '../workingtime'
 
 const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
 
@@ -66,7 +66,8 @@ export const deleteClockForUser = async (clockId) => {
 
 
 export const clockForUser = async (userId, time, status) => {
-  time = formatDateForApi(time).utc().format();
+  //time = utcFormatDateForApi(time);
+  time = moment.utc(time);
   try {
     const response = await axios.post(`${baseUrl}/`, {
       "userId": userId,

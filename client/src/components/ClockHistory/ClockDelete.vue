@@ -6,8 +6,7 @@
         errors = [];
       "
       variant="danger"
-      >
-      <i class="fas fa-trash-alt" style="font-size: x-small;"></i>
+      >Delete
       </b-button
     >
 

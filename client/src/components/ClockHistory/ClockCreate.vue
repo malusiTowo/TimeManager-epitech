@@ -4,13 +4,7 @@
       @click="
         modals.create = true;
         errors = [];"
-      variant="success"
-      style=" border-radius: 30%;
-              width: 5em;
-              height: 5em;">
-        <i class="fas fa-plus-circle" 
-          style="font-size: x-large;">
-        </i>
+      variant="success">Create
       </b-button
     >
 
@@ -84,13 +78,17 @@ import { clockForUser } from "../../api/clock";
 
 export default {
   name: "clock-create",
+  props: {
+    userId: {
+      type: [String, Number],
+    }
+  },
   data() {
     return {
       modals: {
         create: false,
       },
       errors: [],
-      selectedUser: "1",
       form: {
         idUser: "",
         time: null,
@@ -133,8 +131,10 @@ export default {
         return false;
       }
       try {
+        console.log(this.userId)
+        console.log(this.form.time)
         await clockForUser(
-          getUserFromLocalStorage().userId,
+          this.userId,
           this.form.time,
           this.form.status
         );
