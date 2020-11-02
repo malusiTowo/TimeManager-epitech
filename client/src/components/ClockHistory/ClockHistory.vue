@@ -85,6 +85,10 @@
 <script>
 import { getUserFromLocalStorage } from "../../api/user";
 import { clock, getClockUser } from "../../api/clock";
+import {
+  formatDateForApi,
+  formatDateFromApi,
+} from "@/api/workingtime";
 import { ClockCreate, ClockDelete, ClockDeleteAll } from "@/components";
 import {
   Dropdown,
@@ -171,8 +175,7 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myClock.time);
-        this.myDate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
+        this.myDate  = this.formatDate(this.myClock.time);
       } catch (error) {
         console.log("error", error);
       }
@@ -187,7 +190,6 @@ export default {
 
           this.myLastClock = response.pop();
         }
-        //this.myLastClock = response[(response.length -1)];
         if (this.myLastClock.status == true) {
           this.subTitle = "Clock-In";
           this.type = "gradient-green";
@@ -195,17 +197,14 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myLastClock.time);
-        this.myDate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
+        this.myDate  = this.formatDate(this.myLastClock.time);
         this.refreshClock();
       } catch (error) {
         console.log("error", error);
       }
     },
     formatDate: function (date) {
-      const myUTCdate = moment.utc(date);
-      const myLocaldate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
-      return myLocaldate;
+      return formatDateFromApi(date, "YYYY-MM-DD HH:mm:ss");
     },
 
     refreshClock: async function () {

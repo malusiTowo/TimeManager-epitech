@@ -15,6 +15,10 @@
 <script>
 import { getUserFromLocalStorage } from "../../api/user";
 import { clock, getClockUser } from "../../api/clock";
+import {
+  formatDateForApi,
+  formatDateFromApi,
+} from "@/api/workingtime";
 import moment from "moment";
 
 export default {
@@ -32,13 +36,14 @@ export default {
     };
   },
   methods: {
-    formatDate: function(date) {
-            return moment.tz(date, "Europe/Paris").format('YYYY MM DD, h:mm:ss a');
-        },
+    formatDate: function (date) {
+      return formatDateFromApi(date, "YYYY-MM-DD HH:mm:ss");
+    },
     async onClick(){
       try {
         this.userId = getUserFromLocalStorage().userId;
         const response = await clock(this.userId);
+        
         this.myClock = response;
         if(this.myClock.status == true)
         {
@@ -49,8 +54,9 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myClock.time);
-        this.myDate = myUTCdate.local().format('YYYY MM DD, h:mm:ss a');
+        this.myDate  = this.formatDate(this.myClock.time);
+        this.updateClockUser()
+        
       } catch (error) {
         console.log("error", error);
       }
@@ -58,15 +64,13 @@ export default {
     async updateClockUser(){
       try {
         const response = await getClockUser(this.userId);
-        if(response){
-        
+        if (response) {
           response.sort(function (a, b) {
-            return (a.time > b.time) ? 1 : -1;
+            return a.time > b.time ? 1 : -1;
           });
-      
+
           this.myLastClock = response.pop();
         }
-        //this.myLastClock = response[(response.length -1)];
         if(this.myLastClock.status == true)
         {
           this.subTitle = "Clock-In";
@@ -76,8 +80,7 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myLastClock.time);
-        this.myDate = myUTCdate.local().format('YYYY MM DD, h:mm:ss a');
+        this.myDate  = this.formatDate(this.myLastClock.time);
         
       } catch (error) {
         console.log("error", error);

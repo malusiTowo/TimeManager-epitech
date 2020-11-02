@@ -40,7 +40,7 @@
         <sidebar-item
           :link="{
             name: 'Clock',
-            path: '/clock/:username',
+            path: `/clock/${this.username}`,
             icon: 'ni ni-watch-time text-yellow',
           }"
         >
@@ -100,6 +100,7 @@ export default {
   data() {
     return {
       userId: null,
+      username: null,
       isAdmin: false,
       isManager: false
     };
@@ -121,6 +122,7 @@ export default {
   mounted() {
     const { userId } = getUserFromLocalStorage();
     this.userId = userId;
+    this.username = getUserFromLocalStorage().user.username;
     // Check of the role
     const role = getUserFromLocalStorage().user.role;
     if(role === "admin") {

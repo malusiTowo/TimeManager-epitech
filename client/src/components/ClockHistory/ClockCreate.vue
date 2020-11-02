@@ -131,8 +131,6 @@ export default {
         return false;
       }
       try {
-        console.log(this.userId)
-        console.log(this.form.time)
         await clockForUser(
           this.userId,
           this.form.time,
