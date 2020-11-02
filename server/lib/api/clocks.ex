@@ -70,8 +70,7 @@ defmodule Api.Clocks do
 
   def getClocksForUser(userId) do
     query = from(w in Clock, where: w.user == ^userId)
-    query |> last(:inserted_at) |> Repo.one
-
+    query |> last(:time) |> Repo.one
     # Repo.get_by(Clock, user: userId)
   end
 
@@ -208,7 +207,6 @@ defmodule Api.Clocks do
 
     else
       result = base |> merge(%{status: true })
-
 
       createClockForUser(userId, %{status: true, time: DateTime.utc_now})
       # %Clock{}

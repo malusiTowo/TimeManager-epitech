@@ -25,18 +25,6 @@
             v-on:submit.prevent="createWorkingTime"
           >
             <div class="form-group">
-              <label for="name">Select user</label>
-              <select class="form-control" v-model="selectedUser">
-                <option
-                  v-for="user in users"
-                  v-bind:key="user.id"
-                  v-bind:value="user.id"
-                >
-                  {{ user.username }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
               <label for="name">Start Date</label>
               <input
                 type="datetime-local"
@@ -85,17 +73,22 @@ import axios from "axios";
 import moment from "moment";
 
 import { getUsers } from "@/api/user";
-import { createWorkingTimeForUser } from "../../api/workingtime";
+import { createWorkingTimeForUser, checkValidDate } from "@/api/workingtime";
 
 export default {
   name: "working-time-create",
+  props: {
+    userId: {
+      type: [String, Number],
+    },
+  },
+
   data() {
     return {
       modals: {
         create: false,
       },
       errors: [],
-      selectedUser: "1",
       form: {
         idUser: "",
         start: null,
@@ -112,13 +105,13 @@ export default {
       evt.preventDefault();
       document.getElementById("CreateWorkingTime").submit();
     },
-    checkForm() {
+    async checkForm() {
       let checker = true;
       this.errors = [];
 
       if (!this.form.start) {
         this.errors.push("Start date required.");
-        cherker = false;
+        checker = false;
       }
       if (!this.form.end) {
         this.errors.push("End date required.");
@@ -130,17 +123,33 @@ export default {
         checker = false;
       }
 
+      if (checker && !(await checkValidDate(this.form))) {
+        this.errors.push("Error, date as already been taken.");
+        checker = false;
+      }
+
+      if (!(await checkValidDate(this.form))) {
+        this.errors.push("Error, date as been already taken.");
+        checker = false;
+      }
+
       return checker;
     },
     async createWorkingTime() {
-      if (!this.checkForm()) {
+      this.form.idUser = this.userId;
+
+      if (!(await this.checkForm())) {
         return false;
       }
+
       try {
         await createWorkingTimeForUser(
-          this.selectedUser,
+          this.form.idUser,
           this.form.start,
           this.form.end
+        );
+        console.log(
+          this.selectedUser + " " + this.form.start + " " + this.form.end
         );
         this.$emit("event_child");
         this.modals.create = false;

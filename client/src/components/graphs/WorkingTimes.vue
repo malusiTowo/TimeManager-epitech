@@ -105,6 +105,7 @@ export default {
 
         const { userId } = getUserFromLocalStorage();
         const times = await getWorkingTimesBetweenDates(userId, start, end);
+        const clocks = await getWorkingTimesBetweenDates(userId, start, end);
         const data = getTimesAndClocksForGraph([], times);
         this.data_ = data;
         console.log("data", this.data_);

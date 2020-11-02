@@ -3,20 +3,20 @@
     <notifications></notifications>
     <side-bar>
       <template slot="links">
-        <!-- <sidebar-item
+        <sidebar-item
           :link="{
             name: 'Dashboard',
             path: '/dashboard',
-            icon: 'ni ni-tv-2 text-primary',
+            icon: 'ni ni-tv-2 text-yellow',
           }"
         >
-        </sidebar-item> -->
+        </sidebar-item>
 
         <sidebar-item
           :link="{
             name: 'Chart Manager',
             path: `/chartManager/${this.userId}`,
-            icon: 'ni ni-planet text-blue',
+            icon: 'ni ni-planet text-yellow',
           }"
         >
         </sidebar-item>
@@ -24,7 +24,7 @@
         <sidebar-item
           :link="{
             name: 'Profile',
-            path: '/profile',
+            path: `/profile/${this.userId}`,
             icon: 'ni ni-single-02 text-yellow',
           }"
         >
@@ -32,8 +32,8 @@
         <sidebar-item
           :link="{
             name: 'Working Time',
-            path: '/workingtime',
-            icon: 'ni ni-calendar-grid-58 text-black',
+            path: `/workingtime/${this.userId}`,
+            icon: 'ni ni-calendar-grid-58 text-yellow',
           }"
         >
         </sidebar-item>
@@ -41,10 +41,21 @@
           :link="{
             name: 'Clock',
             path: '/clock/:username',
-            icon: 'ni ni-single-02 text-blue',
+            icon: 'ni ni-watch-time text-yellow',
           }"
         >
         </sidebar-item>
+        <!-- Admin users sidebar item to render only for Admin and Manager -->
+        <template v-if="isAdmin || isManager">
+          <sidebar-item
+          :link="{
+            name: 'Admin Users',
+            path: '/adminUsers',
+            icon: 'ni ni-settings text-yellow',
+          }"
+          >
+          </sidebar-item>
+        </template>
       </template>
     </side-bar>
     <div class="main-content">
@@ -83,11 +94,14 @@ import DashboardNavbar from "./DashboardNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import { FadeTransition } from "vue2-transitions";
+import users from '../Tables/users';
 
 export default {
   data() {
     return {
       userId: null,
+      isAdmin: false,
+      isManager: false
     };
   },
   components: {
@@ -107,6 +121,14 @@ export default {
   mounted() {
     const { userId } = getUserFromLocalStorage();
     this.userId = userId;
+    // Check of the role
+    const role = getUserFromLocalStorage().user.role;
+    if(role === "admin") {
+      this.isAdmin = true;
+    }
+    if(role === "manager") {
+      this.isManager = true;
+    }
     this.initScrollbar();
   },
 };

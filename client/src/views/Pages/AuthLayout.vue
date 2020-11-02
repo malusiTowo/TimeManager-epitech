@@ -1,5 +1,5 @@
 <template>
-  <div class="main-content bg-default">
+  <div class="main-content ">
     <base-nav
       v-model="showMenu"
       :transparent="true"
@@ -106,10 +106,10 @@ export default {
       this.showMenu = false;
     },
     setBackgroundColor() {
-      document.body.classList.add("bg-default");
+      document.body.classList.add("bg-yellow");
     },
     removeBackgroundColor() {
-      document.body.classList.remove("bg-default");
+      document.body.classList.remove("bg-yellow");
     },
     updateBackground() {
       if (!this.$route.meta.noBodyBackground) {

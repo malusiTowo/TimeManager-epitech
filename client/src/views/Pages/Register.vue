@@ -1,21 +1,17 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="header bg-gradient-success py-7 py-lg-8 pt-lg-9">
+    <div class="header bgBlackGotham py-6 py-lg-6 pt-lg-7">
       <b-container class="container">
         <div class="header-body text-center mb-7">
           <b-row class="justify-content-center">
             <b-col xl="5" lg="6" md="8" class="px-5">
               <h1 class="text-white">Create an account</h1>
-              <p class="text-lead text-white">
-                Use these awesome forms to login or create new account in your
-                project for free.
-              </p>
             </b-col>
           </b-row>
         </div>
       </b-container>
-      <div class="separator separator-bottom separator-skew zindex-100">
+      <div class="separator separator-bottom separator-skew zindex-100 bgYellowGotham">
         <svg
           x="0"
           y="0"
@@ -25,7 +21,7 @@
           xmlns="http://www.w3.org/2000/svg"
         >
           <polygon
-            class="fill-default"
+            class="bgBlackGotham"
             points="2560 0 2560 100 0 100"
           ></polygon>
         </svg>
@@ -38,9 +34,9 @@
         <b-col lg="6" md="8">
           <b-card no-body class="bg-secondary border-0">
             <b-card-body class="px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
-                <small>Sign up with credentials</small>
-              </div>
+              <!-- <div class="text-center mb-4">
+                <p>Create your account!</p>
+              </div> -->
               <validation-observer
                 v-slot="{ handleSubmit }"
                 ref="formValidator"
@@ -49,14 +45,13 @@
                   <base-input
                     alternative
                     class="mb-3"
-                    prepend-icon="ni ni-hat-3"
-                    placeholder="Name"
-                    name="Name"
+                    prepend-icon="ni ni-single-02"
+                    placeholder="Username"
+                    name="Username"
                     :rules="{ required: true }"
-                    v-model="model.name"
+                    v-model="model.username"
                   >
                   </base-input>
-
                   <base-input
                     alternative
                     class="mb-3"
@@ -67,6 +62,22 @@
                     v-model="model.email"
                   >
                   </base-input>
+
+                  <base-input
+                    alternative
+                    class="mb-3"
+                    prepend-icon="ni ni-key-25"
+                    placeholder="Password"
+                    name="Password"
+                    type="password"
+                    :rules="{ required: true }"
+                    v-model="model.password"
+                  >
+                  </base-input>
+                  <b-form-text id="password-help-block">
+                    The password must be at least 8 characters long, contain
+                    letters (at least one uppercase letter) and numbers, and must not contain spaces, special characters, or emoji.
+                  </b-form-text>
 
                   <div class="text-center">
                     <b-button type="submit" variant="primary" class="mt-4"
@@ -83,13 +94,13 @@
   </div>
 </template>
 <script>
-import { createUser, getUserFromLocalStorage } from "../../api/user";
+import { signup } from "../../api/user";
 export default {
   name: "register",
   data() {
     return {
       model: {
-        name: "",
+        username: "",
         email: "",
         password: "",
         agree: false,
@@ -99,16 +110,14 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const { name, email } = this.model;
-        const isLoggedIn = await createUser(name, email);
-        const { userId } = getUserFromLocalStorage();
-        if (isLoggedIn && userId) {
+        const { username, email, password } = this.model;
+        const isLoggedIn = await signup(username, email, password);
+        if (isLoggedIn) {
           this.$emit("loggedIn");
-          if (this.$route.params.nextUrl != null) {
-            this.$router.push(this.$route.params.nextUrl);
-          } else {
-            this.$router.push("workingtime");
-          }
+          this.$router.push("login");
+          alert(
+            "Account created successfully. Please login with your credentials"
+          );
         } else {
           alert("Invalid credentialas");
         }

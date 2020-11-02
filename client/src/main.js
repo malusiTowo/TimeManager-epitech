@@ -24,6 +24,8 @@ import DashboardPlugin from './plugins/dashboard-plugin';
 import App from './App.vue';
 import axios from 'axios';
 
+import SmartTable from 'vuejs-smart-table'
+
 import './plugins/date-timepicker'
 // router setup
 import router from './routes/router';
@@ -31,6 +33,9 @@ import router from './routes/router';
 Vue.use(DashboardPlugin);
 
 Vue.prototype.$http = axios;
+
+// setup smart table
+Vue.use(SmartTable)
 
 /* eslint-disable no-new */
 new Vue({

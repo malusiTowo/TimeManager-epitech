@@ -1,6 +1,8 @@
 defmodule ApiWeb.UserController do
   use ApiWeb, :controller
 
+  import Logger
+
   alias Api.Users
   alias Api.Users.User
 
@@ -12,7 +14,16 @@ defmodule ApiWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
+  def unauthorized(conn, message) do
+    # message = "You are not authorized to access this ressource"
+    send_resp(conn, :unauthorized, message)
+  end
+
   def index(conn, _params) do
+    # user = Guardian.Plug.current_resource(conn)
+
+    # if user.role != "admin", do: unauthorized(conn,"OKOK")
+
     users = Users.list_users()
     render(conn, "index.json", users: users)
   end
@@ -51,4 +62,5 @@ defmodule ApiWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
 end

@@ -68,8 +68,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
-import { getWorkingTimesForUserIdAndWorkingId } from "@/api/workingtime";
-import { updateWorkingTime } from "../../api/workingtime";
+import { getWorkingTimesForUserIdAndWorkingId, updateWorkingTime, checkValidDate, formatDateFromApi } from "@/api/workingtime";
 
 export default {
   name: "working-time-update",
@@ -84,25 +83,32 @@ export default {
       },
       errors: [],
       form: {
+        id: null,
         start: null,
         end: null,
+        idUser: null
       },
     };
   },
   async mounted() {
-    this.form = await getWorkingTimesForUserIdAndWorkingId(
+    let response = await getWorkingTimesForUserIdAndWorkingId(
       this.idUser,
       this.wtId
     );
+
+    response.end = formatDateFromApi(response.end, 'YYYY-MM-DDTHH:mm:ss');
+    response.start = formatDateFromApi(response.start, 'YYYY-MM-DDTHH:mm:ss');
+
+    this.form = response;
   },
   methods: {
-    checkForm() {
+    async checkForm() {
       let checker = true;
       this.errors = [];
 
       if (!this.form.start) {
         this.errors.push("Start date required.");
-        cherker = false;
+        checker = false;
       }
       if (!this.form.end) {
         this.errors.push("End date required.");
@@ -110,17 +116,25 @@ export default {
       }
 
       if (checker && moment(this.form.end).isBefore(this.form.start)) {
-        this.errors.push("End date cannot be superior to Start date.");
+        this.errors.push("End date cannot be before Start date.");
+        checker = false;
+      }
+
+      if (checker && !await checkValidDate(this.form)) {
+        this.errors.push("Error, date as already been taken.");
         checker = false;
       }
 
       return checker;
     },
     async UpdateWorkingTime() {
-      if (!this.checkForm()) {
+
+      this.form.idUser = this.idUser;
+
+      if (!await this.checkForm()) {
         return false;
       }
-
+      
       try {
         await updateWorkingTime(this.wtId, this.form.start, this.form.end);
         this.$emit("event_child");
