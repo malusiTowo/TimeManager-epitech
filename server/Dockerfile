@@ -14,4 +14,4 @@ RUN cd deps/bcrypt_elixir && make clean && make
 
 RUN mix deps.compile
 
-CMD  mix ecto.migrate &&  mix phx.server
+CMD  mix ecto.migrate && mix run priv/repo/seeds.exs &&  mix phx.server
