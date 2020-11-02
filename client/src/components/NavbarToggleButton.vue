@@ -1,6 +1,6 @@
 <template>
   <button
-    class="navbar-toggler"
+    class="navbar-toggler text-yellow"
     type="button"
     data-toggle="collapse"
     :data-target="target"
@@ -8,9 +8,10 @@
     :aria-expanded="toggled"
     aria-label="Toggle navigation"
   >
-    <span class="navbar-toggler-icon"></span>
+    <!-- <span class="navbar-toggler-icon"></span> -->
+    <span class="fas fa-bars"></span>
     <slot>
-        <span></span>
+      <span></span>
     </slot>
   </button>
 </template>

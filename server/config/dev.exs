@@ -5,10 +5,10 @@ database_url = System.get_env("DATABASE_URL")
 # Configure your database
 config :api, Api.Repo,
   url: database_url,
-  # username: "postgres",
-  # password: "postgres",
-  # database: "api_dev",
-  # hostname: "db",
+  # username: "postgres", # comment out
+  # password: "postgres", # comment out
+  # database: "api_dev", # comment out
+  # hostname: "localhost", # comment out
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

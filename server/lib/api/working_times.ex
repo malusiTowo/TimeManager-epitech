@@ -131,8 +131,8 @@ defmodule Api.WorkingTimes do
   end
 
   def createWorkingTimeForUser(userId, workingtime) do
-    {user,""} =  parse(userId)
-    user = Api.Users.get_user!(user)
+    # {user,""} =  parse(userId)
+    user = Api.Users.get_user!(userId)
 
     newWorkTime = %{user: userId}
     |> merge(workingtime)

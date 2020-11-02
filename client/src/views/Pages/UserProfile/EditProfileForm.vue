@@ -2,10 +2,9 @@
   <card>
     <b-row align-v="center" slot="header">
       <b-col cols="8">
-        <h3 class="mb-0">Edit profile</h3>
+        <h1 class="mb-0">Edit profile</h1>
       </b-col>
     </b-row>
-
     <b-form @submit.prevent="updateProfile">
       <h6 class="heading-small text-muted mb-4">User information</h6>
 
@@ -29,43 +28,97 @@
             >
             </base-input>
           </b-col>
-          <div class="text-center">
+          <template v-if="isAdmin">
+            <b-col lg="6">
+            <base-input>
+            <b-form-select
+              class="form-control"
+              v-model="user.role"
+              :options="options"
+              prepend-icon="ni ni-key-25"
+            >
+            </b-form-select>
+          </base-input>
+          </b-col>
+          </template>
+        </b-row>
+        <b-row>
+          <b-col lg="6">
             <base-button type="primary" native-type="submit" class="my-4"
               >Update profile</base-button
             >
-          </div>
+          </b-col>
+          <b-col lg="6">
+            <!-- Rajouter methode delete -->
+            <base-button
+             type="danger"
+             class="my-4"
+             
+              >Delete profile</base-button
+            >
+          </b-col>
         </b-row>
       </div>
     </b-form>
   </card>
 </template>
 <script>
-import {
-  getUserFromLocalStorage,
-  updateUser,
-  setUserToLocalStorage,
-} from "../../../api/user";
+import { getUserFromLocalStorage, updateUser, getUserById, deleteUser } from "@/api/user";
+
 export default {
+  props: {
+    userId: {
+      type: [String, Number],
+      default: getUserFromLocalStorage().userId
+        ? getUserFromLocalStorage().userId
+        : "",
+    },
+    isAdmin: false
+  },
   data() {
     return {
       user: {
-        username: "michael23",
-        email: "johndoe@email.com",
+        username: null,
+        email: null,
+        role: null
       },
+      // data for the select
+      selected: null,
+      options: [
+        { value: null, text: "Please select a role", disabled: true },
+        { value: "employee", text: "Employee" },
+        { value: "manager", text: "Manager" },
+        { value: "admin", text: "Admin" },
+      ]
     };
   },
   methods: {
     async updateProfile() {
       try {
-        const { username, email } = this.user;
-        const { userId } = getUserFromLocalStorage();
-        const isUserUpdated = await updateUser(userId, username, email);
+        const isUserUpdated = await updateUser(
+          this.userId,
+          this.user.username,
+          this.user.email,
+          this.user.role
+        );
+
         if (!isUserUpdated) alert("Unable to update account");
+        else alert(`${this.user.username} Updated`);
+
+        this.$emit("user_emit", {
+          username: this.user.username,
+          id: this.userId,
+          email: this.user.email,
+          role:  this.user.role
+        });
       } catch (err) {
         console.log("err", err);
         alert("An error occured. try again later.");
       }
-    },
+    }
+  },
+  async mounted() {
+    this.user = await getUserById(this.userId);
   },
 };
 </script>

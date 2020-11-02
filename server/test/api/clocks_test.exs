@@ -5,18 +5,34 @@ defmodule Api.ClocksTest do
 
   describe "clocks" do
     alias Api.Clocks.Clock
+    alias Api.Users
+    alias Api.Users.User
 
     @valid_attrs %{status: true, time: ~N[2010-04-17 14:00:00]}
     @update_attrs %{status: false, time: ~N[2011-05-18 15:01:01]}
     @invalid_attrs %{status: nil, time: nil}
 
     def clock_fixture(attrs \\ %{}) do
-      {:ok, clock} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Clocks.create_clock()
+      rand = Enum.random(1_000..9_999)
+      emailGen = "some@email.com#{rand}"
+      user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
 
-      clock
+      case Users.create_user(user_attrs) do
+        {:ok, user} ->
+          clock = Clocks.createClockForUser(user.id, @valid_attrs)
+      end
+
+      # {:ok, user} = Users.create_user(user_attrs)
+      # Map.put(@valid_attrs, :user, user)
+
+      # clock = Clocks.create_clock(%Clock{}, %{@valid_attrs | user: user.id})
+
+      # {:ok, clock} =
+      #   attrs
+      #   |> Enum.into(%Clock{}, %{@valid_attrs | user: user.id})
+      #   |> Clocks.create_clock()
+
+      # clock
     end
 
     test "list_clocks/0 returns all clocks" do
@@ -30,7 +46,7 @@ defmodule Api.ClocksTest do
     end
 
     test "create_clock/1 with valid data creates a clock" do
-      assert {:ok, %Clock{} = clock} = Clocks.create_clock(@valid_attrs)
+      clock = clock_fixture()
       assert clock.status == true
       assert clock.time == ~N[2010-04-17 14:00:00]
     end

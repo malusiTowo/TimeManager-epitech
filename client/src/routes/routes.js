@@ -21,13 +21,8 @@ const routes = [
           requiresAuth: true
         }
       },
-      // {
-      //   path: '/icons',
-      //   name: 'icons',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
-      // },
       {
-        path: '/profile',
+        path: '/profile/:userId',
         name: 'profile',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/UserProfile.vue'),
         meta: {
@@ -36,27 +31,44 @@ const routes = [
       },
       {
         path: '/chartManager/:userId',
-        name: 'chartMangager',
+        name: 'chart Manager',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/ChartManager.vue'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: '/clock/:username',
         name: 'clock',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Clock/Clock.vue'),
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Clock/ClockHistory.vue'),
         props: true,
         meta: {
           requiresAuth: true
         }
       },
       {
-        path: '/workingtime',
-        name: 'workingtime',
+        path: '/workingtime/:userId',
+        name: 'working times',
         component: () => import(/* webpackChunkName: "demo" */ '../views/WorkingTime.vue'),
         props: true,
         meta: {
           requiresAuth: true
         }
       },
+      {
+        path: '/adminUsers',
+        name: 'admin Users',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Admin/AdminUsers.vue'),
+        props: true,
+        meta: {
+          requiresAuth: true
+        }
+      }
+      // {
+      //   path: '/icons',
+      //   name: 'icons',
+      //   component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
+      // },
       // {
       //   path: '/maps',
       //   name: 'maps',

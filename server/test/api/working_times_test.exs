@@ -2,6 +2,7 @@ defmodule Api.WorkingTimesTest do
   use Api.DataCase
 
   alias Api.WorkingTimes
+  alias Api.Users
 
   describe "working_times" do
     alias Api.WorkingTimes.Workingtimes
@@ -11,12 +12,22 @@ defmodule Api.WorkingTimesTest do
     @invalid_attrs %{end: nil, start: nil}
 
     def workingtimes_fixture(attrs \\ %{}) do
-      {:ok, workingtimes} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> WorkingTimes.create_workingtimes()
 
-      workingtimes
+      rand = Enum.random(1_000..9_999)
+      emailGen = "some@email.com#{rand}"
+      user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
+
+      case Users.create_user(user_attrs) do
+        {:ok, user} ->
+          time = WorkingTimes.createWorkingTimeForUser(user.id, @valid_attrs)
+      end
+
+      # {:ok, workingtimes} =
+      #   attrs
+      #   |> Enum.into(@valid_attrs)
+      #   |> WorkingTimes.createWorkingTimeForUser()
+
+      # workingtimes
     end
 
     test "list_working_times/0 returns all working_times" do
@@ -30,7 +41,7 @@ defmodule Api.WorkingTimesTest do
     end
 
     test "create_workingtimes/1 with valid data creates a workingtimes" do
-      assert {:ok, %Workingtimes{} = workingtimes} = WorkingTimes.create_workingtimes(@valid_attrs)
+      workingtimes = workingtimes_fixture()
       assert workingtimes.end == ~N[2010-04-17 14:00:00]
       assert workingtimes.start == ~N[2010-04-17 14:00:00]
     end
