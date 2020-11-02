@@ -53,14 +53,15 @@
             <i class="ni ni-single-02"></i>
             <span>Profile</span>
           </b-dropdown-item>
+          <div class="dropdown-divider"></div>
           <b-dropdown-item @click="logOut">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
           </b-dropdown-item>
-          <b-dropdown-item @click="removeAccount">
+          <!-- <b-dropdown-item @click="removeAccount">
             <i class="ni ni-user-run"></i>
             <span>Delete account</span>
-          </b-dropdown-item>
+          </b-dropdown-item> -->
         </template>
       </base-dropdown>
     </b-navbar-nav>

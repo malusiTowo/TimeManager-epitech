@@ -20,15 +20,6 @@
           }"
         >
         </sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: 'Profile',
-            path: `/profile/${this.userId}`,
-            icon: 'ni ni-single-02 text-yellow',
-          }"
-        >
-        </sidebar-item>
         <sidebar-item
           :link="{
             name: 'Working Time',
