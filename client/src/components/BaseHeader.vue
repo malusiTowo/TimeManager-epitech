@@ -11,7 +11,7 @@
           xmlns="http://www.w3.org/2000/svg"
         >
           <polygon
-            class="fill-default"
+            class="bgBlackGotham"
             points="2560 0 2560 100 0 100"
           ></polygon>
         </svg>

@@ -43,18 +43,27 @@
           </template>
         </b-row>
         <b-row>
-          <div class="text-center">
+          <b-col lg="6">
             <base-button type="primary" native-type="submit" class="my-4"
               >Update profile</base-button
             >
-          </div>
+          </b-col>
+          <b-col lg="6">
+            <!-- Rajouter methode delete -->
+            <base-button
+             type="danger"
+             class="my-4"
+             
+              >Delete profile</base-button
+            >
+          </b-col>
         </b-row>
       </div>
     </b-form>
   </card>
 </template>
 <script>
-import { getUserFromLocalStorage, updateUser, getUserById } from "@/api/user";
+import { getUserFromLocalStorage, updateUser, getUserById, deleteUser } from "@/api/user";
 
 export default {
   props: {
@@ -106,7 +115,7 @@ export default {
         console.log("err", err);
         alert("An error occured. try again later.");
       }
-    },
+    }
   },
   async mounted() {
     this.user = await getUserById(this.userId);
