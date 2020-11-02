@@ -3,7 +3,9 @@ import moment from "moment-timezone";
 
 import { buildHeaders } from '../user';
 import { formatDateForApi } from '../workingtime'
-const host = process.env.VUE_APP_BACKEND_URL;
+
+const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
+
 const baseUrl = `${host}/api/clocks`;
 
 
