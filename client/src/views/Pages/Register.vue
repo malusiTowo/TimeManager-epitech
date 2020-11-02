@@ -80,8 +80,7 @@
                   </base-input>
                   <b-form-text id="password-help-block">
                     The password must be at least 8 characters long, contain
-                    letters and numbers, and must not contain spaces, special
-                    characters, or emoji.
+                    letters (at least one uppercase letter) and numbers, and must not contain spaces, special characters, or emoji.
                   </b-form-text>
 
                   <div class="text-center">

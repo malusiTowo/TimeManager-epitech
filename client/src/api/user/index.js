@@ -101,12 +101,13 @@ export const signup = async (username, email, password) => {
   }
 }
 
-export const updateUser = async (userId, username, email) => {
+export const updateUser = async (userId, username, email, role) => {
   try {
     const response = await axios.put(`${baseUrl}/${userId}`, {
       user: {
         username,
-        email
+        email,
+        role
       }
     },
       {

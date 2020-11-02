@@ -28,6 +28,21 @@
             >
             </base-input>
           </b-col>
+          <template v-if="isAdmin">
+            <b-col lg="6">
+            <base-input>
+            <b-form-select
+              class="form-control"
+              v-model="user.role"
+              :options="options"
+              prepend-icon="ni ni-key-25"
+            >
+            </b-form-select>
+          </base-input>
+          </b-col>
+          </template>
+        </b-row>
+        <b-row>
           <div class="text-center">
             <base-button type="primary" native-type="submit" class="my-4"
               >Update profile</base-button
@@ -49,13 +64,23 @@ export default {
         ? getUserFromLocalStorage().userId
         : "",
     },
+    isAdmin: false
   },
   data() {
     return {
       user: {
         username: null,
         email: null,
+        role: null
       },
+      // data for the select
+      selected: null,
+      options: [
+        { value: null, text: "Please select a role", disabled: true },
+        { value: "employee", text: "Employee" },
+        { value: "manager", text: "Manager" },
+        { value: "admin", text: "Admin" },
+      ]
     };
   },
   methods: {
@@ -64,7 +89,8 @@ export default {
         const isUserUpdated = await updateUser(
           this.userId,
           this.user.username,
-          this.user.email
+          this.user.email,
+          this.user.role
         );
 
         if (!isUserUpdated) alert("Unable to update account");
@@ -74,6 +100,7 @@ export default {
           username: this.user.username,
           id: this.userId,
           email: this.user.email,
+          role:  this.user.role
         });
       } catch (err) {
         console.log("err", err);
