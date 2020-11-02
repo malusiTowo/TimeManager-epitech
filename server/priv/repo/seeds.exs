@@ -24,6 +24,7 @@ user_params = %{
 update_params = %{
   role: "admin"
 }
+
 changeset = User.registration_changeset(%User{}, user_params)
 
  with {:ok, %User{} = user} <- Repo.insert(changeset) do
