@@ -63,6 +63,14 @@ const routes = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: '/Teams',
+        name: 'AdminTeams',
+        component: () => import('../views/AdminTeams.vue'),
+        meta: {
+          requiresAuth: true
+        }
       }
       // {
       //   path: '/icons',

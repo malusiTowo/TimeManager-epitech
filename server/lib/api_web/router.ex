@@ -21,6 +21,9 @@ defmodule ApiWeb.Router do
 
     pipe_through :authenticated # restrict unauthenticated access for routes below
 
+    resources "/teams", TeamController, except: [:new, :edit]
+    resources "/team_users", TeamUserController, except: [:new, :edit]
+
     resources "/users", UserController, except: [:new, :edit]
 
     put "/workingtimes/:id", WorkingtimesController, :update

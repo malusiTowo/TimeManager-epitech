@@ -56,6 +56,16 @@
           >
           </sidebar-item>
         </template>
+        <template v-if="isAdmin || isManager">
+          <sidebar-item
+          :link="{
+            name: 'Admin Teams',
+            path: '/Teams',
+            icon: 'ni ni-settings text-yellow',
+          }"
+          >
+          </sidebar-item>
+        </template>
       </template>
     </side-bar>
     <div class="main-content">
