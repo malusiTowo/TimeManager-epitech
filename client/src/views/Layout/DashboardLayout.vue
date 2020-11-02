@@ -3,7 +3,8 @@
     <notifications></notifications>
     <side-bar>
       <template slot="links">
-        <sidebar-item
+        <sidebar-item  
+          v-if="!isMobile"
           :link="{
             name: 'Dashboard',
             path: '/dashboard',
@@ -96,12 +97,15 @@ import DashboardContent from "./Content.vue";
 import { FadeTransition } from "vue2-transitions";
 import users from '../Tables/users';
 
+import { isMobile } from "@/api/mobile";
+
 export default {
   data() {
     return {
       userId: null,
       isAdmin: false,
-      isManager: false
+      isManager: false,
+      isMobile: isMobile()
     };
   },
   components: {

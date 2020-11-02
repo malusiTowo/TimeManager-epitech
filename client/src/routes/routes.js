@@ -64,21 +64,6 @@ const routes = [
           requiresAuth: true
         }
       }
-      // {
-      //   path: '/icons',
-      //   name: 'icons',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
-      // },
-      // {
-      //   path: '/maps',
-      //   name: 'maps',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/GoogleMaps.vue')
-      // },
-      // {
-      //   path: '/tables',
-      //   name: 'tables',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/RegularTables.vue')
-      // }
     ]
   },
   {

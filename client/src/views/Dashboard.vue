@@ -16,8 +16,7 @@
     <b-container fluid class="">
       <b-row class="">
         <b-col lg="4" md="6">
-          <h1> {{infos}} </h1>
-          <h1> {{infos2}} </h1>
+          <h1> {{debug}} </h1>
         </b-col>
       </b-row>
     </b-container>
@@ -25,7 +24,6 @@
 </template>
 <script>
 import Clock from "./Clock/Clock";
-import { isMobile ,LocalStorageData , setLocalStorageData} from "@/api/mobile";
 
 export default {
   components: {
@@ -33,15 +31,11 @@ export default {
   },
   data() {
     return {
-      infos : "",
-      infos2 : ""
+      debug : ""
     };
   },
   methods: {},
   mounted() {
-    setLocalStorageData();
-    console.log(LocalStorageData());
-    this.infos = isMobile();
   },
 };
 </script>
