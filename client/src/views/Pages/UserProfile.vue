@@ -13,20 +13,24 @@
 
       <b-row>
         <b-col xl="12" md="12">
-          <EditProfileForm v-bind:userId="userId" @user_emit="updateUser" v-bind:isAdmin="isAdmin"/>
+          <EditProfileForm
+            :userId="userId"
+            @user_emit="updateUser"
+            :isAdmin="isAdmin"
+          />
         </b-col>
       </b-row>
 
       <template v-if="edit">
         <b-row class="mt-4">
           <b-col xl="12" md="12">
-            <WorkingTimeList edit v-bind:userId="userId" />
+            <WorkingTimeList edit :userId="userId" />
           </b-col>
         </b-row>
 
         <b-row class="mt-4">
           <b-col xl="12" md="12">
-            <ClockHistory edit v-bind:userId="userId" />
+            <ClockHistory edit :userId="userId" />
           </b-col>
         </b-row>
       </template>
@@ -62,9 +66,20 @@ export default {
       },
     };
   },
+  watch: {
+    "$route.params.userId": async function (id) {
+      location.reload();
+      // const user = await getUserById(id);
+      // this.updateUser(user);
+      // this.updateUserId(id);
+    },
+  },
   methods: {
     updateUser(user) {
       this.user = user;
+    },
+    updateUserId(userId) {
+      this.userId = userId;
     },
   },
   async mounted() {
@@ -73,14 +88,14 @@ export default {
   mounted() {
     // Check of the role
     const roleGet = getUserFromLocalStorage().user.role;
-    if(roleGet === "admin") {
+    if (roleGet === "admin") {
       this.edit = true;
       this.isAdmin = true;
     }
-    if(roleGet === "manager") {
+    if (roleGet === "manager") {
       this.edit = true;
     }
-  }
+  },
 };
 </script>
 <style>
