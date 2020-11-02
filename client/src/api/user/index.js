@@ -5,6 +5,9 @@ import { userIdIdentifier } from '../../routes/router';
 const host = process.env.VUE_APP_BACKEND_URL;
 const baseUrl = `${host}/api/users`;
 
+console.log("env", process.env)
+console.log("host", host)
+console.log("baseUrl", baseUrl)
 
 export const buildHeaders = () => {
   const token = localStorage.getItem('user_token');
