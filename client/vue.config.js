@@ -5,6 +5,7 @@ function resolveSrc(_path) {
 // vue.config.js
 module.exports = {
   lintOnSave: true,
+
   configureWebpack: {
     // Set up all the aliases we use in our app.
     resolve: {
@@ -13,8 +14,15 @@ module.exports = {
       }
     }
   },
+
   css: {
     // Enable CSS source maps.
     sourceMap: process.env.NODE_ENV !== 'production'
+  },
+
+  publicPath: '',
+
+  pluginOptions: {
+    cordovaPath: 'src-cordova'
   }
 };
