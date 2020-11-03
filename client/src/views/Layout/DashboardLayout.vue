@@ -1,5 +1,11 @@
 <template>
+
   <div class="wrapper">
+
+    <b-button
+      @click="topFunction()" id="myBtn" title="Go to top">
+      <i class="fas fa-arrow-circle-up"></i>
+      </b-button>
     <!-- Side nav bar menu for desktop -->
     <!-- Show only if it's not a mobile -->
     <template>
@@ -129,10 +135,26 @@ export default {
     // method to handle the mobile view
     handleView() {
       this.mobileView = window.innerWidth <= 768;
+    },// When the user scrolls down 20px from the top of the document, show the button
+
+    scrollFunction() {
+      const mybutton = document.getElementById("myBtn")
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    },
+
+    // When the user clicks on the button, scroll to the top of the document
+    topFunction() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
   },
   created() {
     this.handleView();
+    window.addEventListener('scroll', this.scrollFunction);
   },
   mounted() {
     const { userId } = getUserFromLocalStorage();
@@ -147,8 +169,28 @@ export default {
       this.isManager = true;
     }
     this.initScrollbar();
-  },
+  }
 };
 </script>
 <style lang="scss">
+
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */ 
+  bottom: 60px;
+  right: 10px; /* Place the button 30px from the right */
+  z-index: 1; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: grey; /* Set a background color */
+  opacity: 0.25;
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
+}
 </style>

@@ -237,3 +237,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.smart-pagination {
+  z-index: 0;
+}
+</style>

@@ -23,12 +23,6 @@
       ></md-tab>
 
       <md-tab
-        md-label="Profile"
-        md-icon=""
-        :to="{ path: '/profile/' + userId }"
-      ></md-tab>
-
-      <md-tab
         md-label="Admin"
         md-icon=""
         
@@ -57,7 +51,9 @@ export default {
     userId: null,
     username: null
   },
+  
 };
+
 </script>
 <style>
 /* .md-tabs + .md-tabs {
@@ -67,13 +63,14 @@ export default {
   position: fixed;
   left: 0;
   bottom: 0;
+  z-index: 1 !important;
   width: 100%;
   color: black;
   text-align: center;
 }
 .md-tabs-navigation {
   background-color: #ffd600 !important;
-  z-index: 1000 !important ;
+  z-index: 1 !important ;
 }
 .mb48 {
   margin-bottom: 48px;

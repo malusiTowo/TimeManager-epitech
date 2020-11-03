@@ -180,7 +180,12 @@ export default {
   },
 };
 </script>
-<style>
+
+<style lang="scss">
+.smart-pagination {
+  z-index: 0;
+}
 </style>
+
 
 

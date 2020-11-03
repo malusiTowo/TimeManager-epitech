@@ -124,11 +124,16 @@ export default {
     },
     deleteProfile() {
       console.log("Delete : " + this.userId);
-      try {
-        deleteUser(this.userId);
-        this.$router.replace("/adminUsers");
-      } catch (error) {
-        alert("Impossible to delete the account. Try again later.");
+      if (confirm("Do you want to delete this user?") == true) {
+        try {
+          deleteUser(this.userId);
+          this.$router.replace("/adminUsers");
+        } catch (error) {
+          alert("Impossible to delete the account. Try again later.");
+        }
+      }
+      else{
+        //
       }
     },
   },
