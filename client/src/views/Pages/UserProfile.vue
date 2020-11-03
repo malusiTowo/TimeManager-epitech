@@ -4,7 +4,7 @@
     <base-header></base-header>
 
     <!--User Info-->
-    <b-container fluid class="mt--9 mb48">
+    <b-container fluid class="mt--9 ">
       <b-row>
         <b-col xl="12" md="12">
           <h1>{{ user.username }}</h1>
@@ -13,7 +13,12 @@
 
       <b-row>
         <b-col xl="12" md="12">
-          <EditProfileForm v-bind:userId="userId" @user_emit="updateUser" v-bind:isAdmin="isAdmin"/>
+          <EditProfileForm
+           v-bind:userId="userId"
+           v-bind:isManager="edit"
+           @user_emit="updateUser"
+           v-bind:isAdmin="isAdmin"
+          />
         </b-col>
       </b-row>
 

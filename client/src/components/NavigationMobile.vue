@@ -28,6 +28,24 @@
         :to="{ path: '/profile/' + userId }"
       ></md-tab>
 
+      <md-tab
+        md-label="Admin"
+        md-icon=""
+        
+      ></md-tab>
+
+      <!-- <md-tab
+        md-label="Admin Users"
+        md-icon=""
+        :to="{ path: '/adminUsers/' }"
+      ></md-tab>
+
+      <md-tab
+        md-label="Chart Manager"
+        md-icon=""
+        :to="{ path: '/chartManager/' + userId }"
+      ></md-tab> -->
+
     </md-tabs>
   </div>
 </template>

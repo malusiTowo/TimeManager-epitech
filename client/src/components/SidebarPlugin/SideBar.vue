@@ -36,7 +36,7 @@
             </router-link>
 
             <div class="dropdown-divider"></div>
-            <a href="#!" class="dropdown-item">
+            <a @click="logOut" class="dropdown-item">
               <i class="ni ni-user-run"></i>
               <span>Logout</span>
             </a>
@@ -66,7 +66,7 @@
         <!-- Slot for the menu only show in desktop -->
         <template>
           <ul class="navbar-nav">
-          <slot name="links"> </slot>
+          <slot name="links"></slot>
         </ul>
         </template>
         
@@ -78,6 +78,10 @@
 </template>
 <script>
 import NavbarToggleButton from "@/components/NavbarToggleButton";
+import {
+  removeUserFromLocalStorage,
+  getUserFromLocalStorage,
+} from "../../api/user";
 
 export default {
   name: "sidebar",
@@ -111,7 +115,16 @@ export default {
     },
     showSidebar() {
       this.$sidebar.displaySidebar(true);
-    }
+    },
+    logOut() {
+      removeUserFromLocalStorage();
+      const { userId } = getUserFromLocalStorage();
+      if (!userId) {
+        this.$router.replace("login");
+      } else {
+        alert("Unable to log out");
+      }
+    },
   },
   beforeDestroy() {
     if (this.$sidebar.showSidebar) {

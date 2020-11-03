@@ -7,16 +7,17 @@
       <b-card no-body>
         <b-row align-v="center" slot="header">
           <b-col cols="8" xl="12" md="12">
-            <h1 class="mb-0">Admin Users</h1>
+            <h1 class="mb-0">Admin</h1>
           </b-col>
         </b-row>
 
         <b-row class="mt-3 mr-3 ml-3 mb-4">
           <b-col>
-            <create-employee />
+            <create-employee
+            v-on:event_child="usersCallback"
+            />
           </b-col>
           <b-col>
-            <!-- <label>Search...</label> -->
             <input
               class="form-control"
               v-model="filters.name.value"
@@ -29,7 +30,10 @@
         <b-row>
           <!-- <b-row class="mt-3 mr-3 mb-3 ml-3"> -->
           <b-col>
-            <v-table class="table" :data="users" :filters="filters">
+            <v-table
+             class="table"
+            :data="users"
+            :filters="filters">
               <thead slot="head">
                 <!-- <tr> -->
                 <v-th sortKey="username" defaultSort="asc">Username</v-th>
@@ -98,8 +102,16 @@ export default {
       },
     };
   },
+  methods: {
+    getEmployee: async function() {
+      return this.users = await getUsers();
+    },
+    usersCallback: function() {
+      this.getEmployee();
+    }
+  },
   async mounted() {
-    this.users = await getUsers();
+    await this.getEmployee();
   },
   components: {
     CreateEmployee,
