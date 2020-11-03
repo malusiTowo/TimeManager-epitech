@@ -5,10 +5,10 @@
         modals.create = true;
         errors = [];
       "
-      >New Team</b-button
+      >Add User</b-button
     >
 
-    <b-modal v-model="modals.create" title="Create team">
+    <b-modal v-model="modals.create" title="Add user">
       <b-container fluid>
         <b-col xl="12" md="12">
           <b-alert show variant="warning" v-if="errors.length">
@@ -19,28 +19,31 @@
           </b-alert>
 
           <form
-            id="CreateNewTeamForm"
+            id="AddNewTeamUser"
             @submit="checkForm"
-            v-on:submit.prevent="CreateNewTeam"
+            v-on:submit.prevent="AddNewTeamUser"
           >
             <div class="form-group">
-              <label for="name">Team Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Team Name"
-                v-model="form.name"
-              />
+              <label for="name">User</label>
+                <base-input>
+                    <b-form-select
+                    class="form-control"
+                    v-model="form.user"
+                    :options="users"
+                    prepend-icon="ni ni-key-25"
+                    >
+                    </b-form-select>
+                </base-input>
             </div>
+
             <div class="form-group">
-              <label for="name">Description</label>
+              <label for="name">Team function</label>
               <input
                 type="text"
                 class="form-control"
                 id="description"
-                placeholder="Team description ... "
-                v-model="form.description"
+                placeholder="ex: developper ... "
+                v-model="form.role"
               />
             </div>
           </form>
@@ -61,7 +64,7 @@
           class="float-right"
           @click="createNewTeam"
         >
-          Create
+          Add
         </b-button>
       </template>
     </b-modal>
@@ -70,11 +73,16 @@
 
 <script>
 
-import { createTeam } from "@/api/team";
+import { addTeamUser } from "@/api/team";
+import { getUsers } from "@/api/user";
 
 export default {
-  name: "team-create",
+  name: "team-member-add",
 
+  props: {
+    teamId: [Number, String]
+  },
+  
   data() {
     return {
       modals: {
@@ -82,29 +90,46 @@ export default {
       },
       errors: [],
       form: {
-        name: null,
-        description: null,
-      }
+        team: null,
+        user: null,
+        role: null,
+      },
+      users: [
+        { value: null, text: "Please select a User", disabled: true }
+      ]
     };
   },
 
-  methods: {
+  async mounted(){
 
-    submitForm(evt) {
-      evt.preventDefault();
-      document.getElementById("createNewTeamForm").submit();
-    },
+    const userList = await getUsers();
+
+    for (let user of userList) {
+        this.users.push({
+            value: user.id,
+            text: user.username
+        });
+    }
+
+  },
+
+  methods: {
     
     async checkForm() {
       let checker = true;
       this.errors = [];
-
-      if (!this.form.name) {
-        this.errors.push("Name required.");
+      
+      if (!this.form.team) {
+        this.errors.push("Team required.");
         checker = false;
       }
-      if (!this.form.description) {
-        this.errors.push("Description required.");
+
+      if (!this.form.user) {
+        this.errors.push("User required.");
+        checker = false;
+      }
+      if (!this.form.role) {
+        this.errors.push("role required.");
         checker = false;
       }
 
@@ -112,19 +137,19 @@ export default {
     },
 
     async createNewTeam() {
-      this.form.idUser = this.userId;
+
+      this.form.team = this.teamId;
 
       if (!(await this.checkForm())) {
         return false;
       }
 
       try {
-        await createTeam(this.form.name, this.form.description);
-        //console.log(this.selectedUser + " " + this.form.start + " " + this.form.end);
+        await addTeamUser(this.form);
+       
         this.$emit("event_child");
         this.modals.create = false;
-        this.form.name = null;
-        this.form.description = null;
+        this.form.role = null;
       } catch (err) {
         this.errors.push("Team create failed.");
       }

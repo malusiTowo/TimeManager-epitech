@@ -5,14 +5,14 @@ defmodule Api.TeamContext.TeamUser do
   schema "team_users" do
     field :user, :id
     field :team, :id
-
+    field :role, :string
     timestamps()
   end
 
   @doc false
   def changeset(team_user, attrs) do
     team_user
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:user, :team, :role])
+    |> validate_required([:user, :team])
   end
 end

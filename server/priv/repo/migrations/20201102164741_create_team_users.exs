@@ -3,13 +3,12 @@ defmodule Api.Repo.Migrations.CreateTeamUsers do
 
   def change do
     create table(:team_users) do
-      add :user, references(:users, on_delete: :nothing)
-      add :team, references(:teams, on_delete: :nothing)
-
+      add :user, references(:users, on_delete: :nothing), null: false
+      add :team, references(:teams, on_delete: :nothing), null: false
+      add :role, :string, null: false
       timestamps()
     end
 
-    create index(:team_users, [:user])
-    create index(:team_users, [:team])
+    create unique_index(:team_users, [:user, :team])
   end
 end

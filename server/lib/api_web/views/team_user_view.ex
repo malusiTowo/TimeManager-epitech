@@ -11,6 +11,9 @@ defmodule ApiWeb.TeamUserView do
   end
 
   def render("team_user.json", %{team_user: team_user}) do
-    %{id: team_user.id}
+    %{id: team_user.id,
+      team: team_user.team,
+      user: team_user.user,
+      role: team_user.role}
   end
 end

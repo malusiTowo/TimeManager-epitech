@@ -6,6 +6,16 @@ defmodule ApiWeb.TeamUserController do
 
   action_fallback ApiWeb.FallbackController
 
+  def index(conn, %{"teamId" => teamId}) do
+    team_users = TeamContext.list_team_users_by_team(teamId)
+    render(conn, "index.json", team_users: team_users)
+  end
+
+  def index(conn, %{"userId" => userId}) do
+    team_users = TeamContext.list_team_users_by_user(userId)
+    render(conn, "index.json", team_users: team_users)
+  end
+
   def index(conn, _params) do
     team_users = TeamContext.list_team_users()
     render(conn, "index.json", team_users: team_users)

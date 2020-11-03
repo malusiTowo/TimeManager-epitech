@@ -43,7 +43,17 @@
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
           <td>
-            <TeamUpdate :teamId="item.id" v-on:event_child="TeamCallback" />
+            <b-button
+              :to="{ name: 'Team', params: { teamId: item.id } }"
+              size="sm"
+              variant="outline-warning"
+              icon
+            >
+                <!-- <span class="btn-inner--icon"
+                  ><i class="ni ni-single-02"></i
+                ></span> -->
+              <span class="btn-inner--text">See infos</span>
+            </b-button>
           </td>
           <td>
             <TeamDelete :teamId="item.id" v-on:event_child="TeamCallback" />
@@ -88,7 +98,7 @@ export default {
   data() {
     return {
       filters: {
-          name: { value: "", keys: ["name"] },
+          name: { value: "", keys: ["name", "description"] },
       },
       items: [],
       pageSize: 10,

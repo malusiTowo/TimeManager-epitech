@@ -103,7 +103,7 @@ defmodule Api.TeamContext do
   end
 
   alias Api.TeamContext.TeamUser
-
+  alias Api.Users.User
   @doc """
   Returns the list of team_users.
 
@@ -115,6 +115,23 @@ defmodule Api.TeamContext do
   """
   def list_team_users do
     Repo.all(TeamUser)
+  end
+
+  def list_team_users_by_team(teamId) do
+    query = from(t in TeamUser, where: t.team == ^teamId)
+
+    # query = (from t in TeamUser,
+    # where: t.team == ^teamId
+    # join: u in User,
+    # on: u.id == t.team,
+    # select: %{id: t.id, team: t.team, user: u.username, role: t.role})
+
+    Repo.all(query)
+  end
+
+  def list_team_users_by_user(userId) do
+    query = from(t in TeamUser, where: t.user == ^userId)
+    Repo.all(query)
   end
 
   @doc """

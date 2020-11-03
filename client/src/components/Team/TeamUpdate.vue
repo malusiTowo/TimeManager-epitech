@@ -1,73 +1,46 @@
 <template>
-  <div>
-    <b-button
-      @click="
-        modals.update = true;
-        errors = [];
-      "
-      variant="success"
-      >Update</b-button
-    >
+  <card>
+    <b-row align-v="center" slot="header">
+      <b-col cols="8">
+        <h1 class="mb-0">Edit Team</h1>
+      </b-col>
+    </b-row>
+    <b-form @submit.prevent="updateNewTeam">
+      <h6 class="heading-small text-muted mb-4">Team information</h6>
 
-    <b-modal v-model="modals.update" title="Update team">
-      <b-container fluid>
-        <b-col xl="12" md="12">
-          <b-alert show variant="warning" v-if="errors.length">
-            <strong>Fields error:</strong>
-            <ul>
-              <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-            </ul>
-          </b-alert>
-
-          <form
-            id="UpdateNewTeamForm"
-            @submit="checkForm"
-            v-on:submit.prevent="UpdateNewTeam"
-          >
-            <div class="form-group">
-              <label for="name">Team Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Team Name"
-                v-model="form.name"
-              />
-            </div>
-            <div class="form-group">
-              <label for="name">Description</label>
-              <input
-                type="text"
-                class="form-control"
-                id="description"
-                placeholder="Team description ... "
-                v-model="form.description"
-              />
-            </div>
-          </form>
-
-        </b-col>
-      </b-container>
-
-      <template #modal-footer>
-        <b-button
-          variant="primary"
-          class="float-right"
-          @click="modals.update = false"
-        >
-          Close
-        </b-button>
-        <b-button
-          variant="success"
-          class="float-right"
-          @click="updateNewTeam"
-        >
-          Update
-        </b-button>
-      </template>
-    </b-modal>
-  </div>
+      <div class="pl-lg-4">
+        <b-row>
+          <b-col lg="6">
+            <base-input
+              type="text"
+              label="Team Name"
+              placeholder="Team Name"
+              v-model="form.name"
+            >
+            </base-input>
+          </b-col>
+          <b-col lg="6">
+            <base-input
+              type="text"
+              label="Description"
+              placeholder="..."
+              v-model="form.description"
+            >
+            </base-input>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col lg="6">
+            <base-button type="primary" native-type="submit" class="my-4">
+              Update profile
+            </base-button>
+          </b-col>
+        </b-row>
+      </div>
+    </b-form>
+  </card>
 </template>
+
 
 <script>
 
@@ -98,11 +71,6 @@ export default {
 
   methods: {
 
-    submitForm(evt) {
-      evt.preventDefault();
-      document.getElementById("updateNewTeamForm").submit();
-    },
-
     async checkForm() {
       let checker = true;
       this.errors = [];
@@ -120,16 +88,17 @@ export default {
     },
 
     async updateNewTeam() {
-      this.form.idUser = this.userId;
+          
+      console.log('oui');
 
       if (!(await this.checkForm())) {
         return false;
       }
 
       try {
-        await updateTeam(this.form.name, this.form.description);
+        await updateTeam(this.form);
         this.$emit("event_child");
-        this.modals.update = false;
+    
       } catch (err) {
         this.errors.push("Team update failed.");
       }
