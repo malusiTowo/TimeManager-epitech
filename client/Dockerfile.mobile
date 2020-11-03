@@ -1,0 +1,19 @@
+# FROM runmymind/docker-android-sdk:alpine-lazydl
+FROM alvrme/alpine-android:android-30
+
+WORKDIR /app
+
+RUN apk add --update nodejs npm
+
+RUN npm install -g cordova
+
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+RUN npm run cordova-prepare
+
+RUN  npm run cordova-build-android
