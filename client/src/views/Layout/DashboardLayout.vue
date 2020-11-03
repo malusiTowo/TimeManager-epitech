@@ -61,7 +61,7 @@
           :link="{
             name: 'Admin Teams',
             path: '/Teams',
-            icon: 'ni ni-settings text-yellow',
+            icon: 'fa fa-users text-yellow',
           }"
           >
           </sidebar-item>
