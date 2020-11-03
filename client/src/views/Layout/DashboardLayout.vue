@@ -2,8 +2,7 @@
   <div class="wrapper">
     <!-- Side nav bar menu for desktop -->
     <!-- Show only if it's not a mobile -->
-    <!-- <template v-if="!mobileView"> -->
-    <template v-if="!mobileView">
+    <template>
       <side-bar
        v-bind:username="this.username" 
        v-bind:userId="this.userId"
@@ -14,15 +13,6 @@
               name: 'Dashboard',
               path: '/dashboard',
               icon: 'ni ni-tv-2 text-yellow',
-            }"
-          >
-          </sidebar-item>
-
-          <sidebar-item
-            :link="{
-              name: 'Chart Manager',
-              path: `/chartManager/${this.userId}`,
-              icon: 'ni ni-planet text-yellow',
             }"
           >
           </sidebar-item>
@@ -52,6 +42,14 @@
               }"
             >
             </sidebar-item>
+            <sidebar-item
+            :link="{
+              name: 'Chart Manager',
+              path: `/chartManager/${this.userId}`,
+              icon: 'ni ni-planet text-yellow',
+            }"
+          >
+          </sidebar-item>
           </template>
         </template>
       </side-bar>
@@ -111,8 +109,7 @@ export default {
       username: null,
       isAdmin: false,
       isManager: false,
-      mobileView: false,
-      showNav: false
+      mobileView: false
     };
   },
   components: {

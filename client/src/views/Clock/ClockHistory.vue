@@ -4,7 +4,7 @@
     <base-header></base-header>
 
     <!-- Card clock -->
-    <b-container fluid class="mt--9">
+    <b-container fluid class="mt--9 mb48">
       <b-row class="">
         <b-col lg="4" md="6">
           <clock-card

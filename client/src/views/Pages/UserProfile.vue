@@ -4,7 +4,7 @@
     <base-header></base-header>
 
     <!--User Info-->
-    <b-container fluid class="mt--9">
+    <b-container fluid class="mt--9 mb48">
       <b-row>
         <b-col xl="12" md="12">
           <h1>{{ user.username }}</h1>

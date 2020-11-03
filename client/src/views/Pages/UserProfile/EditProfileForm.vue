@@ -41,7 +41,7 @@
           </base-input>
           </b-col>
           </template>
-        </b-row>
+        </b-row> 
         <b-row>
           <b-col lg="6">
             <base-button type="primary" native-type="submit" class="my-4"
