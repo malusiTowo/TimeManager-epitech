@@ -5,7 +5,8 @@
   >
     <div class="container-fluid">
       <!--Toggler-->
-      <navbar-toggle-button @click.native="showSidebar"> </navbar-toggle-button>
+      <!-- <navbar-toggle-button @click.native="showSidebar"> </navbar-toggle-button> -->
+      <!-- Logo need to appear on the mobile app -->
       <router-link class="navbar-brand" to="/">
         <img :src="logo" class="navbar-brand-img" alt="..." />
       </router-link>
@@ -28,7 +29,7 @@
             </div>
             <div class="dropdown-divider"></div>
             <router-link
-             :to="{ name: 'profile', params: { userId: id } }"
+             :to="{ name: 'profile', params: { userId: userId } }"
              class="dropdown-item">
               <i class="ni ni-single-02"></i>
               <span>My profile</span>
@@ -61,10 +62,13 @@
             </div>
           </div>
         </div>
-
-        <ul class="navbar-nav">
+        <!-- Slot for the menu only show in desktop -->
+        <template>
+          <ul class="navbar-nav">
           <slot name="links"> </slot>
         </ul>
+        </template>
+        
         <!--Divider-->
         <hr class="my-3" />
       </div>
@@ -91,7 +95,9 @@ export default {
       description:
         "Whether sidebar should autoclose on mobile when clicking an item",
     },
-    username: String
+    username: String,
+    userId: null,
+    show: null
   },
   provide() {
     return {
@@ -104,7 +110,7 @@ export default {
     },
     showSidebar() {
       this.$sidebar.displaySidebar(true);
-    },
+    }
   },
   beforeDestroy() {
     if (this.$sidebar.showSidebar) {
