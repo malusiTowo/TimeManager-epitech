@@ -29,15 +29,12 @@
 </template>
 <script>
 import Clock from "./Clock/Clock";
-import clocks from "./../components/graphs/Clocks";
 import ChartManager from "../views/Pages/ChartManager";
 import { getUserFromLocalStorage } from "@/api/user";
 
-import clocks from "./../components/graphs/Clocks";
 export default {
   components: {
     Clock,
-    clocks,
     ChartManager
   },
 
