@@ -92,7 +92,7 @@ export default {
       {
         return "Clocks";
       }
-      else
+      else (this.isOffSetSelected)
       {
         return "Off-set";
       }
@@ -110,5 +110,8 @@ export default {
 <style lang="scss">
 .md-button-content {
   font-weight: bold;
+}
+.md-tabs-navigation {
+ z-index: 0 !important;
 }
 </style>

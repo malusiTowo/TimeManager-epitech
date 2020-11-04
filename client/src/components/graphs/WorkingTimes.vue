@@ -30,6 +30,7 @@
             resize="true"
             grid-text-weight="bold"
           ></bar-chart>
+          
         </b-card-body>
       </b-card>
     </b-col>
@@ -46,6 +47,7 @@ import {
   getDiffHours,
   formatDate,
   getTimesAndClocksForGraph,
+  formatDateFromApi
 } from "../../api/workingtime";
 import { getUserFromLocalStorage } from "../../api/user";
 
@@ -78,7 +80,7 @@ export default {
         const hours = getDiffHours(d.start, d.end);
         return {
           ...d,
-          start: formatDate(d.start),
+          start: formatDateFromApi(d.start, "YYYY-MM-DD"),
           hours: hours > 12 ? 12 : hours,
         };
       });
