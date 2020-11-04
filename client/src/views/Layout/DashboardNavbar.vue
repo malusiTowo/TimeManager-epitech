@@ -13,7 +13,7 @@
     </a>
     <!-- Navbar links -->
     <b-navbar-nav class="align-items-center ml-md-auto">
-      <!-- This item dont have <b-nav-item> because item have data-action/data-target on tag <a>, wich we cant add -->
+      <!-- This item dont have <b-nav-item> because item have data-action/data-target on tag <a>, which we cant add -->
       <li class="nav-item d-sm-none">
         <a
           class="nav-link"
@@ -36,7 +36,7 @@
         <a href="#" class="nav-link pr-0" @click.prevent slot="title-container">
           <b-media no-body class="align-items-center">
             <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder" src="img/user-placeholder.jpeg" />
+              <img alt="Image placeholder" src="img/user-placeholder.png" />
             </span>
             <b-media-body class="ml-2 d-none d-lg-block">
               <span class="mb-0 text-sm font-weight-bold">{{ name }}</span>
@@ -53,13 +53,14 @@
             <i class="ni ni-single-02"></i>
             <span>Profile</span>
           </b-dropdown-item>
+          <div class="dropdown-divider"></div>
+          <b-dropdown-item @click="removeAccount">
+            <i class="fa fa-trash"></i>
+            <span>Delete account</span>
+          </b-dropdown-item>
           <b-dropdown-item @click="logOut">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
-          </b-dropdown-item>
-          <b-dropdown-item @click="removeAccount">
-            <i class="ni ni-user-run"></i>
-            <span>Delete account</span>
           </b-dropdown-item>
         </template>
       </base-dropdown>
@@ -70,7 +71,7 @@
 import { CollapseTransition } from "vue2-transitions";
 import { BaseNav, Modal } from "@/components";
 import {
-  deleteUser,
+  deleteUserbyUser,
   removeUserFromLocalStorage,
   getUserFromLocalStorage,
 } from "../../api/user";
@@ -122,7 +123,7 @@ export default {
     },
     removeAccount() {
       const { userId } = getUserFromLocalStorage();
-      deleteUser(userId);
+      deleteUserbyUser(userId);
       const { userId: userDeleted } = getUserFromLocalStorage();
       if (!userDeleted) {
         this.$router.replace("register");

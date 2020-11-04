@@ -9,21 +9,47 @@
           <Clock />
         </b-col>
       </b-row>
+      <b-row class="">
+        <b-col lg="12" md="6">
+          <ChartManager />
+        </b-col>
+      </b-row>
     </b-container>
+
+
   </div>
 </template>
 <script>
 import Clock from "./Clock/Clock";
+import ChartManager from "../views/Pages/ChartManager";
+import { getUserFromLocalStorage } from "@/api/user";
 
 export default {
   components: {
     Clock,
+    ChartManager
   },
+
   data() {
-    return {};
+    return {
+      userId: this.getUserId(),
+    };
   },
-  methods: {},
-  mounted() {},
+  methods: {
+    getUserId() {
+      if(this.$route.params.userId){
+        return this.$route.params.userId;
+      }
+      return getUserFromLocalStorage().userId;
+    }
+  },
+  mounted() {
+  },
+  watch: {
+    "$route.params.userId": async function (id) {
+      location.reload();
+    }
+  },
 };
 </script>
 <style>

@@ -51,9 +51,12 @@ export const getUserId = () => {
 
   let id = null;
 
-
-  if (id = getUserFromLocalStorage()['user']['id'])
+  const user = getUserFromLocalStorage();
+  console.log(user);
+  if (user['user'] && (id = user['user']['id'])) {
+    console.log(id);
     return id;
+  }
   else
     return "";
 
@@ -104,12 +107,13 @@ export const signup = async (username, email, password) => {
   }
 }
 
-export const updateUser = async (userId, username, email, role) => {
+export const updateUser = async (userId, username, email, password, role) => {
   try {
     const response = await axios.put(`${baseUrl}/${userId}`, {
       user: {
         username,
         email,
+        password,
         role
       }
     },
@@ -133,6 +137,11 @@ export const updateUser = async (userId, username, email, role) => {
 }
 
 export const deleteUser = userId => {
+  axios.delete(`${baseUrl}/${userId}`, { headers: buildHeaders() });
+  // removeUserFromLocalStorage();
+};
+
+export const deleteUserbyUser = userId => {
   axios.delete(`${baseUrl}/${userId}`, { headers: buildHeaders() });
   removeUserFromLocalStorage();
 };

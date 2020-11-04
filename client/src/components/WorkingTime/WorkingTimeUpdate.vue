@@ -5,7 +5,8 @@
         modals.update = true;
         errors = [];
       "
-      variant="primary"
+      size="sm"
+      variant="outline-primary"
       >Update</b-button
     >
 

@@ -1,21 +1,30 @@
 <template>
   <div>
-    <b-button @click="modalShow = true">Create Employee</b-button>
-
+    <b-button
+     @click="modalShow = true;
+     errors = [];"
+     variant="outline-info"
+    >Create Employee</b-button>
     <b-modal size="lg" v-model="modalShow" title="Create Employee">
       <div class="text-center mb-4">
         <p>Please fill all the information below to create a new employee</p>
       </div>
-<!-- A retravailler -->
-      <!-- <b-alert v-if="errors.length" show variant="warning">
+      <!-- A retravailler -->
+      <b-alert
+       v-if="errors.length"
+       show variant="warning"
+      >
         <b>Please correct the following error(s):</b>
         <ul>
-          <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+          <li
+           v-for="error in errors"
+           v-bind:key="error"
+          >{{ error }}</li>
         </ul>
-      </b-alert> -->
+      </b-alert>
 
       <b-form
-        id="createEmployee"
+        id="CreateEmployee"
         @submit="checkForm"
         @reset="onCancel"
         v-on:submit.prevent="onSubmit"
@@ -91,24 +100,32 @@
           </b-form-text>
         </b-form-group>
 
-        <b-form-group label="Role">
-          <base-input>
-            <b-form-select
-              class="form-control"
-              v-model="selected"
-              :options="options"
-              prepend-icon="ni ni-key-25"
-            >
-            </b-form-select>
-          </base-input>
-        </b-form-group>
+        <template v-if="isAdmin">
+          <b-form-group label="Role">
+            <base-input>
+              <b-form-select
+                class="form-control"
+                v-model="selected"
+                :options="options"
+                prepend-icon="ni ni-key-25"
+              >
+              </b-form-select>
+            </base-input>
+          </b-form-group>
+        </template>
       </b-form>
       <template #modal-footer>
-        <b-button variant="danger" v-on:click="onCancel" type="reset">
+        <b-button
+         variant="danger"
+         type="reset"
+         v-on:click="onCancel"
+        >
           Cancel
         </b-button>
-        <b-button v-on:click="onSubmit" >
-          <!-- <b-button v-on:click="onSubmit" :disabled="disabledCreate"> -->
+        <b-button
+         v-on:click="onSubmit"
+         :disabled="disabledCreate"
+        >
           Create
         </b-button>
       </template>
@@ -131,7 +148,7 @@ export default {
       form: {
         username: "",
         email: "",
-        password: ""
+        password: "",
       },
       // data for the select
       selected: null,
@@ -143,8 +160,15 @@ export default {
       ],
     };
   },
+  props: {
+    isAdmin: false,
+  },
   methods: {
-    checkForm() {
+    submitForm(e) {
+      e.preventDefault();
+      document.getElementById("CreateEmployee").submit();
+    },
+    async checkForm() {
       this.errors = [];
       if (this.form.username && this.form.email && this.form.password) {
         this.disabledCreate = false;
@@ -173,13 +197,20 @@ export default {
       }
       try {
         // add an user creation confirmation
-        await signup(this.form.username, this.form.email, this.form.password);
-        //this.$emit("event_child");
+        await signup(
+          this.form.username,
+          this.form.email,
+          this.form.password
+        );
+        this.$emit("event_child");
         this.modalShow = false;
         this.form.username = "";
         this.form.email = "";
+        this.form.password = "";
+        this.erros = [];
       } catch (err) {
         this.modalShow = true;
+        this.errors.push("Employee creation failed.");
         console.log("Echec " + err);
       }
     },
@@ -187,12 +218,25 @@ export default {
       e.preventDefault();
       this.form.username = "";
       this.form.email = "";
-      this.erros = [];
+      this.form.password = "";
       this.modalShow = false;
+      this.erros = [];
     },
   },
 };
 </script>
-
 <style>
+
+.btn-outline-info {
+    color: #0b8fa7;
+    background-color: transparent;
+    background-image: none;
+    border-color: #0b8fa7;
+}
+.btn-outline-info:hover {
+    color:  white;
+    background-color: #0b8fa7;
+    border-color: #0b8fa7;
+}
+
 </style>

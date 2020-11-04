@@ -4,7 +4,7 @@
     <base-header></base-header>
 
     <!-- Card clock -->
-    <b-container fluid class="mt--9">
+    <b-container fluid class="mt--9 mb48">
       <b-row class="">
         <b-col lg="4" md="6">
           <clock-card
@@ -110,6 +110,10 @@ import SmartTable from "vuejs-smart-table";
 import axios from "axios";
 
 import moment from "moment";
+import {
+  formatDateForApi,
+  formatDateFromApi,
+} from "@/api/workingtime";
 
 export default {
   components: {
@@ -178,8 +182,7 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myClock.time);
-        this.myDate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
+        this.myDate  = this.formatDate(this.myClock.time);
       } catch (error) {
         console.log("error", error);
       }
@@ -188,15 +191,14 @@ export default {
       try {
         const response = await getClockUser(this.userId);
         if (response) {
-          console.log("je suis la");
           response.sort(function (a, b) {
             return a.time > b.time ? 1 : -1;
           });
 
           this.myLastClock = response.pop();
-          console.log(this.myLastClock);
         }
-        //this.myLastClock = response[(response.length -1)];
+
+        if(this.myLastClock != null){
         if (this.myLastClock.status == true) {
           this.subTitle = "Clock-In";
           this.type = "gradient-green";
@@ -204,17 +206,16 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myLastClock.time);
-        this.myDate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
+
+        this.myDate  = this.formatDate(this.myLastClock.time);
         this.refreshClock();
+        }
       } catch (error) {
         console.log("error", error);
       }
     },
     formatDate: function (date) {
-      const myUTCdate = moment.utc(date);
-      const myLocaldate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
-      return myLocaldate;
+      return formatDateFromApi(date, "YYYY-MM-DD HH:mm:ss");
     },
 
     refreshClock: async function () {
@@ -239,3 +240,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.smart-pagination {
+  z-index: 0;
+}
+</style>

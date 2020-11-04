@@ -8,7 +8,7 @@
       </b-row>
       <b-row class="mt-3 mr-3 mb-3 ml-3">
         <b-col>
-          <clock-create v-if="edit" v-on:event_child="ClockCallback" />
+          <clock-create v-if="edit" :userId="userId" v-on:event_child="ClockCallback" />
         </b-col>
         <b-col>
           <clock-delete-all
@@ -42,7 +42,7 @@
           />
         </b-col>
       </b-row>
-      <v-table
+      <v-table id="myClocksHistory"
         :data="items"
         :currentPage.sync="currentPage"
         :pageSize="10"
@@ -75,7 +75,7 @@
           </v-tr>
         </tbody>
       </v-table>
-      <smart-pagination
+      <smart-pagination id="myPagination"
         :currentPage.sync="currentPage"
         :totalPages="totalPages"
       />
@@ -85,6 +85,10 @@
 <script>
 import { getUserFromLocalStorage } from "../../api/user";
 import { clock, getClockUser } from "../../api/clock";
+import {
+  formatDateForApi,
+  formatDateFromApi,
+} from "@/api/workingtime";
 import { ClockCreate, ClockDelete, ClockDeleteAll } from "@/components";
 import {
   Dropdown,
@@ -118,6 +122,9 @@ export default {
       type: Boolean,
       default: false,
     },
+    userId: {
+      type: [String, Number],
+    }
   },
   data() {
     return {
@@ -125,7 +132,7 @@ export default {
       myLastClock: {},
       userFound: null,
       myDate: null,
-      userId: null,
+      //userId: null,
       subTitle: null,
       type: null,
       username: null,
@@ -158,7 +165,7 @@ export default {
     },
     async onClick() {
       try {
-        this.userId = getUserFromLocalStorage().userId;
+        //this.userId = getUserFromLocalStorage().userId;
         const response = await clock(this.userId);
         this.myClock = response;
         if (this.myClock.status == true) {
@@ -168,8 +175,7 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myClock.time);
-        this.myDate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
+        this.myDate  = this.formatDate(this.myClock.time);
       } catch (error) {
         console.log("error", error);
       }
@@ -184,7 +190,7 @@ export default {
 
           this.myLastClock = response.pop();
         }
-        //this.myLastClock = response[(response.length -1)];
+        if(this.myLastClock != null){
         if (this.myLastClock.status == true) {
           this.subTitle = "Clock-In";
           this.type = "gradient-green";
@@ -192,17 +198,15 @@ export default {
           this.subTitle = "Clock-Out";
           this.type = "gradient-red";
         }
-        const myUTCdate = moment.utc(this.myLastClock.time);
-        this.myDate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
+        this.myDate  = this.formatDate(this.myLastClock.time);
         this.refreshClock();
+        }
       } catch (error) {
         console.log("error", error);
       }
     },
     formatDate: function (date) {
-      const myUTCdate = moment.utc(date);
-      const myLocaldate = myUTCdate.local().format("YYYY MM DD, h:mm:ss a");
-      return myLocaldate;
+      return formatDateFromApi(date, "YYYY-MM-DD HH:mm:ss");
     },
 
     refreshClock: async function () {
@@ -222,9 +226,15 @@ export default {
     },
   },
   mounted() {
-    this.userId = getUserFromLocalStorage().userId;
+    //this.userId = getUserFromLocalStorage().userId;
     this.username = getUserFromLocalStorage().username;
     this.updateClockUser();
   },
 };
 </script>
+
+<style lang="scss">
+.smart-pagination {
+  z-index: 0;
+}
+</style>

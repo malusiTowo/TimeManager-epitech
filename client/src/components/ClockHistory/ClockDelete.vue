@@ -5,11 +5,11 @@
         modals.delete = true;
         errors = [];
       "
-      variant="danger"
-      >
-      <i class="fas fa-trash-alt" style="font-size: x-small;"></i>
-      </b-button
-    >
+      size="sm"
+      variant="outline-danger"
+      icon
+      ><span class="btn-inner--text">Delete</span>
+      </b-button>
 
     <b-modal v-model="modals.delete" title="Delete clock">
       <b-alert show variant="danger" v-if="errors.length">

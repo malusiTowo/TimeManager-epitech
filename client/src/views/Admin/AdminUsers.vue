@@ -13,10 +13,12 @@
 
         <b-row class="mt-3 mr-3 ml-3 mb-4">
           <b-col>
-            <create-employee />
+            <create-employee
+              v-on:event_child="usersCallback"
+              v-bind:isAdmin="isAdmin"
+            />
           </b-col>
           <b-col>
-            <!-- <label>Search...</label> -->
             <input
               class="form-control"
               v-model="filters.name.value"
@@ -53,7 +55,6 @@
                     <b-button
                      :to="{ name: 'profile', params: { userId: user.id } }"
                      size="sm"
-                     variant="outline-warning"
                      icon
                     >
                       <span class="btn-inner--icon"
@@ -64,9 +65,8 @@
                   </td>
                   <td>
                     <b-button
-                     :to="{ name: 'dashboard', params: { userId: user.id } }"
+                     :to="{ name: 'userDashboard', params: { userId: user.id } }"
                      size="sm"
-                     variant="outline-dark"
                      icon
                     >
                       <span class="btn-inner--icon"
@@ -88,6 +88,7 @@
 <script>
 import CreateEmployee from "@/components/Admin/CreateEmployee";
 import { getUsers } from "@/api/user";
+import { getUserFromLocalStorage } from "@/api/user";
 
 export default {
   data() {
@@ -96,10 +97,27 @@ export default {
       filters: {
         name: { value: "", keys: ["username", "email", "role"] },
       },
+      isAdmin: null
     };
   },
+  methods: {
+    getEmployee: async function () {
+      return this.users = await getUsers();
+    },
+    usersCallback: function () {
+      this.getEmployee();
+    },
+    isItAdmin: async function () {
+      const roleGet = await getUserFromLocalStorage().user.role;
+      if (roleGet === "admin" ) {
+        return this.isAdmin = true;
+      }
+    },
+  },
   async mounted() {
-    this.users = await getUsers();
+    await this.getEmployee();
+
+    await this.isItAdmin();
   },
   components: {
     CreateEmployee,

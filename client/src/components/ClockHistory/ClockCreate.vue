@@ -4,15 +4,9 @@
       @click="
         modals.create = true;
         errors = [];"
-      variant="success"
-      style=" border-radius: 30%;
-              width: 5em;
-              height: 5em;">
-        <i class="fas fa-plus-circle" 
-          style="font-size: x-large;">
-        </i>
-      </b-button
-    >
+        variant="outline-info"
+      >Create
+      </b-button>
 
     <b-modal v-model="modals.create" title="Create clock">
       <b-container fluid>
@@ -84,13 +78,17 @@ import { clockForUser } from "../../api/clock";
 
 export default {
   name: "clock-create",
+  props: {
+    userId: {
+      type: [String, Number],
+    }
+  },
   data() {
     return {
       modals: {
         create: false,
       },
       errors: [],
-      selectedUser: "1",
       form: {
         idUser: "",
         time: null,
@@ -134,7 +132,7 @@ export default {
       }
       try {
         await clockForUser(
-          getUserFromLocalStorage().userId,
+          this.userId,
           this.form.time,
           this.form.status
         );
@@ -151,4 +149,18 @@ export default {
 };
 </script>
 <style>
+
+
+.btn-outline-info {
+    color: #0b8fa7;
+    background-color: transparent;
+    background-image: none;
+    border-color: #0b8fa7;
+}
+.btn-outline-info:hover {
+    color:  white;
+    background-color: #0b8fa7;
+    border-color: #0b8fa7;
+}
+
 </style>

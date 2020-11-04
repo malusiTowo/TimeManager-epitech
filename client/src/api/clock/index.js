@@ -1,14 +1,39 @@
 import axios from 'axios'
-import moment from "moment-timezone";
+import moment from "moment";
 
 import { buildHeaders } from '../user';
-import { formatDateForApi } from '../workingtime'
+import { formatDateForApi,utcFormatDateForApi, momentLocal } from '../workingtime'
 
 const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server.herokuapp.com' : 'http://localhost:4000';
 
 const baseUrl = `${host}/api/clocks`;
 
+export const getClocksBetweenDates = async (userId, start, end) => {
 
+
+  start = utcFormatDateForApi(momentLocal(start));
+  end = utcFormatDateForApi(momentLocal(end));
+
+
+  let clocks = null;
+  try {
+    const response = await axios.get(`${baseUrl}/${userId}/getbetweendates?start=${start}&end=${end}`, { headers: buildHeaders() });
+    clocks = response.data.data;
+  } catch (err) {
+    console.log("err", err);
+  }
+
+  if (clocks) {
+
+    clocks.sort(function (a, b) {
+      return (a.start > b.start) ? 1 : -1;
+    });
+
+    return clocks;
+  }
+
+  return [];
+}
 
 export const getClockUser = async (userId) => {
   try {
@@ -37,7 +62,7 @@ export const clock = async (userId) => {
 
 export const adminClockUserIn = async (userId, status, time) => {
   try {
-    time = moment(time).format("YYYY-MM-DD HH:MM:ss");
+    time = moment(time).local().format("YYYY-MM-DD HH:MM:ss");
     const response = await axios.post(`${baseUrl}/admin/${userId}`, {
       clock: {
         status,
@@ -66,7 +91,9 @@ export const deleteClockForUser = async (clockId) => {
 
 
 export const clockForUser = async (userId, time, status) => {
-  time = formatDateForApi(time).utc().format();
+  //time = utcFormatDateForApi(time);
+  //time = moment.utc(time);
+  time = utcFormatDateForApi(momentLocal(time))
   try {
     const response = await axios.post(`${baseUrl}/`, {
       "userId": userId,

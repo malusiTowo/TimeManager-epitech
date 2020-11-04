@@ -22,6 +22,17 @@ const routes = [
         }
       },
       {
+        path: '/dashboard/:userId',
+        name: 'userDashboard',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Dashboard.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: '/profile/:userId',
         name: 'profile',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/UserProfile.vue'),
@@ -38,17 +49,16 @@ const routes = [
         }
       },
       {
-        path: '/clock/:username',
+        path: '/clock/:userId',
         name: 'clock',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Clock/ClockHistory.vue'),
-        props: true,
         meta: {
           requiresAuth: true
         }
       },
       {
         path: '/workingtime/:userId',
-        name: 'working times',
+        name: 'workingtime',
         component: () => import(/* webpackChunkName: "demo" */ '../views/WorkingTime.vue'),
         props: true,
         meta: {
@@ -63,22 +73,28 @@ const routes = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: '/download-apk',
+        name: 'dl-apk',
+        component: () => import('../views/Apk/DownloadApk.vue'),
+      },
+      {
+        path: '/Teams',
+        name: 'AdminTeams',
+        component: () => import('../views/AdminTeams.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/Teams/:teamId',
+        name: 'Team',
+        component: () => import('../views/Pages/TeamPage.vue'),
+        meta: {
+          requiresAuth: true
+        }
       }
-      // {
-      //   path: '/icons',
-      //   name: 'icons',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
-      // },
-      // {
-      //   path: '/maps',
-      //   name: 'maps',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/GoogleMaps.vue')
-      // },
-      // {
-      //   path: '/tables',
-      //   name: 'tables',
-      //   component: () => import(/* webpackChunkName: "demo" */ '../views/RegularTables.vue')
-      // }
     ]
   },
   {

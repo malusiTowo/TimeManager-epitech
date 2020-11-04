@@ -21,6 +21,9 @@ defmodule ApiWeb.Router do
 
     pipe_through :authenticated # restrict unauthenticated access for routes below
 
+    resources "/teams", TeamController, except: [:new, :edit]
+    resources "/team_users", TeamUserController, except: [:new, :edit]
+
     resources "/users", UserController, except: [:new, :edit]
 
     put "/workingtimes/:id", WorkingtimesController, :update
@@ -39,6 +42,7 @@ defmodule ApiWeb.Router do
     scope "/clocks" do
       post "/admin/:userId", ClockController, :createClockForUser
       get "/:userId", ClockController, :getClocksForUser
+      get "/:userId/getbetweendates", ClockController, :getClocksBetweenDatesForUser
       post "/:userId", ClockController, :clockUserIn
       post "/", ClockController, :createClockForUser
       delete "/:id", ClockController, :delete
