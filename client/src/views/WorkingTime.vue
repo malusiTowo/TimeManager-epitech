@@ -7,12 +7,6 @@
     <b-container fluid class="mt--9">
       <b-row>
         <b-col xl="12" md="12">
-          <h1>Working Times</h1>
-        </b-col>
-      </b-row>
-
-      <b-row>
-        <b-col xl="12" md="12">
           <WorkingTimeList v-bind:userId="userId" />
         </b-col>
       </b-row>

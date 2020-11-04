@@ -1,11 +1,9 @@
 <template>
-
   <div class="wrapper">
-
     <b-button
       @click="topFunction()" id="myBtn" title="Go to top">
       <i class="fas fa-arrow-circle-up"></i>
-      </b-button>
+    </b-button>
     <!-- Side nav bar menu for desktop -->
     <!-- Show only if it's not a mobile -->
     <template>
@@ -74,7 +72,7 @@
 
       <div @click="$sidebar.displaySidebar(false)">
         <fade-transition :duration="200" origin="center top" mode="out-in">
-          <router-view></router-view>
+          <router-view v-bind:mobileView="mobileView"></router-view>
         </fade-transition>
       </div>
       <!-- <content-footer v-if="!$route.meta.hideFooter"></content-footer> -->
@@ -134,8 +132,9 @@ export default {
     // method to handle the mobile view
     handleView() {
       this.mobileView = window.innerWidth <= 768;
-    },// When the user scrolls down 20px from the top of the document, show the button
-
+    },
+    
+    // When the user scrolls down 20px from the top of the document, show the button
     scrollFunction() {
       const mybutton = document.getElementById("myBtn")
       if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
