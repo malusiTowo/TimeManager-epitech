@@ -1,10 +1,10 @@
 <template>
   <div>
      <b-button
+     class=""
       @click="
         modals.create = true;
-        errors = [];"
-      variant="success">Create
+        errors = [];">Create
       </b-button
     >
 
