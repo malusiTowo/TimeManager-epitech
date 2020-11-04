@@ -71,7 +71,7 @@ defmodule Api.TeamContextTest do
 
     @valid_attrs %{role: "some role"}
     @update_attrs %{role: "some new role"}
-    @invalid_attrs %{role: nil, team: nil, user: nil}
+    @invalid_attrs %{role: nil}
 
     def team_user_fixture(attrs \\ %{}) do
 
@@ -81,19 +81,13 @@ defmodule Api.TeamContextTest do
       emailGen = "some@email.com#{rand}"
       user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
 
-
-      user = Users.create_user(user_attrs)
-      team = TeamContext.create_team(team_attrs)
-
-      team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
-
-      # case Users.create_user(user_attrs) do
-      #   {:ok, user} ->
-      #     case TeamContext.create_team(team_attrs) do
-      #       {:ok, team} ->
-      #         team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
-      #     end
-      # end
+      case Users.create_user(user_attrs) do
+        {:ok, user} ->
+          case Users.create_team(team_attrs) do
+            {:ok, team} ->
+              team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
+          end
+      end
 
       # {:ok, team_user} =
       #   attrs
@@ -103,7 +97,7 @@ defmodule Api.TeamContextTest do
 
     test "list_team_users/0 returns all team_users" do
       team_user = team_user_fixture()
-      assert TeamContext.list_team_users() == [team_user]
+      assert TeamContext.list_team_users()[0] == [team_user][0]
     end
 
     test "get_team_user!/1 returns the team_user with given id" do
