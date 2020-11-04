@@ -29,6 +29,13 @@ import SmartTable from 'vuejs-smart-table'
 import './plugins/date-timepicker'
 // router setup
 import router from './routes/router';
+
+// nav tab bar mobile
+import VueMaterial from 'vue-material';
+import 'vue-material/dist/vue-material.min.css';
+import 'vue-material/dist/theme/default.css';
+Vue.use(VueMaterial);
+
 // plugin setup
 Vue.use(DashboardPlugin);
 

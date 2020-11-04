@@ -13,7 +13,7 @@
     </a>
     <!-- Navbar links -->
     <b-navbar-nav class="align-items-center ml-md-auto">
-      <!-- This item dont have <b-nav-item> because item have data-action/data-target on tag <a>, wich we cant add -->
+      <!-- This item dont have <b-nav-item> because item have data-action/data-target on tag <a>, which we cant add -->
       <li class="nav-item d-sm-none">
         <a
           class="nav-link"
@@ -53,13 +53,10 @@
             <i class="ni ni-single-02"></i>
             <span>Profile</span>
           </b-dropdown-item>
+          <div class="dropdown-divider"></div>
           <b-dropdown-item @click="logOut">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
-          </b-dropdown-item>
-          <b-dropdown-item @click="removeAccount">
-            <i class="ni ni-user-run"></i>
-            <span>Delete account</span>
           </b-dropdown-item>
         </template>
       </base-dropdown>

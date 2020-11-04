@@ -137,7 +137,7 @@ export const updateUser = async (userId, username, email, role) => {
 
 export const deleteUser = userId => {
   axios.delete(`${baseUrl}/${userId}`, { headers: buildHeaders() });
-  removeUserFromLocalStorage();
+  // removeUserFromLocalStorage();
 };
 
 export const getUserById = async userId => {

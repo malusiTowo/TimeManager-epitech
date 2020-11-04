@@ -42,7 +42,7 @@
           />
         </b-col>
       </b-row>
-      <v-table
+      <v-table id="myClocksHistory"
         :data="items"
         :currentPage.sync="currentPage"
         :pageSize="10"
@@ -75,7 +75,7 @@
           </v-tr>
         </tbody>
       </v-table>
-      <smart-pagination
+      <smart-pagination id="myPagination"
         :currentPage.sync="currentPage"
         :totalPages="totalPages"
       />
@@ -232,3 +232,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.smart-pagination {
+  z-index: 0;
+}
+</style>

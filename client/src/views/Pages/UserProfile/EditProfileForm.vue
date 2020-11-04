@@ -28,6 +28,7 @@
             >
             </base-input>
           </b-col>
+          <!-- Select for roles only available for admin -->
           <template v-if="isAdmin">
             <b-col lg="6">
               <base-input>
@@ -48,10 +49,14 @@
               >Update profile</base-button
             >
           </b-col>
-          <b-col lg="6">
-            <!-- Rajouter methode delete -->
-            <base-button type="danger" class="my-4">Delete profile</base-button>
-          </b-col>
+          <!-- Delete only available for admin and manager -->
+          <template v-if="isAdmin || isManager">
+            <b-col lg="6">
+              <base-button type="danger" class="my-4" @click="deleteProfile"
+                >Delete profile</base-button
+              >
+            </b-col>
+          </template>
         </b-row>
       </div>
     </b-form>
@@ -72,6 +77,8 @@ export default {
       type: [String, Number],
       //default: getUserId()
     },
+    isAdmin: false,
+    isManager: false,
   },
   data() {
     return {
@@ -112,6 +119,19 @@ export default {
       } catch (err) {
         console.log("err", err);
         alert("An error occured. try again later.");
+      }
+    },
+    deleteProfile() {
+      console.log("Delete : " + this.userId);
+      if (confirm("Do you want to delete this user?") == true) {
+        try {
+          deleteUser(this.userId);
+          this.$router.replace("/adminUsers");
+        } catch (error) {
+          alert("Impossible to delete the account. Try again later.");
+        }
+      } else {
+        //
       }
     },
   },
