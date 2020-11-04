@@ -1,53 +1,27 @@
 <template>
+
   <div class="wrapper">
-    <notifications></notifications>
-    <side-bar>
-      <template slot="links">
-        <sidebar-item
-          v-if="!isMobile"
-          :link="{
-            name: 'Dashboard',
-            path: '/dashboard',
-            icon: 'ni ni-tv-2 text-yellow',
-          }"
-        >
-        </sidebar-item>
 
-        <sidebar-item
-          :link="{
-            name: 'Chart Manager',
-            path: `/chartManager/${this.userId}`,
-            icon: 'ni ni-planet text-yellow',
-          }"
-        >
-        </sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: 'Profile',
-            path: `/profile/${this.userId}`,
-            icon: 'ni ni-single-02 text-yellow',
-          }"
-        >
-        </sidebar-item>
-        <sidebar-item
-          :link="{
-            name: 'Working Time',
-            path: `/workingtime/${this.userId}`,
-            icon: 'ni ni-calendar-grid-58 text-yellow',
-          }"
-        >
-        </sidebar-item>
-        <sidebar-item
-          :link="{
-            name: 'Clock',
-            path: '/clock/:username',
-            icon: 'ni ni-watch-time text-yellow',
-          }"
-        >
-        </sidebar-item>
-        <!-- Admin users sidebar item to render only for Admin and Manager -->
-        <template v-if="isAdmin || isManager">
+    <b-button
+      @click="topFunction()" id="myBtn" title="Go to top">
+      <i class="fas fa-arrow-circle-up"></i>
+      </b-button>
+    <!-- Side nav bar menu for desktop -->
+    <!-- Show only if it's not a mobile -->
+    <template>
+      <side-bar
+       v-bind:username="this.username" 
+       v-bind:userId="this.userId"
+      >
+        <template slot="links">
+          <sidebar-item
+            :link="{
+              name: 'Dashboard',
+              path: '/dashboard',
+              icon: 'ni ni-tv-2 text-yellow',
+            }"
+          >
+          </sidebar-item>
           <sidebar-item
             :link="{
               name: 'Working Time',
@@ -75,21 +49,23 @@
             >
             </sidebar-item>
             <sidebar-item
-              :link="{
-                name: 'Chart Manager',
-                path: `/chartManager/${this.userId}`,
-                icon: 'ni ni-planet text-yellow',
-              }"
-            >
-            </sidebar-item>
+            :link="{
+              name: 'Chart Manager',
+              path: `/chartManager/${this.userId}`,
+              icon: 'ni ni-planet text-yellow',
+            }"
+          >
+          </sidebar-item>
           </template>
         </template>
-      </template>
-    </side-bar>
+      </side-bar>
+    </template>
 
     <!-- If mobile view show -->
     <template v-if="mobileView">
-      <navigation-mobile v-bind:userId="this.userId"></navigation-mobile>
+      <navigation-mobile
+       v-bind:userId="this.userId"
+      ></navigation-mobile>
     </template>
 
     <!-- All the website content appear here -->
@@ -129,10 +105,8 @@ import DashboardNavbar from "./DashboardNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import { FadeTransition } from "vue2-transitions";
-// import users from "../Tables/users";
+import users from "../Tables/users";
 import NavigationMobile from "../../components/NavigationMobile.vue";
-
-import { isMobile } from "@/api/mobile";
 
 export default {
   data() {
@@ -141,8 +115,7 @@ export default {
       username: null,
       isAdmin: false,
       isManager: false,
-      mobileView: false,
-      isMobile: isMobile(),
+      mobileView: false
     };
   },
   components: {
@@ -150,7 +123,7 @@ export default {
     ContentFooter,
     DashboardContent,
     FadeTransition,
-    NavigationMobile,
+    NavigationMobile
   },
   methods: {
     initScrollbar() {
@@ -162,14 +135,11 @@ export default {
     // method to handle the mobile view
     handleView() {
       this.mobileView = window.innerWidth <= 768;
-    }, // When the user scrolls down 20px from the top of the document, show the button
+    },// When the user scrolls down 20px from the top of the document, show the button
 
     scrollFunction() {
-      const mybutton = document.getElementById("myBtn");
-      if (
-        document.body.scrollTop > 20 ||
-        document.documentElement.scrollTop > 20
-      ) {
+      const mybutton = document.getElementById("myBtn")
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         mybutton.style.display = "block";
       } else {
         mybutton.style.display = "none";
@@ -180,11 +150,11 @@ export default {
     topFunction() {
       document.body.scrollTop = 0; // For Safari
       document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    },
+    }
   },
   created() {
     this.handleView();
-    window.addEventListener("scroll", this.scrollFunction);
+    window.addEventListener('scroll', this.scrollFunction);
   },
   mounted() {
     const { userId } = getUserFromLocalStorage();
@@ -199,13 +169,14 @@ export default {
       this.isManager = true;
     }
     this.initScrollbar();
-  },
+  }
 };
 </script>
 <style lang="scss">
+
 #myBtn {
   display: none; /* Hidden by default */
-  position: fixed; /* Fixed/sticky position */
+  position: fixed; /* Fixed/sticky position */ 
   bottom: 60px;
   right: 10px; /* Place the button 30px from the right */
   z-index: 1; /* Make sure it does not overlap */
