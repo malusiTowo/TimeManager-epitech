@@ -15,8 +15,8 @@
           </div>
 
           <div class="text-center">
-            <base-button type="primary" @click="getWorkingTimes" class="my-4"
-              >Generate {{ menuLabel }} graph</base-button
+            <b-button @click="getWorkingTimes" class="my-4" variant="outline-info"
+              >Generate {{ menuLabel }} graph</b-button
             >
           </div>
           <bar-chart

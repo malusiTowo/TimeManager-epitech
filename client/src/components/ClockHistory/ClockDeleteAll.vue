@@ -5,7 +5,7 @@
         modals.delete = true;
         errors = [];
       "
-      variant="outline-warning"
+      variant="outline-danger"
       icon>
         <span class="btn-inner--text">Delete all selected clocks</span>
       </b-button>

@@ -53,10 +53,9 @@
                   <td>{{ user.role }}</td>
                   <td>
                     <b-button
-                      :to="{ name: 'profile', params: { userId: user.id } }"
-                      size="sm"
-                      variant="outline-warning"
-                      icon
+                     :to="{ name: 'profile', params: { userId: user.id } }"
+                     size="sm"
+                     icon
                     >
                       <span class="btn-inner--icon"
                         ><i class="ni ni-single-02"></i
@@ -66,10 +65,9 @@
                   </td>
                   <td>
                     <b-button
-                      :to="{ name: 'dashboard', params: { userId: user.id } }"
-                      size="sm"
-                      variant="outline-dark"
-                      icon
+                     :to="{ name: 'dashboard', params: { userId: user.id } }"
+                     size="sm"
+                     icon
                     >
                       <span class="btn-inner--icon"
                         ><i class="ni ni-chart-bar-32"></i

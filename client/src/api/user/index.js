@@ -141,6 +141,11 @@ export const deleteUser = userId => {
   // removeUserFromLocalStorage();
 };
 
+export const deleteUserbyUser = userId => {
+  axios.delete(`${baseUrl}/${userId}`, { headers: buildHeaders() });
+  removeUserFromLocalStorage();
+};
+
 export const getUserById = async userId => {
   const response = await axios.get(`${baseUrl}/${userId}`, { headers: buildHeaders() });
   return response.data.data

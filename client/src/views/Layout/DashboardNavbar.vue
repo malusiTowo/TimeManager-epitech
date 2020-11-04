@@ -54,6 +54,10 @@
             <span>Profile</span>
           </b-dropdown-item>
           <div class="dropdown-divider"></div>
+          <b-dropdown-item @click="removeAccount">
+            <i class="fa fa-trash"></i>
+            <span>Delete account</span>
+          </b-dropdown-item>
           <b-dropdown-item @click="logOut">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
@@ -67,7 +71,7 @@
 import { CollapseTransition } from "vue2-transitions";
 import { BaseNav, Modal } from "@/components";
 import {
-  deleteUser,
+  deleteUserbyUser,
   removeUserFromLocalStorage,
   getUserFromLocalStorage,
 } from "../../api/user";
@@ -119,7 +123,7 @@ export default {
     },
     removeAccount() {
       const { userId } = getUserFromLocalStorage();
-      deleteUser(userId);
+      deleteUserbyUser(userId);
       const { userId: userDeleted } = getUserFromLocalStorage();
       if (!userDeleted) {
         this.$router.replace("register");
