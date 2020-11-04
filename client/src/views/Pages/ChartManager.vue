@@ -8,16 +8,23 @@
       <b-row class="justify-content-center">
         <b-col lg="12" md="7">
           <div>
-            <b-button-group>
-              <b-dropdown right :text="menuLabel">
-                <b-dropdown-item @click="isWorkingTimesSelected = false"
-                  >Clock</b-dropdown-item
-                >
-                <b-dropdown-item @click="isWorkingTimesSelected = true"
-                  >Working times</b-dropdown-item
-                >
-              </b-dropdown>
-            </b-button-group>
+              <md-tabs>
+                <md-tab
+                id="tab-Clock"
+                md-label="Clock"
+                @click="isWorkingTimesSelected = false; isClockSelected = true; isOffSetSelected = false"
+              ></md-tab>
+                <md-tab
+                id="tab-wt"
+                md-label="Working Times"
+                @click="isWorkingTimesSelected = true; isClockSelected = false; isOffSetSelected = false"
+              ></md-tab>
+                <md-tab
+                id="tab-offset"
+                md-label="Off-set"
+                @click="isWorkingTimesSelected = false; isClockSelected = false; isOffSetSelected = true"
+              ></md-tab>
+              </md-tabs>
           </div>
         </b-col>
       </b-row>
@@ -38,8 +45,14 @@
               <!-- <div class="text-center text-muted mb-4">
                 <small>{{ menuLabel }}</small>
               </div> -->
+              <div v-if="isClockSelected">
+                <clocks :menuLabel="menuLabel"></clocks>
+              </div>
               <div v-if="isWorkingTimesSelected">
                 <working-times :menuLabel="menuLabel"></working-times>
+              </div>
+              <div v-if="isOffSetSelected">
+                <off-set :menuLabel="menuLabel"></off-set>
               </div>
             </b-card-body>
           </b-card>
@@ -55,11 +68,15 @@ import { getUserFromLocalStorage } from "../../api/user";
 import { getWorkingTimesForUserIdAndWorkingId } from "../../api/workingtime";
 import moment from "moment";
 import workingTimes from "../../components/graphs/WorkingTimes";
+import clocks from "../../components/graphs/Clocks";
+import offSet from "../../components/graphs/OffSet";
 
 export default {
   data() {
     return {
-      isWorkingTimesSelected: true,
+      isWorkingTimesSelected: false,
+      isClockSelected: true,
+      isOffSetSelected: false
     };
   },
   methods: {
@@ -67,29 +84,31 @@ export default {
   },
   computed: {
     menuLabel() {
-      return this.isWorkingTimesSelected ? "Working Times" : "Clocks";
+      if(this.isWorkingTimesSelected)
+      {
+        return "Working Times";
+      }
+      else if(this.isClockSelected)
+      {
+        return "Clocks";
+      }
+      else
+      {
+        return "Off-set";
+      }
     },
   },
 
   components: {
     DonutChart,
     workingTimes,
+    clocks,
+    offSet
   },
 };
 </script>
-
-<style>
-
-.btn-outline-info {
-    color: #0b8fa7;
-    background-color: transparent;
-    background-image: none;
-    border-color: #0b8fa7;
+<style lang="scss">
+.md-button-content {
+  font-weight: bold;
 }
-.btn-outline-info:hover {
-    color:  white;
-    background-color: #0b8fa7;
-    border-color: #0b8fa7;
-}
-
 </style>

@@ -31,7 +31,7 @@
           <sidebar-item
             :link="{
               name: 'Clock',
-              path: '/clock/:username',
+              path: `/clock/${this.username}`,
               icon: 'ni ni-watch-time text-yellow',
             }"
           >

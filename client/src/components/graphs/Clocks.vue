@@ -15,7 +15,7 @@
           </div>
 
           <div class="text-center">
-            <b-button @click="getWorkingTimes" class="my-4" variant="outline-info"
+            <b-button @click="getClocks" class="my-4" variant="outline-info"
               >Generate {{ menuLabel }} graph</b-button
             >
           </div>
@@ -25,7 +25,7 @@
             :data="data"
             xkey="start"
             ykeys='["hours"]'
-            colors='[ "#36A2EB"]'
+            colors='[ "#FF6384"]'
             grid="true"
             resize="true"
             grid-text-weight="bold"
@@ -47,10 +47,13 @@ import {
   formatDate,
   getTimesAndClocksForGraph,
 } from "../../api/workingtime";
+import {
+  getClocksBetweenDates
+} from "../../api/clock";
 import { getUserFromLocalStorage } from "../../api/user";
 
 export default {
-  name: "working-times",
+  name: "clocks",
   props: {
     menuLabel: String,
   },
@@ -83,7 +86,7 @@ export default {
         };
       });
     },
-    async getWorkingTimes() {
+    async getClocks() {
       try {
         const { start, end } = this;
         if (!start || !end) return alert("Please start and end dates");
@@ -94,11 +97,11 @@ export default {
 
         const { userId } = getUserFromLocalStorage();
         const times = await getWorkingTimesBetweenDates(userId, start, end);
-        const clocks = await getWorkingTimesBetweenDates(userId, start, end);
-        const data = getTimesAndClocksForGraph([], times);
+        const clocks = await getClocksBetweenDates(userId, start, end);
+        const data = getTimesAndClocksForGraph(clocks, []);
         this.data_ = data;
         console.log("data", this.data_);
-        this.data = this.formatDates(times);
+        this.data = this.formatDates(clocks);
       } catch (err) {
         console.log("err", err);
       }

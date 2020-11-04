@@ -19,17 +19,17 @@
               >Generate {{ menuLabel }} graph</b-button
             >
           </div>
-          <bar-chart
-            v-if="data.length > 0"
-            id="bar"
-            :data="data"
+         
+          <div class="mt-7"></div>
+          <line-chart
+            v-if="data_.length > 0"
+            id="area"
+            :data="data_"
             xkey="start"
-            ykeys='["hours"]'
-            colors='[ "#36A2EB"]'
-            grid="true"
-            resize="true"
-            grid-text-weight="bold"
-          ></bar-chart>
+            ykeys='["timesHour","clocksHour"]'
+            labels='[ "Total Hour of my Working Times", "Total Hour of my clocks" ]'
+            line-colors='[ "#36A2EB","#FF6384"]'
+          ></line-chart>
         </b-card-body>
       </b-card>
     </b-col>
@@ -50,7 +50,7 @@ import {
 import { getUserFromLocalStorage } from "../../api/user";
 
 export default {
-  name: "working-times",
+  name: "off-set",
   props: {
     menuLabel: String,
   },
