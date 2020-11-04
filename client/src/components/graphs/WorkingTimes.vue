@@ -89,7 +89,7 @@ export default {
         const hours = getDiffHours(d.start, d.end);
         return {
           ...d,
-          start: formatDate(d.start),
+          start: moment(d.start).format('L'),
           hours: hours > 12 ? 12 : hours,
         };
       });
@@ -97,7 +97,7 @@ export default {
     async getWorkingTimes() {
       try {
         const { start, end } = this;
-        if (!start || !end) return alert("Please start and end dates");
+        if (!start || !end) return alert("Please select start and end dates");
 
         const isEndBeforeStart = moment(end).isBefore(start);
         if (isEndBeforeStart)
