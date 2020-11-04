@@ -104,7 +104,6 @@ export default {
           this.hours = getDiffHours(begin, finish);
 
           dataClock = { date: this.date, hours: this.hours };
-
           this.data.push(dataClock);
           begin = null;
           finish = null;
@@ -127,6 +126,7 @@ export default {
 
         const { userId } = getUserFromLocalStorage();
         const clocks = await getClocksBetweenDates(userId, start, end);
+        this.data = [];
         this.formatDates(clocks);
       } catch (err) {
         console.log("err", err);

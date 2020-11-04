@@ -15,7 +15,10 @@
           </div>
 
           <div class="text-center">
-            <b-button @click="getWorkingTimes" class="my-4" variant="outline-info"
+            <b-button
+              @click="getWorkingTimes"
+              class="my-4"
+              variant="outline-info"
               >Generate {{ menuLabel }} graph</b-button
             >
           </div>
@@ -30,7 +33,6 @@
             resize="true"
             grid-text-weight="bold"
           ></bar-chart>
-          
         </b-card-body>
       </b-card>
     </b-col>
@@ -47,7 +49,7 @@ import {
   getDiffHours,
   formatDate,
   getTimesAndClocksForGraph,
-  formatDateFromApi
+  formatDateFromApi,
 } from "../../api/workingtime";
 import { getUserFromLocalStorage } from "../../api/user";
 
@@ -106,7 +108,7 @@ export default {
         const clocks = await getWorkingTimesBetweenDates(userId, start, end);
         const data = getTimesAndClocksForGraph([], times);
         this.data_ = data;
-        console.log("data", this.data_);
+        this.data = [];
         this.data = this.formatDates(times);
       } catch (err) {
         console.log("err", err);
