@@ -3,7 +3,7 @@
     <b-button
      @click="modalShow = true;
      errors = [];"
-     variant="outline-warning"
+     variant="outline-info"
     >Create Employee</b-button>
     <b-modal size="lg" v-model="modalShow" title="Create Employee">
       <div class="text-center mb-4">
@@ -226,4 +226,17 @@ export default {
 };
 </script>
 <style>
+
+.btn-outline-info {
+    color: #0b8fa7;
+    background-color: transparent;
+    background-image: none;
+    border-color: #0b8fa7;
+}
+.btn-outline-info:hover {
+    color:  white;
+    background-color: #0b8fa7;
+    border-color: #0b8fa7;
+}
+
 </style>

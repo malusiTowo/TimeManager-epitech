@@ -65,7 +65,7 @@
           <!-- Delete only available for admin and manager -->
           <template v-if="isAdmin || isManager">
             <b-col lg="6">
-              <b-button type="danger" class="my-4" @click="deleteProfile" variant="outline-warning"
+              <b-button type="danger" class="my-4" @click="deleteProfile" variant="outline-danger"
                 >Delete profile</b-button
               >
             </b-col>

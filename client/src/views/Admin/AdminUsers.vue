@@ -57,7 +57,6 @@
                     <b-button
                      :to="{ name: 'profile', params: { userId: user.id } }"
                      size="sm"
-                     variant="outline-warning"
                      icon
                     >
                       <span class="btn-inner--icon"
@@ -70,7 +69,6 @@
                     <b-button
                      :to="{ name: 'dashboard', params: { userId: user.id } }"
                      size="sm"
-                     variant="outline-dark"
                      icon
                     >
                       <span class="btn-inner--icon"

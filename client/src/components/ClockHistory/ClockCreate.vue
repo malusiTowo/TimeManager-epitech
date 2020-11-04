@@ -1,12 +1,12 @@
 <template>
   <div>
      <b-button
-     class=""
       @click="
         modals.create = true;
-        errors = [];">Create
-      </b-button
-    >
+        errors = [];"
+        variant="outline-info"
+      >Create
+      </b-button>
 
     <b-modal v-model="modals.create" title="Create clock">
       <b-container fluid>
@@ -149,4 +149,18 @@ export default {
 };
 </script>
 <style>
+
+
+.btn-outline-info {
+    color: #0b8fa7;
+    background-color: transparent;
+    background-image: none;
+    border-color: #0b8fa7;
+}
+.btn-outline-info:hover {
+    color:  white;
+    background-color: #0b8fa7;
+    border-color: #0b8fa7;
+}
+
 </style>
