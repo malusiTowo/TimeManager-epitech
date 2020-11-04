@@ -63,6 +63,12 @@ const routes = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: '/download-apk',
+        name: 'dl-apk',
+        component: () => import('../views/Apk/DownloadApk.vue'),
+
       }
     ]
   },
