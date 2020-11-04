@@ -1,13 +1,16 @@
 <template>
   <div>
+
     <b-button
       @click="
         modals.update = true;
         errors = [];
       "
-      variant="primary"
-      >Update</b-button
-    >
+      size="sm"
+      variant="outline-primary"
+      icon
+    ><span class="btn-inner--text">Update</span>
+    </b-button>
 
     <b-modal v-model="modals.update" title="Update Team User">
       <b-container fluid>

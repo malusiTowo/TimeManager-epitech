@@ -1,13 +1,17 @@
 <template>
   <div>
+
     <b-button
       @click="
         modals.delete = true;
         errors = [];
       "
-      variant="danger"
-      >Delete</b-button
-    >
+      size="sm"
+      variant="outline-danger"
+      icon
+    ><span class="btn-inner--text">Delete</span>
+    </b-button>
+
 
     <b-modal v-model="modals.delete" title="Delete Team">
       <b-alert show variant="danger" v-if="errors.length">

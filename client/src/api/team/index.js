@@ -40,7 +40,9 @@ export const createTeam = async (name, description) => {
           name,
           description
         }
-      });
+      },
+      {headers: buildHeaders()}
+      );
       return true;
     } catch (err) {
       console.log("err", err);
@@ -118,7 +120,8 @@ export const addTeamUser = async (form) => {
         team: form.team,
         role: form.role
       }
-    });
+    },
+    {headers: buildHeaders()});
     return true;
   } catch (err) {
     console.log("err", err);

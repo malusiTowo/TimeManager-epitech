@@ -46,12 +46,9 @@
             <b-button
               :to="{ name: 'Team', params: { teamId: item.id } }"
               size="sm"
-              variant="outline-warning"
               icon
+              variant="outline-primary"
             >
-                <!-- <span class="btn-inner--icon"
-                  ><i class="ni ni-single-02"></i
-                ></span> -->
               <span class="btn-inner--text">See infos</span>
             </b-button>
           </td>

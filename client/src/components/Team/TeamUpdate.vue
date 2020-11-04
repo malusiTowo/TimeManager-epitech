@@ -31,9 +31,9 @@
         </b-row>
         <b-row>
           <b-col lg="6">
-            <base-button type="primary" native-type="submit" class="my-4">
-              Update profile
-            </base-button>
+            <b-button type="primary" native-type="submit" class="my-4" variant="outline-primary">
+              Update team
+            </b-button>
           </b-col>
         </b-row>
       </div>

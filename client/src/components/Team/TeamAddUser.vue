@@ -5,6 +5,7 @@
         modals.create = true;
         errors = [];
       "
+      variant="outline-info"
       >Add User</b-button
     >
 
