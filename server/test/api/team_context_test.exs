@@ -81,13 +81,19 @@ defmodule Api.TeamContextTest do
       emailGen = "some@email.com#{rand}"
       user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
 
-      case Users.create_user(user_attrs) do
-        {:ok, user} ->
-          case TeamContext.create_team(team_attrs) do
-            {:ok, team} ->
-              team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
-          end
-      end
+
+      user = Users.create_user(user_attrs)
+      team = TeamContext.create_team(team_attrs)
+
+      team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
+
+      # case Users.create_user(user_attrs) do
+      #   {:ok, user} ->
+      #     case TeamContext.create_team(team_attrs) do
+      #       {:ok, team} ->
+      #         team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
+      #     end
+      # end
 
       # {:ok, team_user} =
       #   attrs
