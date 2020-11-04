@@ -24,21 +24,11 @@
 
       <b-row class="mt-4" v-if="edit">
         <b-col xl="12" md="12">
-          <h1>Working Times</h1>
-        </b-col>
-
-        <b-col xl="12" md="12">
           <WorkingTimeList edit v-bind:userId="userId" />
         </b-col>
       </b-row>
 
-      <b-row class="mt-4">
-        <b-col xl="12" md="12" v-if="edit">
-          <h1>Comming soon... { clock Times }</h1>
-        </b-col>
-      </b-row>
-
-      <b-row class="mt-4">
+      <b-row class="mt-4" v-if="edit">
         <b-col xl="12" md="12">
           <ClockHistory edit :userId="userId" />
         </b-col>
