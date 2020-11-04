@@ -31,7 +31,7 @@
           <sidebar-item
             :link="{
               name: 'Clock',
-              path: '/clock/:username',
+              path: `/clock/${this.username}`,
               icon: 'ni ni-watch-time text-yellow',
             }"
           >
@@ -46,14 +46,6 @@
               }"
             >
             </sidebar-item>
-            <sidebar-item
-            :link="{
-              name: 'Chart Manager',
-              path: `/chartManager/${this.userId}`,
-              icon: 'ni ni-planet text-yellow',
-            }"
-          >
-          </sidebar-item>
           </template>
           <template v-if="isAdmin || isManager">
             <sidebar-item
@@ -142,7 +134,7 @@ export default {
     },
     // method to handle the mobile view
     handleView() {
-      this.mobileView = window.innerWidth <= 768;
+      this.mobileView = window.innerWidth <= 765;
     },
     
     // When the user scrolls down 20px from the top of the document, show the button

@@ -65,7 +65,7 @@
                   </td>
                   <td>
                     <b-button
-                     :to="{ name: 'dashboard', params: { userId: user.id } }"
+                     :to="{ name: 'userDashboard', params: { userId: user.id } }"
                      size="sm"
                      icon
                     >

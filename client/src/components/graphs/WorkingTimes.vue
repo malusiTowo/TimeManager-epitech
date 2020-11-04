@@ -30,17 +30,7 @@
             resize="true"
             grid-text-weight="bold"
           ></bar-chart>
-          <hr />
-          <div class="mt-7"></div>
-          <line-chart
-            v-if="data_.length > 0"
-            id="area"
-            :data="data_"
-            xkey="month"
-            ykeys='["timesHour","clocksHour"]'
-            labels='[ "timesHour", "clocksHour" ]'
-            line-colors='[ "#36A2EB","#FF6384"]'
-          ></line-chart>
+          
         </b-card-body>
       </b-card>
     </b-col>
@@ -57,6 +47,7 @@ import {
   getDiffHours,
   formatDate,
   getTimesAndClocksForGraph,
+  formatDateFromApi
 } from "../../api/workingtime";
 import { getUserFromLocalStorage } from "../../api/user";
 
@@ -89,14 +80,21 @@ export default {
         const hours = getDiffHours(d.start, d.end);
         return {
           ...d,
-          start: formatDate(d.start),
+          start: formatDateFromApi(d.start, "YYYY-MM-DD"),
           hours: hours > 12 ? 12 : hours,
         };
       });
     },
     async getWorkingTimes() {
       try {
-        const { start, end } = this;
+        let { start, end } = this;
+
+        if (!start && !end) {
+          let today = moment();
+          start = moment().startOf("week").format("YYYY-MM-DDTHH:mm:ss");
+          end = moment().endOf("week").format("YYYY-MM-DDTHH:mm:ss");
+          console.log(start);
+        }
         if (!start || !end) return alert("Please start and end dates");
 
         const isEndBeforeStart = moment(end).isBefore(start);
@@ -114,6 +112,9 @@ export default {
         console.log("err", err);
       }
     },
+  },
+  mounted() {
+    this.getWorkingTimes();
   },
   components: {
     datePicker,
