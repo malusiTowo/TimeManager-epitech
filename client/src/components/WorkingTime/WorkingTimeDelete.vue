@@ -5,7 +5,8 @@
         modals.delete = true;
         errors = [];
       "
-      variant="danger"
+      size="sm"
+      variant="outline-warning"
       >Delete</b-button
     >
 

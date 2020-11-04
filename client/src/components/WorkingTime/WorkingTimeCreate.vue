@@ -5,7 +5,6 @@
         modals.create = true;
         errors = [];
       "
-      variant="success"
       >Create</b-button
     >
 

@@ -28,6 +28,19 @@
             >
             </base-input>
           </b-col>
+          <b-col lg="6">
+            <base-input
+              placeholder="Password"
+              label="Password"
+              type="password"
+              v-model="user.password"
+            >
+            </base-input>
+            <b-form-text id="password-help-block">
+              The password must be at least 8 characters long, contain
+              letters (at least one uppercase letter) and numbers, and must not contain spaces, special characters, or emoji.
+            </b-form-text>
+          </b-col>
           <!-- Select for roles only available for admin -->
           <template v-if="isAdmin">
             <b-col lg="6">
@@ -45,15 +58,15 @@
         </b-row>
         <b-row>
           <b-col lg="6">
-            <base-button type="primary" native-type="submit" class="my-4"
-              >Update profile</base-button
+            <b-button type="primary" native-type="submit" class="my-4" variant="outline-primary"
+              >Update profile</b-button
             >
           </b-col>
           <!-- Delete only available for admin and manager -->
           <template v-if="isAdmin || isManager">
             <b-col lg="6">
-              <base-button type="danger" class="my-4" @click="deleteProfile"
-                >Delete profile</base-button
+              <b-button type="danger" class="my-4" @click="deleteProfile" variant="outline-warning"
+                >Delete profile</b-button
               >
             </b-col>
           </template>
@@ -86,6 +99,7 @@ export default {
       user: {
         username: null,
         email: null,
+        password: null,
         role: null,
       },
       // data for the select
@@ -105,6 +119,7 @@ export default {
           this.userId,
           this.user.username,
           this.user.email,
+          this.user.password,
           this.user.role
         );
 
@@ -115,6 +130,7 @@ export default {
           username: this.user.username,
           id: this.userId,
           email: this.user.email,
+          password: this.user.password,
           role: this.user.role,
         });
       } catch (err) {
