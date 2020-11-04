@@ -3,7 +3,9 @@
     <b-col lg="12" md="7">
       <b-card no-body class="border-0 mb-0">
         <b-card-body class="px-lg-5 py-lg-5">
-          <div>
+
+          <template >
+            <div>
             <div>
               <label for="example-datepicker">Start date</label>
               <date-picker v-model="start" :config="optionsStart"></date-picker>
@@ -19,11 +21,13 @@
               >Generate {{ menuLabel }} graph</b-button
             >
           </div>
+          </template>
+
           <bar-chart
             v-if="data.length > 0"
             id="bar"
             :data="data"
-            xkey="start"
+            xkey="date"
             ykeys='["hours"]'
             colors='[ "#FF6384"]'
             grid="true"
@@ -46,10 +50,9 @@ import {
   getDiffHours,
   formatDate,
   getTimesAndClocksForGraph,
+  formatDateFromApi,
 } from "../../api/workingtime";
-import {
-  getClocksBetweenDates
-} from "../../api/clock";
+import { getClocksBetweenDates } from "../../api/clock";
 import { getUserFromLocalStorage } from "../../api/user";
 
 export default {
@@ -61,6 +64,8 @@ export default {
     return {
       start: "",
       end: "",
+      hours: null,
+      date: "",
       optionsStart: {
         format: "YYYY-MM-DD HH:mm:ss",
         useCurrent: false,
@@ -77,13 +82,25 @@ export default {
   },
   methods: {
     formatDates(dates = []) {
+      let { begin, finish } = this;
       return dates.map((d) => {
-        const hours = getDiffHours(d.start, d.end);
-        return {
-          ...d,
-          start: formatDate(d.start),
-          hours: hours > 12 ? 12 : hours,
-        };
+        if (d.status === true) {
+          begin = d.time;
+        }
+        if (d.status === false) {
+          finish = d.time;
+        }
+        if (begin != null && finish != null) {
+          let dataClock = {};
+          this.date = formatDateFromApi(begin, "YYYY-MM-DD");
+          this.hours = getDiffHours(begin, finish);
+
+          dataClock = { date: this.date, hours: this.hours };
+
+          this.data.push(dataClock);
+          begin = null;
+          finish = null;
+        }
       });
     },
     async getClocks() {
@@ -96,12 +113,9 @@ export default {
           return alert("Please select an end date after the start date");
 
         const { userId } = getUserFromLocalStorage();
-        const times = await getWorkingTimesBetweenDates(userId, start, end);
         const clocks = await getClocksBetweenDates(userId, start, end);
-        const data = getTimesAndClocksForGraph(clocks, []);
-        this.data_ = data;
-        console.log("data", this.data_);
-        this.data = this.formatDates(clocks);
+        this.formatDates(clocks);
+        console.log("after format ", this.data);
       } catch (err) {
         console.log("err", err);
       }

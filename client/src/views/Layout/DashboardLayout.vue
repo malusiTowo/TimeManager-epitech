@@ -131,7 +131,7 @@ export default {
     },
     // method to handle the mobile view
     handleView() {
-      this.mobileView = window.innerWidth <= 768;
+      this.mobileView = window.innerWidth <= 765;
     },
     
     // When the user scrolls down 20px from the top of the document, show the button
