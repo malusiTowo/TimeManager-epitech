@@ -21,8 +21,8 @@
           </div>
         </b-col>
       </b-row>
-      <b-card no-body>
 
+      <b-card no-body>
       <b-row align-v="center" slot="header">
           <b-col cols="8" xl="12" md="12">
             <h1 class="mb-0">Chart Manager</h1>

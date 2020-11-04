@@ -19,7 +19,7 @@
                 <span class="avatar avatar-sm rounded-circle">
                   <img
                     alt="Image placeholder"
-                    src="img/user-placeholder.jpeg"
+                    src="img/user-placeholder.png"
                   />
                 </span>
               </div>

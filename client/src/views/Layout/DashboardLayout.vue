@@ -72,7 +72,9 @@
 
       <div @click="$sidebar.displaySidebar(false)">
         <fade-transition :duration="200" origin="center top" mode="out-in">
-          <router-view v-bind:mobileView="mobileView"></router-view>
+          <router-view
+           v-bind:mobileView="mobileView"
+          ></router-view>
         </fade-transition>
       </div>
       <!-- <content-footer v-if="!$route.meta.hideFooter"></content-footer> -->
@@ -110,7 +112,7 @@ export default {
     return {
       userId: null,
       username: null,
-      isAdmin: false,
+      isAdmin: null,
       isManager: false,
       mobileView: false
     };
