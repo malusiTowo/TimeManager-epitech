@@ -75,29 +75,31 @@ defmodule Api.TeamContextTest do
 
     def team_user_fixture(attrs \\ %{}) do
 
-      team_attrs =  %{name: "some name", description: "some desc"}
+      # team_attrs =  %{name: "some name", description: "some desc"}
 
-      rand = Enum.random(1_000..9_999)
-      emailGen = "some@email.com#{rand}"
-      user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
+      # rand = Enum.random(1_000..9_999)
+      # emailGen = "some@email.com#{rand}"
+      # user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
 
-      case Users.create_user(user_attrs) do
-        {:ok, user} ->
-          case TeamContext.create_team(team_attrs) do
-            {:ok, team} ->
-              team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
-          end
-      end
+      # case Users.create_user(user_attrs) do
+      #   {:ok, user} ->
+      #     case TeamContext.create_team(team_attrs) do
+      #       {:ok, team} ->
+      #         team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
+      #     end
+      # end
 
-      # {:ok, team_user} =
-      #   attrs
-      #   |> Enum.into(@valid_attrs)
-      #   |> TeamContext.create_team_user()
+      attrs = %{role: "some role", team: 1, user: 1})
+
+      {:ok, team_user} =
+        attrs
+        |> Enum.into(attrs)
+        |> TeamContext.create_team_user()
     end
 
     test "list_team_users/0 returns all team_users" do
       team_user = team_user_fixture()
-      assert TeamContext.list_team_users()[0] == [team_user][0]
+      assert TeamContext.list_team_users() == [team_user]
     end
 
     test "get_team_user!/1 returns the team_user with given id" do
@@ -107,7 +109,7 @@ defmodule Api.TeamContextTest do
 
     test "create_team_user/1 with valid data creates a team_user" do
       team_user = team_user_fixture()
-      assert team_user.role == "some role"
+      assert team_user.role == @valid_attrs[:role]
     end
 
     test "create_team_user/1 with invalid data returns error changeset" do
@@ -117,6 +119,7 @@ defmodule Api.TeamContextTest do
     test "update_team_user/2 with valid data updates the team_user" do
       team_user = team_user_fixture()
       assert {:ok, %TeamUser{} = team_user} = TeamContext.update_team_user(team_user, @update_attrs)
+      assert team_user.role == @update_attrs[:role]
     end
 
     test "update_team_user/2 with invalid data returns error changeset" do
