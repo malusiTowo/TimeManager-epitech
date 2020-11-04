@@ -1,10 +1,8 @@
 <template>
   <div>
-    <!-- Header -->
-    <base-header></base-header>
+    <b-card no-body>
     <!-- Page content -->
     <!-- Select graph to show -->
-    <b-container fluid class="mt--7">
       <b-row class="justify-content-center">
         <b-col lg="12" md="7">
           <div>
@@ -28,16 +26,7 @@
           </div>
         </b-col>
       </b-row>
-      <b-card no-body>
-
-      <b-row align-v="center" slot="header">
-          <b-col cols="8" xl="12" md="12">
-            <h1 class="mb-0">Chart Manager</h1>
-          </b-col>
-          <b-col cols="8" xl="12" md="12">
-            <h2 class="mb-0">{{ menuLabel }}</h2>
-          </b-col>
-        </b-row>
+      
       <b-row class="justify-content-center">
         <b-col lg="12" md="7">
           <b-card no-body class="border-0 mb-0">
@@ -59,7 +48,7 @@
         </b-col>
       </b-row>
       </b-card>
-    </b-container>
+
   </div>
 </template>
 <script>
@@ -72,6 +61,7 @@ import clocks from "../../components/graphs/Clocks";
 import offSet from "../../components/graphs/OffSet";
 
 export default {
+  name: "chart-manager",
   data() {
     return {
       isWorkingTimesSelected: false,

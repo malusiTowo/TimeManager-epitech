@@ -3,24 +3,29 @@
     <b-col lg="12" md="7">
       <b-card no-body class="border-0 mb-0">
         <b-card-body class="px-lg-5 py-lg-5">
-
-          <template >
+          <template>
             <div>
-            <div>
-              <label for="example-datepicker">Start date</label>
-              <date-picker v-model="start" :config="optionsStart"></date-picker>
+              <div>
+                <label for="example-datepicker">Start date</label>
+                <date-picker
+                  v-model="start"
+                  :config="optionsStart"
+                ></date-picker>
+              </div>
+              <div>
+                <label for="example-datepicker">End date</label>
+                <date-picker
+                  v-model="end"
+                  :config="optionsEnd"
+                ></date-picker>
+              </div>
             </div>
-            <div>
-              <label for="example-datepicker">End date</label>
-              <date-picker v-model="end" :config="optionsEnd"></date-picker>
-            </div>
-          </div>
 
-          <div class="text-center">
-            <b-button @click="getClocks" class="my-4" variant="outline-info"
-              >Generate {{ menuLabel }} graph</b-button
-            >
-          </div>
+            <div class="text-center">
+              <b-button @click="getClocks" class="my-4" variant="outline-info"
+                >Generate {{ menuLabel }} graph</b-button
+              >
+            </div>
           </template>
 
           <bar-chart
@@ -51,6 +56,7 @@ import {
   formatDate,
   getTimesAndClocksForGraph,
   formatDateFromApi,
+  formatDateForApi
 } from "../../api/workingtime";
 import { getClocksBetweenDates } from "../../api/clock";
 import { getUserFromLocalStorage } from "../../api/user";
@@ -70,11 +76,13 @@ export default {
         format: "YYYY-MM-DD HH:mm:ss",
         useCurrent: false,
         sideBySide: true,
+        // defaultViewDate: this.firstDayOfWeek
       },
       optionsEnd: {
         format: "YYYY-MM-DD HH:mm:ss",
         useCurrent: false,
         sideBySide: true,
+        // defaultViewDate: this.lastDayOfWeek
       },
       data: [],
       data_: [],
@@ -105,7 +113,12 @@ export default {
     },
     async getClocks() {
       try {
-        const { start, end } = this;
+        let { start, end } = this;
+        if (!start && !end) {
+          let today = moment();
+          start = moment().startOf("week").format("YYYY-MM-DDTHH:mm:ss");
+          end = moment().endOf("week").format("YYYY-MM-DDTHH:mm:ss");
+        }
         if (!start || !end) return alert("Please start and end dates");
 
         const isEndBeforeStart = moment(end).isBefore(start);
@@ -115,11 +128,13 @@ export default {
         const { userId } = getUserFromLocalStorage();
         const clocks = await getClocksBetweenDates(userId, start, end);
         this.formatDates(clocks);
-        console.log("after format ", this.data);
       } catch (err) {
         console.log("err", err);
       }
     },
+  },
+  mounted() {
+    this.getClocks();
   },
   components: {
     datePicker,

@@ -46,14 +46,6 @@
               }"
             >
             </sidebar-item>
-            <sidebar-item
-            :link="{
-              name: 'Chart Manager',
-              path: `/chartManager/${this.userId}`,
-              icon: 'ni ni-planet text-yellow',
-            }"
-          >
-          </sidebar-item>
           </template>
         </template>
       </side-bar>
