@@ -45,6 +45,11 @@ defmodule ApiWeb.ClockController do
   end
 
 
+  def getClocksBetweenDatesForUser(conn, %{"userId" => userId, "start"=> starttime, "end"=> endtime}) do
+    clocks = Clocks.getClocksBetweenDatesForUser(userId, starttime, endtime)
+    render(conn, "index.json", clocks: clocks)
+  end
+
   def clockUserIn(conn, %{"userId" => id}) do
     user = Api.Users.get_user!(id)
     clockExists = Clocks.checkIfExists(user.id)

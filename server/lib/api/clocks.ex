@@ -68,6 +68,11 @@ defmodule Api.Clocks do
     Repo.all(query)
   end
 
+  def getClocksBetweenDatesForUser(userId, starttime, endtime) do
+    query = from(w in Clock, where: w.user == ^userId and w.time >= ^starttime and w.time <= ^endtime)
+    Repo.all(query)
+  end
+
   def getClocksForUser(userId) do
     query = from(w in Clock, where: w.user == ^userId)
     query |> last(:time) |> Repo.one

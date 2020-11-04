@@ -42,6 +42,7 @@ defmodule ApiWeb.Router do
     scope "/clocks" do
       post "/admin/:userId", ClockController, :createClockForUser
       get "/:userId", ClockController, :getClocksForUser
+      get "/:userId/getbetweendates", ClockController, :getClocksBetweenDatesForUser
       post "/:userId", ClockController, :clockUserIn
       post "/", ClockController, :createClockForUser
       delete "/:id", ClockController, :delete

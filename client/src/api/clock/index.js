@@ -8,7 +8,32 @@ const host = process.env.NODE_ENV === 'production' ? 'https://timemanager-server
 
 const baseUrl = `${host}/api/clocks`;
 
+export const getClocksBetweenDates = async (userId, start, end) => {
 
+
+  start = utcFormatDateForApi(momentLocal(start));
+  end = utcFormatDateForApi(momentLocal(end));
+
+
+  let clocks = null;
+  try {
+    const response = await axios.get(`${baseUrl}/${userId}/getbetweendates?start=${start}&end=${end}`, { headers: buildHeaders() });
+    clocks = response.data.data;
+  } catch (err) {
+    console.log("err", err);
+  }
+
+  if (clocks) {
+
+    clocks.sort(function (a, b) {
+      return (a.start > b.start) ? 1 : -1;
+    });
+
+    return clocks;
+  }
+
+  return [];
+}
 
 export const getClockUser = async (userId) => {
   try {
