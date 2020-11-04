@@ -42,21 +42,11 @@ services:
     depends_on:
       - server
       - db
-      # - mobile
     ports:
       - "80:8080"
-    volumes:
-      - common-volume:/app/public
-  mobile:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.mobile
-    volumes:
-      - common-volume:/apk/src-cordova
 
 volumes:
   pgdata:
-  common-volume:
 networks:
   time-manager:
     driver: bridge

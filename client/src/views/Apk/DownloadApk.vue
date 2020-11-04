@@ -13,7 +13,7 @@ export default {
   },
   mounted() {
     const link = document.createElement("a");
-    link.href = "/img/user-placeholder.jpeg";
+    link.href = "app-debug.apk";
     link.setAttribute("download", "mobile.apk");
     link.click();
   },

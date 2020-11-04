@@ -28,8 +28,6 @@ services:
       - .env
     ports:
       - "4000:4000"
-    # volumes:
-    #   - ./server:/server/app
     networks:
       - time-manager
   client:
@@ -46,20 +44,9 @@ services:
       - db
     ports:
       - "80:8080"
-    volumes:
-      - common-volume:/app/public
-  mobile:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.mobile
-    depends_on:
-      - client
-    volumes:
-      - common-volume:/app/src-cordova/platforms/android/app/build/outputs/apk/release/
 
 volumes:
   pgdata:
-  common-volume:
 networks:
   time-manager:
     driver: bridge
