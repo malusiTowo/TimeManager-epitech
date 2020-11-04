@@ -30,16 +30,16 @@
           </b-col>
           <template v-if="isAdmin">
             <b-col lg="6">
-            <base-input>
-            <b-form-select
-              class="form-control"
-              v-model="user.role"
-              :options="options"
-              prepend-icon="ni ni-key-25"
-            >
-            </b-form-select>
-          </base-input>
-          </b-col>
+              <base-input>
+                <b-form-select
+                  class="form-control"
+                  v-model="user.role"
+                  :options="options"
+                  prepend-icon="ni ni-key-25"
+                >
+                </b-form-select>
+              </base-input>
+            </b-col>
           </template>
         </b-row>
         <b-row>
@@ -50,12 +50,7 @@
           </b-col>
           <b-col lg="6">
             <!-- Rajouter methode delete -->
-            <base-button
-             type="danger"
-             class="my-4"
-             
-              >Delete profile</base-button
-            >
+            <base-button type="danger" class="my-4">Delete profile</base-button>
           </b-col>
         </b-row>
       </div>
@@ -63,24 +58,27 @@
   </card>
 </template>
 <script>
-import { getUserFromLocalStorage, updateUser, getUserById, deleteUser } from "@/api/user";
+import {
+  getUserFromLocalStorage,
+  updateUser,
+  getUserById,
+  getUserId,
+  deleteUser,
+} from "@/api/user";
 
 export default {
   props: {
     userId: {
       type: [String, Number],
-      default: getUserFromLocalStorage().userId
-        ? getUserFromLocalStorage().userId
-        : "",
+      //default: getUserId()
     },
-    isAdmin: false
   },
   data() {
     return {
       user: {
         username: null,
         email: null,
-        role: null
+        role: null,
       },
       // data for the select
       selected: null,
@@ -89,7 +87,7 @@ export default {
         { value: "employee", text: "Employee" },
         { value: "manager", text: "Manager" },
         { value: "admin", text: "Admin" },
-      ]
+      ],
     };
   },
   methods: {
@@ -109,13 +107,13 @@ export default {
           username: this.user.username,
           id: this.userId,
           email: this.user.email,
-          role:  this.user.role
+          role: this.user.role,
         });
       } catch (err) {
         console.log("err", err);
         alert("An error occured. try again later.");
       }
-    }
+    },
   },
   async mounted() {
     this.user = await getUserById(this.userId);

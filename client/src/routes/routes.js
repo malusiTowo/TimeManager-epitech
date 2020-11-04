@@ -47,7 +47,7 @@ const routes = [
       },
       {
         path: '/workingtime/:userId',
-        name: 'working times',
+        name: 'workingtime',
         component: () => import(/* webpackChunkName: "demo" */ '../views/WorkingTime.vue'),
         props: true,
         meta: {

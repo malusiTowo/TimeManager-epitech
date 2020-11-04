@@ -51,9 +51,12 @@ export const getUserId = () => {
 
   let id = null;
 
-
-  if (id = getUserFromLocalStorage()['user']['id'])
+  const user = getUserFromLocalStorage();
+  console.log(user);
+  if (user['user'] && (id = user['user']['id'])) {
+    console.log(id);
     return id;
+  }
   else
     return "";
 
