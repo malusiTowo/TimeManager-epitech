@@ -5,9 +5,10 @@
         modals.delete = true;
         errors = [];
       "
-      variant="danger">Delete selected clocks
-      </b-button
-    >
+      variant="outline-warning"
+      icon>
+        <span class="btn-inner--text">Delete all selected clocks</span>
+      </b-button>
 
     <b-modal v-model="modals.delete" title="Delete all clock">
       <b-alert show variant="danger" v-if="errors.length">
