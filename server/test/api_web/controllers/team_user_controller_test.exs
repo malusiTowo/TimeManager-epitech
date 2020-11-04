@@ -5,12 +5,12 @@ defmodule ApiWeb.TeamUserControllerTest do
   alias Api.TeamContext.TeamUser
 
   @create_attrs %{
-
+    role: "some role"
   }
   @update_attrs %{
-
+    email: "some new role"
   }
-  @invalid_attrs %{}
+  @invalid_attrs %{role: nil}
 
   def fixture(:team_user) do
     {:ok, team_user} = TeamContext.create_team_user(@create_attrs)
@@ -36,7 +36,8 @@ defmodule ApiWeb.TeamUserControllerTest do
       conn = get(conn, Routes.team_user_path(conn, :show, id))
 
       assert %{
-               "id" => id
+               "id" => id,
+               "role" => role
              } = json_response(conn, 200)["data"]
     end
 
@@ -56,7 +57,8 @@ defmodule ApiWeb.TeamUserControllerTest do
       conn = get(conn, Routes.team_user_path(conn, :show, id))
 
       assert %{
-               "id" => id
+               "id" => id,
+               "role" => role
              } = json_response(conn, 200)["data"]
     end
 

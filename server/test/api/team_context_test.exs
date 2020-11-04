@@ -83,7 +83,7 @@ defmodule Api.TeamContextTest do
 
       case Users.create_user(user_attrs) do
         {:ok, user} ->
-          case Users.create_team(team_attrs) do
+          case TeamContext.create_team(team_attrs) do
             {:ok, team} ->
               team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
           end
