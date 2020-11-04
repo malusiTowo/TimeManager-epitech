@@ -76,22 +76,23 @@ defmodule Api.TeamContextTest do
     def team_user_fixture(attrs \\ %{}) do
 
       team_attrs =  %{name: "some name", description: "some desc"}
-      team = TeamContext.create_team(team_attrs)
 
       rand = Enum.random(1_000..9_999)
       emailGen = "some@email.com#{rand}"
       user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
-      user = Users.create_user(user_attrs)
 
-      team_user_attrs = %{role: "some role", team: team.id, user: user.id}
-      team_user = TeamContext.create_team_user(team_user_attrs)
+      case Users.create_user(user_attrs) do
+        {:ok, user} ->
+          case Users.create_team(team_attrs) do
+            {:ok, team} ->
+              team_user = TeamContext.create_team_user(%{role: "some role", team: team.id, user: user.id})
+          end
+      end
 
       # {:ok, team_user} =
       #   attrs
       #   |> Enum.into(@valid_attrs)
       #   |> TeamContext.create_team_user()
-
-      team_user
     end
 
     test "list_team_users/0 returns all team_users" do
