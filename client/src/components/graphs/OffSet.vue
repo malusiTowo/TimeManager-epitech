@@ -15,20 +15,27 @@
           </div>
 
           <div class="text-center">
-            <b-button @click="getWorkingTimes" class="my-4" variant="outline-info"
+            <b-button
+              @click="getWorkingTimes"
+              class="my-4"
+              variant="outline-info"
               >Generate {{ menuLabel }} graph</b-button
             >
           </div>
-         
+
           <div class="mt-7"></div>
           <line-chart
             v-if="data_.length > 0"
-            id="area"
+            id="line"
             :data="data_"
-            xkey="start"
+            xkey="month"
             ykeys='["timesHour","clocksHour"]'
-            labels='[ "Total Hour of my Working Times", "Total Hour of my clocks" ]'
             line-colors='[ "#36A2EB","#FF6384"]'
+            grid="true"
+            grid-text-weight-bold="bold"
+            labels='[ "Total Hour of my Working Times", "Total Hour of my clocks" ]'
+            resize="true"
+            parseTime="false"
           ></line-chart>
         </b-card-body>
       </b-card>
@@ -86,7 +93,7 @@ export default {
     async getWorkingTimes() {
       try {
         const { start, end } = this;
-        if (!start || !end) return alert("Please start and end dates");
+        if (!start || !end) return alert("Please select start and end dates");
 
         const isEndBeforeStart = moment(end).isBefore(start);
         if (isEndBeforeStart)
@@ -98,7 +105,7 @@ export default {
         const data = getTimesAndClocksForGraph([], times);
         this.data_ = data;
         console.log("data", this.data_);
-        this.data = this.formatDates(times);
+        // this.data = this.formatDates(times);
       } catch (err) {
         console.log("err", err);
       }

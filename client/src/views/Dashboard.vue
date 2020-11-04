@@ -18,7 +18,11 @@
 
 
     <b-container fluid class="">
-      
+      <b-row class="">
+        <b-col lg="4" md="6">
+          <h1> idUser:{{userId}} </h1>
+        </b-col>
+      </b-row>
     </b-container>
 
   </div>
@@ -27,12 +31,35 @@
 import Clock from "./Clock/Clock";
 import clocks from "./../components/graphs/Clocks";
 import ChartManager from "../views/Pages/ChartManager";
+import { getUserFromLocalStorage } from "@/api/user";
 
+import clocks from "./../components/graphs/Clocks";
 export default {
   components: {
     Clock,
     clocks,
     ChartManager
+  },
+
+  data() {
+    return {
+      userId: this.getUserId(),
+    };
+  },
+  methods: {
+    getUserId() {
+      if(this.$route.params.userId){
+        return this.$route.params.userId;
+      }
+      return getUserFromLocalStorage().userId;
+    }
+  },
+  mounted() {
+  },
+  watch: {
+    "$route.params.userId": async function (id) {
+      location.reload();
+    }
   },
 };
 </script>
