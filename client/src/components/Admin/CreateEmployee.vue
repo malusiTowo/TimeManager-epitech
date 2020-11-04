@@ -3,6 +3,7 @@
     <b-button
      @click="modalShow = true;
      errors = [];"
+     variant="outline-warning"
     >Create Employee</b-button>
     <b-modal size="lg" v-model="modalShow" title="Create Employee">
       <div class="text-center mb-4">

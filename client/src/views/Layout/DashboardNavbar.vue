@@ -54,6 +54,10 @@
             <span>Profile</span>
           </b-dropdown-item>
           <div class="dropdown-divider"></div>
+          <b-dropdown-item @click="removeAccount">
+            <i class="fa fa-trash"></i>
+            <span>Delete account</span>
+          </b-dropdown-item>
           <b-dropdown-item @click="logOut">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>

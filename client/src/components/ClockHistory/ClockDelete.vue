@@ -6,7 +6,7 @@
         errors = [];
       "
       size="sm"
-      variant="outline-warning"
+      variant="outline-danger"
       icon
       ><span class="btn-inner--text">Delete</span>
       </b-button>
