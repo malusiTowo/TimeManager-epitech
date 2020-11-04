@@ -2,13 +2,14 @@
   <b-card no-body>
     <b-row align-v="center" slot="header">
       <b-col cols="8" xl="12" md="12">
-        <h1 class="mb-0">Teams List</h1>
+        <h1 class="mb-0" v-if="!userId">Teams List</h1>
+        <h1 class="mb-0" v-if="userId">User Teams</h1>
       </b-col>
     </b-row>
 
     <!-- create Team + filters-->
     <b-row class="mt-3 mr-3 ml-3 mb-4">
-      <b-col>
+      <b-col v-if="!userId">
         <TeamCreate v-on:event_child="TeamCallback" />
       </b-col>
       <b-col>
@@ -32,17 +33,17 @@
     >
       <thead slot="head">
         <tr>
-          <v-th sortKey="name" defaultSort="desc">Name</v-th>
+          <v-th sortKey="name" defaultSort="desc">Team name</v-th>
           <th>Description</th>
-          <th>Actions</th>
-          <th></th>
+          <th v-if="!userId">Actions</th>
+          <th v-if="!userId"></th>
         </tr>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <tr v-for="item in displayData" v-bind:key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
-          <td>
+          <td v-if="!userId">
             <b-button
               :to="{ name: 'Team', params: { teamId: item.id } }"
               size="sm"
@@ -52,7 +53,7 @@
               <span class="btn-inner--text">See infos</span>
             </b-button>
           </td>
-          <td>
+          <td v-if="!userId">
             <TeamDelete :teamId="item.id" v-on:event_child="TeamCallback" />
           </td>
         </tr>
@@ -72,7 +73,7 @@ import moment from "moment";
 import { TeamCreate, TeamUpdate, TeamDelete } from "./";
 import axios from "axios";
 
-import { getTeams } from "@/api/team";
+import { getTeams, getUserTeams } from "@/api/team";
 
 import SmartTable from "vuejs-smart-table";
 
@@ -86,9 +87,9 @@ export default {
   },
 
   props: {
-    edit: {
-      type: Boolean,
-      default: false,
+    userId: {
+      type: [String, Number],
+      default: null,
     },
   },
 
@@ -106,7 +107,27 @@ export default {
 
   methods: {
     refreshTeams: async function () {
-      this.items = await getTeams();
+
+      const teams = await getTeams();
+      
+      if(this.userId)
+      {
+        const tempItems = await getUserTeams(this.userId);
+        this.items = [];
+
+        for(let item in tempItems){
+            for(let team of teams){
+                if(team.id == tempItems[item].team){
+                    this.items.push(team);
+                }
+            }
+        }
+      }
+      else{
+        this.items = teams;
+      }
+
+
     },
 
     TeamCallback: function () {

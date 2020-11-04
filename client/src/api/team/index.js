@@ -102,6 +102,8 @@ export const getTeamUsers = async (teamId) => {
 }
 
 export const getUserTeams = async (userId) => {
+  
+
   try {
     const response = await axios.get(`${baseUrlUsers}?userId=${userId}`, { headers: buildHeaders() });
     const team = response.data.data;

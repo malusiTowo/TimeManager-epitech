@@ -22,6 +22,12 @@
         </b-col>
       </b-row>
 
+      <b-row class="mt-4" v-if="edit">
+        <b-col xl="12" md="12">
+          <TeamList v-bind:userId="userId" />
+        </b-col>
+      </b-row>
+
       <template v-if="!mobileView">
         <b-row class="mt-4" v-if="edit">
           <b-col xl="12" md="12">
@@ -39,8 +45,9 @@
   </div>
 </template>
 <script>
+
 import EditProfileForm from "./UserProfile/EditProfileForm.vue";
-import { WorkingTimeList, ClockHistory } from "@/components";
+import { WorkingTimeList, ClockHistory, TeamList } from "@/components";
 import {
   getUsers,
   getUserFromLocalStorage,
@@ -53,6 +60,7 @@ export default {
     EditProfileForm,
     WorkingTimeList,
     ClockHistory,
+    TeamList
   },
   data() {
     return {
