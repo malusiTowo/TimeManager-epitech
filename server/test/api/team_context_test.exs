@@ -66,18 +66,30 @@ defmodule Api.TeamContextTest do
 
   describe "team_users" do
     alias Api.TeamContext.TeamUser
+    alias Api.Users
 
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
+    @valid_attrs %{role: "some role"}
+    @update_attrs %{role: "some new role"}
+    @invalid_attrs %{role: nil}
 
     def team_user_fixture(attrs \\ %{}) do
-      {:ok, team_user} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> TeamContext.create_team_user()
 
-      team_user
+      team_attrs =  %{name: "some name", description: "some desc"}
+      team = TeamContext.create_team(team_attrs)
+
+      rand = Enum.random(1_000..9_999)
+      emailGen = "some@email.com#{rand}"
+      user_attrs =  %{email: emailGen, username: "some username", password: "Password1", role: "employee"}
+      user = Users.create_user(user_attrs)
+
+      team_user = TeamContext.create_team_user(%{role: @valid_attrs.role, team: team.id, user: user.id})
+
+      # {:ok, team_user} =
+      #   attrs
+      #   |> Enum.into(@valid_attrs)
+      #   |> TeamContext.create_team_user()
+
+      # team_user
     end
 
     test "list_team_users/0 returns all team_users" do
@@ -91,7 +103,8 @@ defmodule Api.TeamContextTest do
     end
 
     test "create_team_user/1 with valid data creates a team_user" do
-      assert {:ok, %TeamUser{} = team_user} = TeamContext.create_team_user(@valid_attrs)
+      team_user = team_user_fixture()
+      assert team_user.role == "some role"
     end
 
     test "create_team_user/1 with invalid data returns error changeset" do
