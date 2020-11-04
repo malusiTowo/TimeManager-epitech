@@ -3,10 +3,20 @@
     <!-- Header -->
     <base-header></base-header>
 
+
+
     <b-container fluid class="mt--9">
       <b-row class="">
         <b-col lg="4" md="6">
           <Clock />
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <b-container fluid class="">
+      <b-row class="">
+        <b-col lg="4" md="6">
+          <h1> {{debug}} </h1>
         </b-col>
       </b-row>
     </b-container>
@@ -20,10 +30,13 @@ export default {
     Clock,
   },
   data() {
-    return {};
+    return {
+      debug : ""
+    };
   },
   methods: {},
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 <style>

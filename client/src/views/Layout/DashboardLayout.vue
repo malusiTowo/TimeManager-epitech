@@ -1,21 +1,53 @@
 <template>
   <div class="wrapper">
-    <b-button @click="topFunction()" id="myBtn" title="Go to top">
-      <i class="fas fa-arrow-circle-up"></i>
-    </b-button>
-    <!-- Side nav bar menu for desktop -->
-    <!-- Show only if it's not a mobile -->
-    <template>
-      <side-bar v-bind:username="this.username" v-bind:userId="this.userId">
-        <template slot="links">
-          <sidebar-item
-            :link="{
-              name: 'Dashboard',
-              path: '/dashboard',
-              icon: 'ni ni-tv-2 text-yellow',
-            }"
-          >
-          </sidebar-item>
+    <notifications></notifications>
+    <side-bar>
+      <template slot="links">
+        <sidebar-item
+          v-if="!isMobile"
+          :link="{
+            name: 'Dashboard',
+            path: '/dashboard',
+            icon: 'ni ni-tv-2 text-yellow',
+          }"
+        >
+        </sidebar-item>
+
+        <sidebar-item
+          :link="{
+            name: 'Chart Manager',
+            path: `/chartManager/${this.userId}`,
+            icon: 'ni ni-planet text-yellow',
+          }"
+        >
+        </sidebar-item>
+
+        <sidebar-item
+          :link="{
+            name: 'Profile',
+            path: `/profile/${this.userId}`,
+            icon: 'ni ni-single-02 text-yellow',
+          }"
+        >
+        </sidebar-item>
+        <sidebar-item
+          :link="{
+            name: 'Working Time',
+            path: `/workingtime/${this.userId}`,
+            icon: 'ni ni-calendar-grid-58 text-yellow',
+          }"
+        >
+        </sidebar-item>
+        <sidebar-item
+          :link="{
+            name: 'Clock',
+            path: '/clock/:username',
+            icon: 'ni ni-watch-time text-yellow',
+          }"
+        >
+        </sidebar-item>
+        <!-- Admin users sidebar item to render only for Admin and Manager -->
+        <template v-if="isAdmin || isManager">
           <sidebar-item
             :link="{
               name: 'Working Time',
@@ -52,8 +84,8 @@
             </sidebar-item>
           </template>
         </template>
-      </side-bar>
-    </template>
+      </template>
+    </side-bar>
 
     <!-- If mobile view show -->
     <template v-if="mobileView">
@@ -100,6 +132,8 @@ import { FadeTransition } from "vue2-transitions";
 import users from "../Tables/users";
 import NavigationMobile from "../../components/NavigationMobile.vue";
 
+import { isMobile } from "@/api/mobile";
+
 export default {
   data() {
     return {
@@ -108,6 +142,7 @@ export default {
       isAdmin: false,
       isManager: false,
       mobileView: false,
+      isMobile: isMobile(),
     };
   },
   components: {

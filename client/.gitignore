@@ -18,4 +18,8 @@ package-lock.json
 
 CHANGELOG.md
 ISSUE_TEMPLATE.md
-.env
+
+# Cordova
+/src-cordova/platforms
+/src-cordova/plugins
+/public/cordova.js

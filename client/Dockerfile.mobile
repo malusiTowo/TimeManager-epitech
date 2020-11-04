@@ -1,0 +1,39 @@
+# FROM runmymind/docker-android-sdk:alpine-lazydl AS builder
+
+# WORKDIR /app
+
+# RUN npm install -g cordova
+
+# COPY package.json .
+
+# RUN npm install
+
+# COPY . .
+
+# RUN  npm run cordova-build-android
+
+# FROM alpine
+
+# WORKDIR /apk
+
+# RUN touch test.txt
+
+# COPY --from=builder  /app/src-cordova/  .
+
+# CMD tail -f /dev/null
+
+FROM runmymind/docker-android-sdk:alpine-lazydl
+
+WORKDIR /apk
+
+RUN npm install -g cordova
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+RUN  npm run cordova-build-android
+
+CMD tail -f /dev/null
