@@ -16,7 +16,7 @@
     <b-container fluid class="">
       <b-row class="">
         <b-col lg="4" md="6">
-          <h1> {{debug}} </h1>
+          <h1> idUser:{{userId}} </h1>
         </b-col>
       </b-row>
     </b-container>
@@ -24,18 +24,30 @@
 </template>
 <script>
 import Clock from "./Clock/Clock";
-
+import { getUserFromLocalStorage } from "@/api/user";
 export default {
   components: {
     Clock,
   },
   data() {
     return {
-      debug : ""
+      userId: this.getUserId(),
     };
   },
-  methods: {},
+  methods: {
+    getUserId() {
+      if(this.$route.params.userId){
+        return this.$route.params.userId;
+      }
+      return getUserFromLocalStorage().userId;
+    }
+  },
   mounted() {
+  },
+  watch: {
+    "$route.params.userId": async function (id) {
+      location.reload();
+    }
   },
 };
 </script>
