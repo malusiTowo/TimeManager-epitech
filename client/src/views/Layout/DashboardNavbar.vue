@@ -71,7 +71,7 @@
 import { CollapseTransition } from "vue2-transitions";
 import { BaseNav, Modal } from "@/components";
 import {
-  deleteUser,
+  deleteUserbyUser,
   removeUserFromLocalStorage,
   getUserFromLocalStorage,
 } from "../../api/user";
@@ -123,7 +123,7 @@ export default {
     },
     removeAccount() {
       const { userId } = getUserFromLocalStorage();
-      deleteUser(userId);
+      deleteUserbyUser(userId);
       const { userId: userDeleted } = getUserFromLocalStorage();
       if (!userDeleted) {
         this.$router.replace("register");
