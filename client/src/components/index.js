@@ -38,6 +38,9 @@ import ClockHistory from './ClockHistory/ClockHistory';
 import Clock from './ClockHistory/Clock';
 import { WorkingTimeList } from './WorkingTime';
 
+import { TeamList } from './Team';
+
+
 export {
   BaseCheckbox,
   Badge,
@@ -62,13 +65,11 @@ export {
   Collapse,
   CollapseItem,
   LoadingPanel,
-  WorkingTimeCreate,
-  WorkingTimeUpdate,
-  WorkingTimeDelete,
   ClockCreate,
   ClockDelete,
   ClockDeleteAll,
   ClockHistory,
   Clock,
-  WorkingTimeList
+  WorkingTimeList,
+  TeamList
 };

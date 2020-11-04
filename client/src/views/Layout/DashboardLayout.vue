@@ -55,7 +55,17 @@
           >
           </sidebar-item>
           </template>
-        </template>
+          <template v-if="isAdmin || isManager">
+            <sidebar-item
+            :link="{
+              name: 'Admin Teams',
+              path: '/Teams',
+              icon: 'fa fa-users text-yellow',
+            }"
+            >
+            </sidebar-item>
+            </template>
+          </template>
       </side-bar>
     </template>
 
@@ -66,7 +76,6 @@
       ></navigation-mobile>
     </template>
 
-    <!-- All the website content appear here -->
     <div class="main-content">
       <dashboard-navbar :type="$route.meta.navbarType"></dashboard-navbar>
 
