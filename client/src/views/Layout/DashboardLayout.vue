@@ -129,7 +129,7 @@ import DashboardNavbar from "./DashboardNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import { FadeTransition } from "vue2-transitions";
-import users from "../Tables/users";
+// import users from "../Tables/users";
 import NavigationMobile from "../../components/NavigationMobile.vue";
 
 import { isMobile } from "@/api/mobile";
