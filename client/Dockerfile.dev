@@ -9,6 +9,7 @@ RUN npm install
 COPY . .
 
 RUN cd src-cordova && \
+  npm install && \
   cordova build android && \
   cp /app/src-cordova/platforms/android/app/build/outputs/apk/debug/app-debug.apk /app/public
 
